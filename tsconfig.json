@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./.nuxt-local/tsconfig.app.json" },
+    { "path": "./.nuxt-local/tsconfig.server.json" },
+    { "path": "./.nuxt-local/tsconfig.shared.json" },
+    { "path": "./.nuxt-local/tsconfig.node.json" }
+  ]
+}

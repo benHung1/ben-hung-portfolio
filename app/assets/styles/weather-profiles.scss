@@ -1,0 +1,266 @@
+.weather-canvas {
+  --weather-color: #4964af;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  pointer-events: none;
+  user-select: none;
+}
+[data-theme='dark'] .weather-canvas {
+  --weather-color: #b4c4ec;
+}
+#selected-work {
+  scroll-margin-top: 24px;
+}
+.skill-field {
+  height: 480px;
+}
+.skill-object {
+  width: 104px;
+  height: 104px;
+}
+.resume-profiles {
+  display: inline-flex;
+  position: relative;
+  vertical-align: middle;
+}
+.profiles-trigger {
+  font: inherit;
+  cursor: pointer;
+}
+.profiles-trigger .ui-icon {
+  transition: transform 180ms ease;
+}
+.profiles-trigger .profiles-arrow-open {
+  transform: rotate(-90deg);
+}
+.profiles-popover {
+  position: fixed;
+  z-index: 8000;
+  box-sizing: border-box;
+  padding: 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  color: var(--ink);
+  box-shadow: 0 18px 48px #16204225;
+}
+[data-theme='dark'] .profiles-popover {
+  box-shadow: 0 18px 48px #0008;
+  border-color: #647188;
+}
+.profiles-popover a {
+  display: grid;
+  grid-template-columns: 56px 1fr 18px;
+  gap: 14px;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px;
+  border-radius: 14px;
+  font-size: 14px;
+  text-decoration: none;
+  transition:
+    background 150ms,
+    color 150ms;
+}
+.profiles-popover a:hover,
+.profiles-popover a:focus-visible {
+  background: var(--hover);
+  color: var(--blue);
+}
+.profile-logo {
+  font:
+    700 16px/1 system-ui,
+    sans-serif;
+  letter-spacing: -0.04em;
+  display: grid;
+  place-items: center;
+  height: 32px;
+}
+.profile-logo-104 {
+  color: #b5500a;
+  font-size: 22px;
+}
+.profile-logo-cake {
+  color: #247a67;
+  font-size: 18px;
+}
+.profile-logo-linkedin {
+  width: 30px;
+  justify-self: center;
+  border-radius: 5px;
+  background: #0a66c2;
+  color: white;
+  font-size: 23px;
+}
+[data-theme='dark'] .profile-logo-104 {
+  color: #ffba86;
+}
+[data-theme='dark'] .profile-logo-cake {
+  color: #84d6bd;
+}
+.profiles-enter-active,
+.profiles-leave-active {
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+.profiles-enter-from,
+.profiles-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.profiles-enter-active a {
+  animation: profile-option 180ms var(--profile-delay) ease both;
+}
+@keyframes profile-option {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.contact-conditions .hiring-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 15px 16px;
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--ink);
+  margin-top: 16px;
+}
+.hiring-note > .ui-icon {
+  flex: 0 0 16px;
+  margin-top: 4px;
+  color: var(--blue);
+}
+.hiring-note strong {
+  color: var(--blue);
+  font-weight: 600;
+}
+.person-card .portrait-perspective {
+  perspective: 950px;
+  position: relative;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.portrait-flip {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+}
+.portrait-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 15px 28px #20211f0c;
+}
+.portrait-front {
+  transform: rotateY(0deg) translateZ(0.5px);
+}
+.portrait-back {
+  transform: rotateY(180deg) translateZ(0.5px);
+  background: var(--blue);
+  color: var(--paper);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.portrait-back > span {
+  font-size: 65px;
+  font-weight: 700;
+  letter-spacing: -0.07em;
+  line-height: 1;
+}
+.portrait-back small {
+  font: 10px var(--mono);
+  letter-spacing: 0.16em;
+}
+[data-theme='dark'] .portrait-back {
+  color: #172039;
+}
+[data-theme='dark'] .portrait-face {
+  box-shadow: 0 15px 28px #0003;
+  border-color: #67707d;
+}
+.portrait-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 50%;
+  display: block;
+}
+@media (max-width: 767px) {
+  .skill-field {
+    height: 500px;
+    padding: 18px 4px;
+    gap: 12px;
+  }
+  .skill-object {
+    width: 80px;
+    height: 80px;
+  }
+  .skill-object span {
+    font-size: 9px;
+  }
+  .skill-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .person-card .portrait-perspective {
+    perspective: 1300px;
+  }
+  .portrait-face {
+    border-radius: 24px;
+  }
+  .portrait-back > span {
+    font-size: 45px;
+  }
+  .portrait-back small {
+    font-size: 8px;
+  }
+  .hero-actions {
+    gap: 18px;
+  }
+  .profiles-trigger {
+    max-width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .weather-canvas {
+    display: none;
+  }
+  .profiles-enter-active,
+  .profiles-leave-active,
+  .profiles-enter-active a {
+    animation: none;
+    transition: none;
+  }
+}
+[data-user-motion='reduce'] {
+  scroll-behavior: auto;
+  .weather-canvas {
+    display: none;
+  }
+  .profiles-enter-active,
+  .profiles-leave-active,
+  .profiles-enter-active a {
+    animation: none;
+    transition: none;
+  }
+}

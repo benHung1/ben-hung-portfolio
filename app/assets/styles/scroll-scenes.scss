@@ -1,0 +1,346 @@
+/* ScrollTrigger owns only these presentation layers. Theme colors stay in CSS. */
+.scroll-story {
+  --scene-outline: #294bff70;
+  --scene-word: #294bff24;
+  --scene-solid: #294bff;
+  --work-tint: #e6ebff;
+}
+[data-theme='dark'] .scroll-story {
+  --scene-outline: #9eafff90;
+  --scene-word: #a8b8ff30;
+  --scene-solid: #8199ff;
+  --work-tint: #232d46;
+}
+.scroll-story .hero {
+  // Contain expanded 3D frames locally without making the page a scroll container.
+  overflow-x: clip;
+}
+.scroll-story .hero-contour {
+  inset: -70px -36px -35px 32%;
+  transform: none;
+  span {
+    border: 3px solid var(--scene-outline);
+    background: transparent;
+    border-radius: 40%;
+    transform: none;
+  }
+  .hero-outline-back {
+    width: 90%;
+    height: 92%;
+    right: -7%;
+    top: -7%;
+  }
+  .hero-outline-front {
+    width: 76%;
+    height: 83%;
+    right: 7%;
+    top: 6%;
+    background: color-mix(in srgb, var(--scene-solid) 4%, transparent);
+  }
+}
+.hero-color-block {
+  position: absolute;
+  width: 240px;
+  height: 320px;
+  border-radius: 90px;
+  background: var(--scene-solid);
+  right: -195px;
+  top: 20%;
+}
+.scroll-story .geometry-scene {
+  transform: none;
+}
+.geometry-scroll-layer {
+  width: 200px;
+  height: 210px;
+  transform-style: preserve-3d;
+}
+.geometry-scroll-frame {
+  position: absolute;
+  inset: 0;
+  width: 220px;
+  height: 220px;
+  transform-style: preserve-3d;
+}
+.geometry-scroll-frame:nth-child(2) .geometry-frame {
+  border-color: #3355ff;
+}
+.geometry-scroll-frame:nth-child(3) .geometry-frame {
+  border-color: #4665ff;
+}
+[data-theme='dark'] .geometry-scroll-frame:nth-child(2n) .geometry-frame {
+  border-color: #8199ff;
+}
+.scroll-story .selected-work::before,
+.scroll-story .selected-work::after {
+  content: none;
+}
+.work-reveal-art,
+.work-scroll-art {
+  position: absolute;
+  inset: 0 -32px;
+  overflow: clip;
+  border-radius: 36px;
+  z-index: -2;
+  pointer-events: none;
+  user-select: none;
+}
+.work-wash {
+  position: absolute;
+  inset: 0;
+  background: var(--work-tint);
+  transform-origin: 50% 0;
+  border-radius: 36px;
+}
+.work-scroll-art {
+  z-index: -1;
+}
+.work-word {
+  position: sticky;
+  display: block;
+  width: max-content;
+  top: calc(100vh - 335px);
+  margin-left: -8%;
+  font: 700 clamp(95px, 14vw, 205px)/0.79 var(--font);
+  letter-spacing: -0.065em;
+  color: var(--scene-word);
+  white-space: nowrap;
+}
+.work-outline {
+  position: absolute;
+  width: 820px;
+  height: 580px;
+  border: 3px solid var(--scene-outline);
+  border-radius: 120px;
+  left: 26%;
+  top: 44%;
+}
+.work-accent {
+  position: absolute;
+  width: 55px;
+  height: 210px;
+  background: var(--scene-solid);
+  border-radius: 28px;
+  right: -23px;
+  top: 9%;
+}
+.scroll-story .project-index {
+  background: transparent;
+}
+.scroll-story .project-index-row {
+  background: var(--work-tint);
+}
+.scroll-story .preview-caption,
+.scroll-story .preview-hint {
+  background: var(--work-tint);
+}
+.scroll-story .project-preview {
+  isolation: isolate;
+}
+.scroll-story .about-section {
+  position: relative;
+  isolation: isolate;
+}
+.about-scroll-art {
+  position: absolute;
+  inset: 0 -30px;
+  pointer-events: none;
+  z-index: -1;
+  overflow: clip;
+}
+.about-scroll-art svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  fill: none;
+}
+.about-route-track {
+  stroke: var(--scene-outline);
+  stroke-width: 1;
+  opacity: 0.35;
+}
+.about-route-draw {
+  stroke: var(--scene-solid);
+  stroke-width: 4;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+}
+.scroll-story .about-copy > p,
+.scroll-story .about-signature,
+.scroll-story .experience-timeline {
+  background: var(--paper);
+}
+.scroll-story .about-copy > p {
+  position: relative;
+  z-index: 1;
+}
+.scroll-story .timeline-node {
+  background: var(--blue);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 5px var(--paper);
+}
+.scroll-story .timeline-track::after {
+  transform: scaleY(var(--timeline-progress, 1));
+}
+.playground-scroll-shell {
+  transform-origin: 50% 0;
+  min-width: 0;
+}
+.scroll-story .playground-panel {
+  animation: none;
+}
+.scroll-story .field-wordmark {
+  inset-inline: 10px;
+  color: var(--scene-word);
+  overflow: clip;
+  padding-bottom: 0.12em;
+}
+.field-wordmark .toolbox-word {
+  font-family: var(--font);
+  font-style: normal;
+  text-align: left;
+}
+.field-wordmark .inplay-word {
+  text-align: right;
+}
+[data-drag-ready='false'] .skill-object {
+  cursor: pointer;
+  touch-action: pan-y;
+}
+.scroll-story .contact-backdrop {
+  inset: 0 -30px;
+}
+.scroll-story .contact-word {
+  color: var(--scene-word);
+  opacity: 1;
+  transform: none;
+  top: 3%;
+  right: -20px;
+}
+.scroll-story .contact-arc {
+  width: 770px;
+  height: 560px;
+  border: 3px solid var(--scene-outline);
+  right: -215px;
+  bottom: -280px;
+  transform: rotate(-15deg);
+}
+.contact-accent {
+  position: absolute;
+  bottom: -90px;
+  right: 25%;
+  width: 100px;
+  height: 170px;
+  border-radius: 50px;
+  background: var(--scene-solid);
+}
+.scroll-story .person-card-position {
+  transform: none;
+}
+.scroll-story .person-card,
+.scroll-story .person-card:hover {
+  transform: none;
+  animation: none;
+  transition: none;
+}
+.scroll-story .contact-conditions {
+  background: var(--paper);
+}
+@media (max-width: 1024px) {
+  .work-reveal-art,
+  .work-scroll-art {
+    inset-inline: -16px;
+    border-radius: 28px;
+  }
+  .work-word {
+    font-size: 120px;
+  }
+  .scroll-story .hero-contour {
+    inset-inline-end: -20px;
+  }
+  .hero-color-block {
+    right: -210px;
+  }
+}
+@media (max-width: 767px) {
+  .scroll-story .hero-contour {
+    inset: -35px -12px 0 5%;
+  }
+  .scroll-story .hero-contour .hero-outline-back {
+    width: 100%;
+    height: 60%;
+    top: 10%;
+    right: -30%;
+  }
+  .scroll-story .hero-contour .hero-outline-front {
+    display: none;
+  }
+  .hero-color-block {
+    width: 120px;
+    height: 210px;
+    right: -102px;
+    top: 48%;
+    border-radius: 50px;
+  }
+  .work-reveal-art,
+  .work-scroll-art {
+    inset-inline: -12px;
+    border-radius: 24px;
+  }
+  .work-word {
+    font-size: 85px;
+    top: 45px;
+  }
+  .work-outline {
+    width: 490px;
+    height: 400px;
+    left: -40%;
+    top: 48%;
+    border-radius: 80px;
+  }
+  .work-accent {
+    width: 28px;
+    height: 140px;
+    right: -20px;
+  }
+  .about-scroll-art {
+    inset: 0 -12px;
+  }
+  .about-route-draw {
+    stroke-width: 5;
+  }
+  .scroll-story .field-wordmark {
+    inset-inline: 0;
+  }
+  .scroll-story .contact-backdrop {
+    inset-inline: -12px;
+  }
+  .scroll-story .contact-word {
+    font-size: 120px;
+    right: -10px;
+    top: 5%;
+  }
+  .scroll-story .contact-arc {
+    display: block;
+    width: 410px;
+    height: 430px;
+    right: -190px;
+    bottom: -190px;
+    border-width: 2px;
+  }
+  .contact-accent {
+    width: 55px;
+    height: 110px;
+    bottom: -70px;
+    right: 30%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-story .timeline-track::after {
+    transform: scaleY(1);
+  }
+  .scroll-story .about-route-draw {
+    stroke-dashoffset: 0;
+  }
+}

@@ -1,0 +1,16 @@
+.git
+.openai
+editorial
+private
+VERIFICATION.md
+.env
+.env.*
+*.pdf
+*.pem
+*.key
+*.log
+.nuxt*
+.output*
+dist
+node_modules
+coverage
