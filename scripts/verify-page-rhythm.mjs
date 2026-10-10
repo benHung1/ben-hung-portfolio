@@ -150,12 +150,13 @@ assert.equal(
   '/work?category=campaign',
 );
 const { SkillWorld } = await moduleFrom('app/utils/skillPhysics.ts');
-for (const width of [306, 704, 1354, 1809]) {
+const { skills } = await moduleFrom('app/data/playground.ts');
+for (const width of [240, 306, 704, 1354, 1809]) {
   const w = new SkillWorld(
       width,
-      width < 400 ? 500 : 480,
+      width < 280 ? 860 : width < 400 ? 620 : 560,
       width < 400 ? 40 : 52,
-      12,
+      skills.length,
     ),
     layouts = [];
   for (let generation = 0; generation < 4; generation++) {
@@ -217,5 +218,5 @@ watchdog();
 assert.equal(dataset.pageLoading, undefined);
 assert.ok(unlocked);
 console.log(
-  'PASS: Loading ready gate, duration, 100-before-exit, rapid replacement, stale target, cancellation/error/timeout, reduced motion and fail-open boot; safe source journal; four randomized separated skill generations at four widths.',
+  'PASS: Loading ready gate, duration, 100-before-exit, rapid replacement, stale target, cancellation/error/timeout, reduced motion and fail-open boot; safe source journal; four randomized separated skill generations at five widths.',
 );

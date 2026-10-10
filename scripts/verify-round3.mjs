@@ -16,12 +16,14 @@ const moduleFrom = async (p) =>
       ).toString('base64')
   );
 const { SkillWorld } = await moduleFrom('app/utils/skillPhysics.ts');
+const playground = await moduleFrom('app/data/playground.ts');
 for (const [width, height, radius] of [
-  [318, 500, 40],
-  [650, 480, 52],
-  [1220, 480, 52],
+  [240, 860, 40],
+  [306, 620, 40],
+  [650, 560, 52],
+  [1220, 560, 52],
 ]) {
-  const world = new SkillWorld(width, height, radius, 12);
+  const world = new SkillWorld(width, height, radius, playground.skills.length);
   const inBounds = () =>
     world.bodies.forEach((b) => {
       assert.ok(Number.isFinite(b.x + b.y + b.vx + b.vy));
@@ -48,7 +50,7 @@ for (const [width, height, radius] of [
     world.step(1 / 60);
     inBounds();
   }
-  world.resize(318, 500, 40);
+  world.resize(306, 620, 40);
   for (let i = 0; i < 600; i++) world.step(1 / 60);
   inBounds();
   world.bodies[0].held = true;
@@ -75,7 +77,6 @@ vm.runInNewContext(configCode, {
 });
 // Execute the real playground setup with Vue reactivity and a controlled DOM clock.
 const vue = await import('vue');
-const playground = await moduleFrom('app/data/playground.ts');
 const setup = (await read('app/components/SkillsPlayground.vue')).match(
   /<script setup lang="ts">([\s\S]*?)<\/script>/,
 )[1];
@@ -152,7 +153,7 @@ for (const reduced of [false, true]) {
   const scope = vue.effectScope();
   scope.run(() => vm.runInNewContext(compiled, context));
   const hooks = context.testHooks;
-  hooks.field.value = { clientWidth: 318, clientHeight: 500 };
+  hooks.field.value = { clientWidth: 306, clientHeight: 620 };
   hooks.items.push(
     ...Array.from({ length: playground.skills.length }, () => ({
       offsetWidth: 80,
