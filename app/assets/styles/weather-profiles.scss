@@ -15,7 +15,11 @@
   scroll-margin-top: 24px;
 }
 .skill-field {
-  height: 480px;
+  height: 560px;
+}
+.skill-field:not(.physics-ready) {
+  height: auto;
+  min-height: 560px;
 }
 .skill-object {
   width: 104px;
@@ -207,9 +211,12 @@
 }
 @media (max-width: 767px) {
   .skill-field {
-    height: 500px;
+    height: 620px;
     padding: 18px 4px;
     gap: 12px;
+  }
+  .skill-field:not(.physics-ready) {
+    min-height: 620px;
   }
   .skill-object {
     width: 80px;
@@ -239,6 +246,15 @@
   }
   .profiles-trigger {
     max-width: 100%;
+  }
+}
+@media (max-width: 359px) {
+  .skill-field {
+    height: 860px;
+  }
+  .skill-field:not(.physics-ready) {
+    height: auto;
+    min-height: 860px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
