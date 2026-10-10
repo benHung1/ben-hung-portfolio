@@ -57,13 +57,14 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '活動新後台',
         company: company.zh,
-        role: '後台前端開發與重構',
+        role: '前端架構設計、後台開發與重構',
         summary:
           '以 Vue 3 與 Naive UI 參與活動管理後台重構，讓管理流程落實在清楚的操作介面。',
         background:
           '1111 活動管理系統的正式後台，提供需要身分驗證的管理入口。我參與既有管理端的前端介面重構。',
         audience: '負責活動管理的內部人員與廠商。',
         contributions: [
+          '負責活動管理後台的前端架構設計，以及專案所需的 YAML 設定撰寫。',
           '使用 Vue 3 與 Naive UI 參與後台前端實作。',
           '針對既有活動管理介面進行重構，配合專案協作完成整合。',
         ],
@@ -71,13 +72,14 @@ export const projectRecords: ProjectRecord[] = [
       en: {
         title: 'Event Management Console',
         company: company.en,
-        role: 'Admin frontend development & refactoring',
+        role: 'Frontend architecture, admin development & refactoring',
         summary:
           'Contributed to a Vue 3 and Naive UI refactor of an event-management console, translating management workflows into clear interfaces.',
         background:
           'The production admin system for 1111 campaigns provides authenticated access for its users. My work focused on refactoring its existing frontend interfaces.',
         audience: 'Internal staff and business partners managing campaigns.',
         contributions: [
+          'Designed the console’s frontend architecture and wrote the YAML configuration required by the project.',
           'Implemented admin interfaces with Vue 3 and Naive UI.',
           'Contributed to the interface refactor and coordinated integration with the project team.',
         ],
@@ -102,22 +104,26 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '嚴選職缺',
         company: company.zh,
-        role: '前端開發',
+        role: '前端架構設計與開發',
         summary:
           '參與嚴選職缺網站前端實作，呈現企業介紹與徵才資訊，連結求職者與工作機會。',
         background:
           '嚴選職缺以企業專頁呈現徵才資訊；此處以大苑子企業頁作為正式網站入口。',
-        contributions: ['參與嚴選職缺專案的前端開發與團隊協作。'],
+        contributions: [
+          '負責嚴選職缺網站的前端架構設計與 YAML 設定撰寫。',
+          '參與嚴選職缺專案的前端開發與團隊協作。',
+        ],
       },
       en: {
         title: 'Curated Opportunities',
         company: company.en,
-        role: 'Frontend development',
+        role: 'Frontend architecture & development',
         summary:
           'Contributed to a recruiting website that brings company profiles and job opportunities together for job seekers.',
         background:
           'Curated Opportunities presents employer information through dedicated company pages. The live link opens the Da Yung’s employer page.',
         contributions: [
+          'Designed the recruiting website’s frontend architecture and wrote its YAML configuration.',
           'Contributed to frontend implementation and collaboration within the project team.',
         ],
       },
@@ -142,18 +148,21 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '新鮮人專區',
         company: company.zh,
-        role: '前端開發與重構',
+        role: '前端架構設計、開發與重構',
         summary:
           '參與新鮮人專區的前端開發與重構，將求職服務呈現在使用者端網站。',
         background:
           '新鮮人專區是 1111 面向初入職場求職者的網站，也是我參與開發與重構的專案之一。',
         audience: '初入職場的求職者，透過專區探索求職資訊與服務。',
-        contributions: ['參與新鮮人專區的前端開發與重構。'],
+        contributions: [
+          '負責新鮮人專區的前端架構設計，以及專案所需的 YAML 設定撰寫。',
+          '參與新鮮人專區的前端開發與重構。',
+        ],
       },
       en: {
         title: 'Early Career Hub',
         company: company.en,
-        role: 'Frontend development & refactoring',
+        role: 'Frontend architecture, development & refactoring',
         summary:
           'Helped develop and refactor an early-career website that makes job-search services accessible to new graduates.',
         background:
@@ -161,6 +170,7 @@ export const projectRecords: ProjectRecord[] = [
         audience:
           'Early-career job seekers exploring opportunities and career resources.',
         contributions: [
+          'Designed the hub’s frontend architecture and wrote the YAML configuration required by the project.',
           'Contributed to frontend development and refactoring of the Early Career Hub.',
         ],
       },
@@ -183,21 +193,25 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '新鮮人專區－畢業季活動',
         company: company.zh,
-        role: '活動網站前端開發',
+        role: '前端架構設計與活動網站開發',
         summary: '參與畢業季活動網站前端實作，呈現新鮮人求職活動與參與資訊。',
         background:
           '延伸新鮮人專區的畢業季活動頁，提供活動說明、履歷更新參與流程與獎勵資訊。',
-        contributions: ['參與畢業季活動專案的前端實作與協作。'],
+        contributions: [
+          '設計畢業季活動網站的前端架構，並撰寫專案所需的 YAML 設定。',
+          '參與畢業季活動專案的前端實作與協作。',
+        ],
       },
       en: {
         title: 'Graduation Campaign',
         company: company.en,
-        role: 'Campaign frontend development',
+        role: 'Frontend architecture & campaign development',
         summary:
           'Contributed to the frontend of a graduation-season campaign for early-career job seekers.',
         background:
           'A campaign connected to the Early Career Hub, presenting participation details, résumé-update steps, and reward information.',
         contributions: [
+          'Designed the campaign’s frontend architecture and wrote the YAML configuration required by the project.',
           'Contributed to frontend implementation and project collaboration for the graduation campaign.',
         ],
       },
@@ -221,22 +235,26 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '2025 校園徵才',
         company: company.zh,
-        role: '前端開發',
+        role: '前端架構設計與開發',
         summary:
           '參與校園徵才網站的前端開發，讓學生與畢業生探索校徵及就業資訊。',
         background:
           '面向校園求職族群的線上徵才網站。我參與 2025 校園徵才專案，正式網址持續提供校徵服務。',
-        contributions: ['參與 2025 校園徵才專案的前端實作。'],
+        contributions: [
+          '負責 2025 校園徵才網站的前端架構設計與 YAML 設定撰寫。',
+          '參與 2025 校園徵才專案的前端實作。',
+        ],
       },
       en: {
         title: 'Campus Recruitment 2025',
         company: company.en,
-        role: 'Frontend development',
+        role: 'Frontend architecture & development',
         summary:
           'Contributed to a campus recruiting website helping students and graduates explore career opportunities.',
         background:
           'An online recruiting destination for students and graduates. My involvement was in the 2025 project; the same URL continues to serve campus recruitment.',
         contributions: [
+          'Designed the 2025 campus recruitment website’s frontend architecture and wrote its YAML configuration.',
           'Contributed to frontend implementation for the 2025 campus recruitment project.',
         ],
       },
@@ -260,21 +278,25 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '2025 送一萬活動',
         company: company.zh,
-        role: '活動網站前端開發',
+        role: '前端架構設計與活動網站開發',
         summary: '參與求職獎勵活動網站的前端開發，呈現活動內容與參與資訊。',
         background:
           '1111 的求職獎勵活動網站。我參與 2025 年專案，正式入口可查看網站目前的活動內容。',
-        contributions: ['參與 2025 送一萬活動的前端實作。'],
+        contributions: [
+          '設計活動網站的前端架構，並撰寫專案所需的 YAML 設定。',
+          '參與 2025 送一萬活動的前端實作。',
+        ],
       },
       en: {
         title: 'NT$10,000 Job-Search Campaign 2025',
         company: company.en,
-        role: 'Campaign frontend development',
+        role: 'Frontend architecture & campaign development',
         summary:
           'Contributed to the frontend of a job-search rewards campaign, presenting campaign and participation information.',
         background:
           'A job-search rewards website from 1111. I participated in the 2025 project; the live URL shows the site’s current campaign content.',
         contributions: [
+          'Designed the campaign website’s frontend architecture and wrote the YAML configuration required by the project.',
           'Contributed to frontend implementation for the 2025 rewards campaign.',
         ],
       },
@@ -292,14 +314,15 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '活動模板與共用元件',
         company: company.zh,
-        role: '模板規劃與共用元件開發',
+        role: '前端架構設計、模板與共用元件開發',
         summary:
           '建立活動專案模板、模組基底及跨專案 Web Components，讓重複需求有可重用的起點。',
         background:
           '一組跨活動專案的共用化實務：透過模板提供新專案起點，以共用元件服務多個獨立網站。',
         audience: '需要建立與維護不同活動網站的前端團隊。',
         contributions: [
-          '獨立規劃並開發活動專案模板與模組基底。',
+          '獨立設計前端架構，規劃並開發活動專案模板與模組基底。',
+          '撰寫專案所需的 YAML 設定。',
           '建立可供多個活動網站共用的 Web Components。',
           '在活動網站開發與重構工作中導入 Nuxt 3。',
         ],
@@ -323,14 +346,15 @@ export const projectRecords: ProjectRecord[] = [
       en: {
         title: 'Campaign Templates & Shared Components',
         company: company.en,
-        role: 'Template design & component development',
+        role: 'Frontend architecture, templates & shared components',
         summary:
           'Built campaign templates, module foundations, and shared Web Components to give recurring requirements a reusable starting point.',
         background:
           'A set of practices spanning multiple campaigns: templates provide a project foundation, while shared components support independent websites.',
         audience: 'Frontend teams building and maintaining campaign websites.',
         contributions: [
-          'Independently planned and developed campaign templates and module foundations.',
+          'Independently designed the frontend architecture and developed campaign templates and module foundations.',
+          'Wrote the YAML configuration required by the project.',
           'Built Web Components for reuse across multiple campaign sites.',
           'Introduced Nuxt 3 into campaign development and refactoring work.',
         ],
@@ -365,24 +389,24 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '投票系統：前台與管理端',
         company: '三立電視',
-        role: '前端工程師',
+        role: '前端架構設計與開發',
         summary: '與後端工程師合作，從零建立投票系統的使用者端與管理端介面。',
         background:
           '在三立電視任職期間，與一位後端工程師合作建立投票系統，參與從需求討論到系統設計與資料串接的流程。',
         audience: '投票使用者與系統管理人員，分別透過使用者端及管理端操作。',
         contributions: [
-          '從零參與投票系統的前端建置。',
+          '從零設計投票系統的前端架構，並負責 YAML 設定撰寫。',
           '實作使用者端與管理端介面。',
           '與後端工程師協作，完成前後端資料串接。',
         ],
         collaboration:
-          '我負責前端介面與資料串接，後端工程師負責伺服器端；雙方共同討論需求與系統流程。',
+          '我負責前端架構、介面、YAML 設定與資料串接，後端工程師負責伺服器端；雙方共同討論需求與系統流程。',
         outcomes: ['與後端工程師共同完成包含使用者端及管理端的投票系統。'],
       },
       en: {
         title: 'Voting System: Public & Admin Interfaces',
         company: 'Sanlih E-Television',
-        role: 'Frontend Engineer',
+        role: 'Frontend architecture & development',
         summary:
           'Partnered with a backend engineer to build the public and admin interfaces of a voting system from the ground up.',
         background:
@@ -390,12 +414,12 @@ export const projectRecords: ProjectRecord[] = [
         audience:
           'Voters and administrators, each using a dedicated interface.',
         contributions: [
-          'Helped establish the system’s frontend from scratch.',
+          'Designed the system’s frontend architecture from scratch and wrote its YAML configuration.',
           'Implemented the public voting and admin interfaces.',
           'Collaborated with the backend engineer on API integration.',
         ],
         collaboration:
-          'I handled frontend interfaces and API integration; my colleague handled the server side. We discussed requirements and workflows together.',
+          'I handled frontend architecture, interfaces, YAML configuration, and API integration; my colleague handled the server side. We discussed requirements and workflows together.',
         outcomes: [
           'Together, we delivered a voting system with public and admin interfaces.',
         ],
