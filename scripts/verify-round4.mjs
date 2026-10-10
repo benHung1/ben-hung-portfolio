@@ -164,6 +164,7 @@ env.flush();
 assert.equal(ring.style.transform, dot.style.transform);
 for (const [selector, mode] of [
   ['[data-cursor="view"]', 'view'],
+  ['[data-cursor="aim"]', 'aim'],
   ['.physics-ready .skill-object', 'drag'],
   ['a[href^="https://"][target="_blank"]', 'external'],
   ['button', 'link'],

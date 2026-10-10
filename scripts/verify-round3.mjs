@@ -17,12 +17,18 @@ const moduleFrom = async (p) =>
   );
 const { SkillWorld } = await moduleFrom('app/utils/skillPhysics.ts');
 const playground = await moduleFrom('app/data/playground.ts');
+const originalRandom = Math.random;
 for (const [width, height, radius] of [
   [240, 860, 40],
   [306, 620, 40],
   [650, 560, 52],
   [1220, 560, 52],
 ]) {
+  // Seed 3 reproduces a crowded 17-skill mobile stack; keep the regression
+  // deterministic without changing production randomization.
+  let seed = 3;
+  Math.random = () =>
+    ((seed = (Math.imul(1664525, seed) + 1013904223) | 0) >>> 0) / 4294967296;
   const world = new SkillWorld(width, height, radius, playground.skills.length);
   const inBounds = () =>
     world.bodies.forEach((b) => {
@@ -60,6 +66,7 @@ for (const [width, height, radius] of [
   world.reset();
   inBounds();
 }
+Math.random = originalRandom;
 console.log(
   'PASS: physics gravity/collisions, throws, mobile/desktop bounds, resize, reset and held object.',
 );

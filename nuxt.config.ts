@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   },
   sourcemap: { server: false, client: false },
   devtools: { enabled: false },
+  modules: ['./build/testimonials-module'],
   vite: {
     optimizeDeps: { include: ['gsap', 'gsap/ScrollTrigger'] },
   },
@@ -26,6 +27,8 @@ export default defineNuxtConfig({
     '~/assets/styles/scroll-scenes.scss',
     '~/assets/styles/weather-profiles.scss',
     '~/assets/styles/page-rhythm.scss',
+    '~/assets/styles/testimonials.scss',
+    '~/assets/styles/skill-range.scss',
   ],
   app: {
     pageTransition: false,

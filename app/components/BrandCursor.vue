@@ -32,6 +32,17 @@ onBeforeUnmount(() => controller?.destroy());
         <span class="cursor-view">{{ copy.view }}</span>
         <span class="cursor-drag">{{ copy.drag }}</span>
         <UiIcon class="cursor-external" name="external" />
+        <svg
+          class="cursor-aim"
+          viewBox="0 0 34 34"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="17" cy="17" r="8" />
+          <path d="M17 1v9m0 14v9M1 17h9m14 0h9" />
+          <circle cx="17" cy="17" r="1" fill="currentColor" />
+        </svg>
       </span>
     </div>
   </div>

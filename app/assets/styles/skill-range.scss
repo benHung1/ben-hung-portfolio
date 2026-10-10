@@ -1,0 +1,530 @@
+.range-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 44px;
+}
+.range-heading h2 {
+  font-size: clamp(34px, 4.4vw, 68px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.16;
+  max-width: 900px;
+  margin-top: 22px;
+}
+.range-heading > p {
+  max-width: 260px;
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 14px;
+}
+.playground-panel.range-panel {
+  padding: 0;
+  border-radius: 32px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: visible;
+}
+.range-board {
+  position: relative;
+  isolation: isolate;
+  height: clamp(560px, 44vw, 680px);
+  border-radius: 31px 31px 0 0;
+  overflow: hidden;
+  color: #f6f4ed;
+  background: #101724;
+  touch-action: pan-y;
+}
+.range-scenery {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 62%, #243475 0, transparent 65%);
+}
+.range-horizon {
+  position: absolute;
+  width: 48%;
+  aspect-ratio: 1;
+  border: 1px solid #7189f544;
+  border-radius: 50%;
+  left: 26%;
+  top: -22%;
+}
+.range-horizon::after {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border: 1px solid #7189f533;
+  border-radius: 50%;
+}
+.range-floor {
+  position: absolute;
+  inset: auto 0 0;
+  width: 100%;
+  height: 56%;
+  transform-origin: 50% 0;
+  color: #6280ff;
+}
+.range-floor path {
+  stroke: currentColor;
+  stroke-width: 1.2;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.53;
+}
+.range-scenery .toolbox-word,
+.range-scenery .inplay-word {
+  position: absolute;
+  font-size: clamp(80px, 13vw, 200px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #aebeff;
+  opacity: 0.065;
+  white-space: nowrap;
+}
+.range-scenery .toolbox-word {
+  top: 14%;
+  left: -8%;
+}
+.range-scenery .inplay-word {
+  bottom: 5%;
+  right: -5%;
+}
+.range-hud {
+  position: absolute;
+  inset: 26px 30px auto;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 120;
+  font: 12px var(--mono);
+  letter-spacing: 0.11em;
+  pointer-events: none;
+}
+.range-hud > span::before {
+  content: '+';
+  display: inline-block;
+  margin-right: 12px;
+  color: #a1b1ff;
+}
+.range-hud output {
+  padding: 10px 16px;
+  border: 1px solid #6c80d97a;
+  border-radius: 999px;
+  background: #111b31;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: #d7dfff;
+}
+.range-target-track {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(170px, 15vw, 215px);
+  height: 82px;
+  will-change: transform;
+  transform-origin: center;
+}
+.range-target {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid #9eafff;
+  background: linear-gradient(140deg, #374d96, #1d2b5d);
+  color: #fffaf0;
+  box-shadow:
+    0 5px 0 #0a1023,
+    0 6px 0 1px #5268b4,
+    0 18px 30px #04091466;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  touch-action: pan-y;
+  user-select: none;
+}
+.range-board:not([data-range-animation]) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  align-content: center;
+  gap: 24px;
+  padding: 100px 24px 60px;
+}
+.range-board:not([data-range-animation]) .range-target-track {
+  position: relative;
+  width: 100%;
+  max-width: 215px;
+  transform: none !important;
+}
+.range-target .skill-icon {
+  color: #b8c6ff;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.range-target span {
+  max-width: 135px;
+  text-align: left;
+}
+.range-target i {
+  position: absolute;
+  right: 9px;
+  top: 4px;
+  color: #a5b5fa;
+  font: 14px var(--mono);
+}
+.range-target:hover {
+  border-color: #fff;
+  background: linear-gradient(140deg, #4965ba, #283d7d);
+}
+.range-target:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 6px;
+}
+/* Retiring front cards keep intercepting pointers until removed; no click-through. */
+.range-field-hint {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  text-align: center;
+  font: 11px var(--mono);
+  letter-spacing: 0.04em;
+  color: #c5cde3;
+  pointer-events: none;
+}
+.range-shard {
+  position: absolute;
+  z-index: 130;
+  pointer-events: none;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #c2ceff;
+  border-radius: 2px;
+  background: #8097ff;
+}
+.range-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 28px;
+}
+.range-controls > p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  max-width: 350px;
+}
+.range-controls > div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.range-controls button,
+.range-chips button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 17px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+.range-controls button:is(:hover, [aria-pressed='true']),
+.range-chips button:is(:hover, [aria-pressed='true']) {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--on-accent);
+}
+.range-controls .icon {
+  width: 16px;
+}
+.range-collection {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 8vw;
+  padding: 36px 24px 0;
+  align-items: start;
+}
+.range-unlocked h3 {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.range-unlocked h3 span {
+  font: 13px var(--mono);
+  color: var(--blue);
+  padding-left: 14px;
+}
+.range-unlocked > p,
+.range-reading p {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+.range-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.range-chips .skill-icon {
+  width: 20px;
+  height: 20px;
+}
+.skill-reading.range-reading {
+  display: block;
+  min-height: 135px;
+  margin: 0;
+  padding-left: 24px;
+  border-left: 2px solid var(--blue);
+}
+.range-reading h3 {
+  font-size: 25px;
+  margin: 10px 0;
+}
+.range-library {
+  margin-top: 36px;
+  padding: 28px;
+  border-top: 1px solid var(--line);
+}
+.range-library > h3 {
+  font-weight: 500;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+.range-library > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+.range-library article {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px 12px;
+  align-content: start;
+}
+.range-library .skill-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--blue);
+}
+.range-library h4 {
+  margin: 3px 0;
+  font-weight: 500;
+}
+.range-library p {
+  grid-column: 2;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+.range-completion {
+  position: absolute;
+  z-index: 150;
+  inset: 65px 18px 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #111b32f5;
+  border: 1px solid #7189f544;
+  border-radius: 28px;
+  padding: 30px;
+}
+.range-completion .eyebrow {
+  color: #aabcff;
+  margin: 22px 0 16px;
+}
+.range-completion h3 {
+  font-size: clamp(24px, 3vw, 42px);
+  letter-spacing: -0.05em;
+  font-weight: 500;
+}
+.range-completion > p:last-of-type {
+  color: #cbd2e6;
+  font-size: 14px;
+  margin-top: 18px;
+}
+.range-badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+}
+.range-badge i {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  border: 1px solid #a3b7ff;
+  background: #304ad9;
+}
+.range-badge i:nth-child(2) {
+  inset: 8px;
+  background: #6881f7;
+  border-radius: 17px;
+}
+.range-badge i:nth-child(3) {
+  inset: 16px;
+  background: #172657;
+  border-radius: 12px;
+}
+.range-badge strong {
+  position: relative;
+  z-index: 2;
+  font-size: 28px;
+  letter-spacing: -0.07em;
+}
+.range-finish-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+.range-finish-actions .button {
+  border: 1px solid #8c9fd3;
+  color: #f6f4ed;
+  padding: 13px 20px;
+  border-radius: 999px;
+  min-height: 46px;
+  display: inline-flex;
+  gap: 14px;
+  align-items: center;
+  font-size: 13px;
+}
+.range-finish-actions .button-primary {
+  background: #3655f5;
+  border-color: #3655f5;
+}
+.range-finish-actions .button:hover {
+  background: #4c63b5;
+}
+.cursor-aim {
+  display: none;
+}
+.brand-cursor[data-mode='aim'] .cursor-dot {
+  display: none;
+}
+.brand-cursor[data-mode='aim'] .cursor-disc {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+  transition: transform 0.1s;
+}
+.brand-cursor[data-mode='aim'] .cursor-aim {
+  display: block;
+  width: 34px;
+  height: 34px;
+  filter: drop-shadow(0 0 2px #101724);
+}
+@media (hover: hover) and (pointer: fine) {
+  html:not([data-brand-cursor='active']) .range-board,
+  html:not([data-brand-cursor='active']) .range-target {
+    cursor: crosshair;
+  }
+}
+@media (max-width: 999px) {
+  .range-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .range-heading > p {
+    max-width: 500px;
+  }
+  .range-controls {
+    align-items: start;
+    flex-direction: column;
+  }
+  .range-library > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 599px) {
+  .range-heading {
+    margin-bottom: 28px;
+  }
+  .range-heading h2 {
+    font-size: 34px;
+  }
+  .playground-panel.range-panel {
+    border-radius: 24px;
+  }
+  .range-board {
+    height: 620px;
+    border-radius: 23px 23px 0 0;
+  }
+  .range-hud {
+    inset: 20px 16px auto;
+    align-items: start;
+    font-size: 9px;
+    letter-spacing: 0.03em;
+  }
+  .range-hud > span {
+    max-width: 125px;
+    line-height: 1.7;
+  }
+  .range-hud > span::before {
+    display: none;
+  }
+  .range-hud output {
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+  .range-target-track {
+    width: 174px;
+    height: 96px;
+  }
+  .range-target {
+    font-size: 15px;
+  }
+  .range-controls {
+    padding: 20px 16px;
+  }
+  .range-controls > div {
+    gap: 7px;
+  }
+  .range-controls button {
+    font-size: 11px;
+    padding: 9px 12px;
+  }
+  .range-collection {
+    grid-template-columns: 1fr;
+    padding: 26px 0 0;
+    gap: 28px;
+  }
+  .range-library {
+    padding: 24px 0;
+  }
+  .range-library > div {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .range-completion {
+    padding: 24px 16px;
+  }
+  .range-completion > p:last-of-type {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+}

@@ -7,12 +7,13 @@
   },
   "scripts": {
     "dev": "nuxt dev --host 127.0.0.1 --port 3000",
+    "dev:review": "node scripts/preview-review.mjs",
     "build": "node scripts/build.mjs",
     "build:local": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview --host 127.0.0.1 --port 3000",
     "typecheck": "nuxt typecheck",
-    "verify": "node scripts/verify.mjs && node scripts/verify-round3.mjs && node scripts/verify-round4.mjs && node scripts/verify-weather.mjs && node scripts/verify-profiles.mjs && node scripts/verify-page-rhythm.mjs",
+    "verify": "node scripts/verify.mjs && node scripts/verify-range.mjs && node scripts/verify-round4.mjs && node scripts/verify-weather.mjs && node scripts/verify-profiles.mjs && node scripts/verify-page-rhythm.mjs && node scripts/verify-testimonials.mjs",
     "postinstall": "node scripts/prepare.mjs",
     "format": "prettier --write app nuxt.config.ts"
   },

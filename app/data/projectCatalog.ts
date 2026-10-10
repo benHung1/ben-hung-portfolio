@@ -395,12 +395,12 @@ export const projectRecords: ProjectRecord[] = [
           '在三立電視任職期間，與一位後端工程師合作建立投票系統，參與從需求討論到系統設計與資料串接的流程。',
         audience: '投票使用者與系統管理人員，分別透過使用者端及管理端操作。',
         contributions: [
-          '從零設計投票系統的前端架構，並負責 YAML 設定撰寫。',
+          '從零設計投票系統的前端架構。',
           '實作使用者端與管理端介面。',
           '與後端工程師協作，完成前後端資料串接。',
         ],
         collaboration:
-          '我負責前端架構、介面、YAML 設定與資料串接，後端工程師負責伺服器端；雙方共同討論需求與系統流程。',
+          '我負責前端架構、介面與資料串接，後端工程師負責伺服器端；雙方共同討論需求與系統流程。',
         outcomes: ['與後端工程師共同完成包含使用者端及管理端的投票系統。'],
       },
       en: {
@@ -414,12 +414,12 @@ export const projectRecords: ProjectRecord[] = [
         audience:
           'Voters and administrators, each using a dedicated interface.',
         contributions: [
-          'Designed the system’s frontend architecture from scratch and wrote its YAML configuration.',
+          'Designed the system’s frontend architecture from scratch.',
           'Implemented the public voting and admin interfaces.',
           'Collaborated with the backend engineer on API integration.',
         ],
         collaboration:
-          'I handled frontend architecture, interfaces, YAML configuration, and API integration; my colleague handled the server side. We discussed requirements and workflows together.',
+          'I handled frontend architecture, interfaces, and API integration; my colleague handled the server side. We discussed requirements and workflows together.',
         outcomes: [
           'Together, we delivered a voting system with public and admin interfaces.',
         ],

@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { playgroundCopy } from '~/data/playground';
 import { motionCopy } from '~/data/motion';
+const props = withDefaults(defineProps<{ sectionNumber?: string }>(), {
+  sectionNumber: '04',
+});
 const { t, email, locale } = usePortfolio();
 const copy = computed(() => playgroundCopy[locale.value]);
 const motion = computed(() => motionCopy[locale.value]);
+const eyebrow = computed(() =>
+  t.value.contact.eyebrow.replace(/^\d{2}/, props.sectionNumber),
+);
 </script>
 <template>
   <section
@@ -17,7 +23,7 @@ const motion = computed(() => motionCopy[locale.value]);
       ><b class="contact-accent"></b>
     </div>
     <div class="contact-copy">
-      <p class="eyebrow">{{ t.contact.eyebrow }}</p>
+      <p class="eyebrow">{{ eyebrow }}</p>
       <h2 id="contact-heading" v-reveal class="reveal-heading">
         {{ t.contact.title[0] }}<br /><span class="serif blue">{{
           t.contact.title[1]

@@ -1,416 +1,388 @@
 <script setup lang="ts">
 import { playgroundCopy, skills } from '~/data/playground';
-import type { SkillWorld } from '~/utils/skillPhysics';
+import {
+  SkillRangeGame,
+  rangeCapacity,
+  validRangeTap,
+} from '~/utils/skillRangeState';
+import type { createSkillRangeMotion } from '~/utils/skillRangeMotion';
 const { locale } = usePortfolio();
 const copy = computed(() => playgroundCopy[locale.value]);
-const field = ref<HTMLElement>();
-const items: HTMLElement[] = [];
-const selected = ref<string>('vue');
-const activeSkill = computed(() =>
-  skills.find((s) => s.id === selected.value)!,
-);
-const physics = ref(false);
-const state = ref('static');
-const reduced = ref(false);
 const { manualStatic } = useMotionPreference();
 const preparation = usePagePreparation();
-const isStatic = computed(() => reduced.value || manualStatic.value);
-let world: SkillWorld | undefined;
-let observer: IntersectionObserver | undefined;
-let departureObserver: IntersectionObserver | undefined;
-let armed = true;
-let interactionUntil = 0;
-const generation = ref(0);
-function interact() {
-  interactionUntil = performance.now() + 700;
-}
-let resizeObserver: ResizeObserver | undefined;
-let media: MediaQueryList | undefined;
+const field = ref<HTMLElement>();
+const game = new SkillRangeGame(skills.map((skill) => skill.id));
+const state = shallowRef(game.snapshot());
+const selected = ref<string>();
+const library = ref(false);
+const systemReduced = ref(false);
+const isStatic = computed(() => systemReduced.value || manualStatic.value);
+const targets = computed(() =>
+  state.value.targets.map((id) => skills.find((skill) => skill.id === id)!),
+);
+const unlocked = computed(() =>
+  state.value.unlocked.map((id) => skills.find((skill) => skill.id === id)!),
+);
+const activeSkill = computed(() =>
+  skills.find((skill) => skill.id === selected.value),
+);
+let motion: ReturnType<typeof createSkillRangeMotion> | undefined;
+let observer: IntersectionObserver | undefined,
+  resizeObserver: ResizeObserver | undefined,
+  media: MediaQueryList | undefined;
 let visible = false,
   disposed = false,
-  loading = false,
-  raf = 0,
-  last = 0,
-  frames = 0;
-let visibleRatio = 0;
-let drag:
-  | {
-      index: number;
-      pointer: number;
-      x: number;
-      y: number;
-      lastX: number;
-      lastY: number;
-      time: number;
-      moved: boolean;
-      element: HTMLElement;
-    }
-  | undefined;
-let suppressClick = -1;
-function size() {
-  const el = field.value!;
-  return {
-    width: el.clientWidth,
-    height: el.clientHeight,
-    radius: (items[0]?.offsetWidth || 86) / 2,
-  };
-}
-function paint() {
-  if (isStatic.value || !physics.value) return;
-  world?.bodies.forEach((b, i) =>
-    items[i]?.style.setProperty(
-      'transform',
-      'translate3d(' +
-        (b.x - b.r) +
-        'px,' +
-        (b.y - b.r) +
-        'px,0) rotate(' +
-        b.angle.toFixed(2) +
-        'deg)',
-    ),
+  capacity = 3;
+type Tap = {
+  id: string;
+  pointer: number;
+  x: number;
+  y: number;
+  time: number;
+  scroll: number;
+};
+let tap: Tap | undefined,
+  allowedTap = '';
+const publish = () => {
+  state.value = game.snapshot();
+};
+function sync() {
+  motion?.sync(
+    visible && !document.hidden && !game.paused && !preparation.value.active,
+    isStatic.value,
   );
 }
-function stop() {
-  cancelAnimationFrame(raf);
-  raf = 0;
-  last = 0;
-  state.value = isStatic.value ? 'static' : 'paused';
-}
-function tick(time: number) {
-  raf = 0;
-  if (!world || !visible || document.hidden || isStatic.value || disposed)
-    return;
-  world.step(last ? (time - last) / 1000 : 1 / 60);
-  last = time;
-  frames++;
-  paint();
-  const moving = world.bodies.some(
-    (b) => b.held || Math.abs(b.vx) > 5 || Math.abs(b.vy) > 12,
-  );
-  if (frames > 120 && !moving && !drag) {
-    state.value = 'sleeping';
-    last = 0;
-    return;
-  }
-  // Bound active work even if a tightly packed pile never reaches a perfect rest.
-  if (frames > 900 && !drag) {
-    state.value = 'sleeping';
-    last = 0;
-    return;
-  }
-  state.value = 'running';
-  raf = requestAnimationFrame(tick);
-}
-function wake() {
-  frames = 0;
-  if (
-    world &&
-    !raf &&
-    visible &&
-    !document.hidden &&
-    !preparation.value.active &&
-    !isStatic.value &&
-    !disposed
-  ) {
-    state.value = 'running';
-    raf = requestAnimationFrame(tick);
-  }
-}
-function enterIfReady() {
-  if (
-    !visible ||
-    visibleRatio < 0.25 ||
-    !armed ||
-    drag ||
-    performance.now() < interactionUntil ||
-    isStatic.value ||
-    preparation.value.active
-  )
-    return;
-  armed = false;
-  if (world) {
-    world.reset();
-    generation.value++;
-    paint();
-  } else void initialize();
-}
-watch(
-  () => preparation.value.active,
-  (active) => {
-    if (active) stop();
-    else {
-      enterIfReady();
-      wake();
-    }
-  },
-);
-async function initialize() {
-  if (world || loading || isStatic.value || disposed) return;
-  loading = true;
-  try {
-    const { SkillWorld } = await import('~/utils/skillPhysics');
-    if (disposed || isStatic.value) return;
-    const { width, height, radius } = size();
-    world = new SkillWorld(width, height, radius, skills.length);
-    generation.value++;
-    physics.value = true;
-    await nextTick();
-    paint();
-    wake();
-  } catch {
-    physics.value = false;
-    state.value = 'static';
-  } finally {
-    loading = false;
-  }
-}
-function reset() {
-  interact();
-  releaseDrag();
-  if (!isStatic.value) {
-    world?.reset();
-    if (world) generation.value++;
-    paint();
-    wake();
-  }
-}
-function shuffle() {
-  interact();
-  if (!isStatic.value) {
-    world?.shuffle();
-    wake();
-  }
-}
-function releaseDrag() {
-  if (!drag) return;
-  if (world?.bodies[drag.index]) world.bodies[drag.index]!.held = false;
-  if (drag.element.hasPointerCapture(drag.pointer))
-    drag.element.releasePointerCapture(drag.pointer);
-  drag = undefined;
-}
-function down(event: PointerEvent, index: number) {
-  if (!world || isStatic.value || event.button !== 0) return;
-  if (field.value?.closest('[data-drag-ready="false"]')) return;
-  const b = world.bodies[index]!;
-  const el = event.currentTarget as HTMLElement;
-  drag = {
-    index,
+function pointerDown(event: PointerEvent, id: string) {
+  if (!event.isPrimary || event.button !== 0) return;
+  allowedTap = '';
+  tap = {
+    id,
     pointer: event.pointerId,
     x: event.clientX,
     y: event.clientY,
-    lastX: event.clientX,
-    lastY: event.clientY,
-    time: event.timeStamp,
-    moved: false,
-    element: el,
+    time: performance.now(),
+    scroll: window.scrollY,
   };
-  b.held = true;
-  b.vx = 0;
-  b.vy = 0;
-  suppressClick = -1;
-  el.setPointerCapture(event.pointerId);
-  wake();
 }
-function move(event: PointerEvent) {
-  if (!drag || event.pointerId !== drag.pointer || !world) return;
-  const rect = field.value!.getBoundingClientRect(),
-    b = world.bodies[drag.index]!;
-  if (Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 7)
-    drag.moved = true;
-  if (!drag.moved) return;
-  const dt = Math.max(8, event.timeStamp - drag.time) / 1000;
-  b.vx = Math.max(-750, Math.min(750, (event.clientX - drag.lastX) / dt));
-  b.vy = Math.max(-750, Math.min(750, (event.clientY - drag.lastY) / dt));
-  b.x = event.clientX - rect.left;
-  b.y = event.clientY - rect.top;
-  world.clamp(b);
-  drag.lastX = event.clientX;
-  drag.lastY = event.clientY;
-  drag.time = event.timeStamp;
-  paint();
+function pointerUp(event: PointerEvent, id: string) {
+  if (
+    tap?.id === id &&
+    tap.pointer === event.pointerId &&
+    validRangeTap(tap, {
+      x: event.clientX,
+      y: event.clientY,
+      time: performance.now(),
+      scroll: window.scrollY,
+    })
+  )
+    allowedTap = id;
+  tap = undefined;
 }
-function up(event: PointerEvent) {
-  if (!drag || event.pointerId !== drag.pointer) return;
-  if (drag.moved) suppressClick = drag.index;
-  releaseDrag();
-  wake();
+function cancelTap() {
+  tap = undefined;
+  allowedTap = '';
 }
-function choose(index: number, event: MouseEvent) {
-  if (event.detail !== 0 && suppressClick === index) {
-    suppressClick = -1;
-    return;
+function pointerMove(event: PointerEvent) {
+  if (tap && Math.hypot(event.clientX - tap.x, event.clientY - tap.y) >= 9)
+    cancelTap();
+}
+async function shoot(id: string, event: MouseEvent) {
+  const keyboard = event.detail === 0;
+  if (!keyboard && allowedTap !== id) return;
+  allowedTap = '';
+  if (!game.hit(id)) return;
+  selected.value = id;
+  publish();
+  const round = game.round;
+  const retire = async () => {
+    if (disposed || round !== game.round) return;
+    game.retire(id, round);
+    publish();
+    await nextTick();
+    if (disposed || round !== game.round) return;
+    motion?.measure();
+    if (keyboard) {
+      const next = field.value?.querySelector<HTMLButtonElement>(
+        '.range-target:not([aria-disabled="true"])',
+      );
+      const nextId = next?.closest<HTMLElement>('.range-target-track')?.dataset
+        .skill;
+      if (nextId) motion?.focus(nextId);
+      (
+        next ??
+        field.value?.querySelector<HTMLAnchorElement>('.range-completion a')
+      )?.focus({ preventScroll: true });
+    }
+  };
+  if (motion) motion.hit(id, retire);
+  else void retire();
+  if (game.takeCelebration()) {
+    await nextTick();
+    if (!disposed && round === game.round) motion?.celebrate();
   }
-  selected.value = skills[index]!.id;
 }
-function visibility() {
-  if (document.hidden) {
-    releaseDrag();
-    stop();
-  } else wake();
+function pause() {
+  game.paused = !game.paused;
+  publish();
+  sync();
+}
+async function restart() {
+  motion?.cancel();
+  cancelTap();
+  game.restart();
+  selected.value = undefined;
+  publish();
+  await nextTick();
+  if (disposed) return;
+  motion?.reset();
+  sync();
+}
+async function recycle(id: string) {
+  const round = game.round;
+  if (!game.recycle(id, round)) return;
+  publish();
+  await nextTick();
+  if (!disposed && round === game.round) motion?.recycled(id);
+}
+function resize() {
+  if (!field.value || disposed) return;
+  const next = rangeCapacity(field.value.clientWidth);
+  if (next !== capacity) {
+    motion?.cancel(true);
+    capacity = next;
+    game.resize(next);
+    publish();
+  }
+  void nextTick(() => {
+    if (!disposed) motion?.measure();
+  });
 }
 function preference() {
-  reduced.value = Boolean(media?.matches);
+  systemReduced.value = media?.matches ?? false;
 }
-watch(isStatic, async (value) => {
-  releaseDrag();
-  stop();
-  if (value) {
-    physics.value = false;
-    items.forEach((el) => el?.style.removeProperty('transform'));
-  } else {
-    if (world) {
-      physics.value = true;
-      world.reset();
-      await nextTick();
-      paint();
-      wake();
-    } else if (visible) await initialize();
-  }
-});
-onMounted(() => {
+onMounted(async () => {
+  game.randomize();
+  publish();
   media = matchMedia('(prefers-reduced-motion: reduce)');
   preference();
   media.addEventListener('change', preference);
-  document.addEventListener('visibilitychange', visibility);
+  document.addEventListener('visibilitychange', sync);
   observer = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0];
+    ([entry]) => {
       visible = Boolean(entry?.isIntersecting);
-      visibleRatio = entry?.intersectionRatio ?? 1;
-      if (visible) {
-        enterIfReady();
-        wake();
-      } else {
-        releaseDrag();
-        stop();
-      }
+      sync();
     },
-    { threshold: [0, 0.25, 0.6] },
+    { threshold: 0 },
   );
-  observer.observe(field.value!);
-  departureObserver = new IntersectionObserver(
-    (entries) => {
-      if (!entries[0]?.isIntersecting) armed = true;
-    },
-    { rootMargin: '120px 0px', threshold: 0 },
-  );
-  departureObserver.observe(field.value!);
-  resizeObserver = new ResizeObserver(() => {
-    if (!world || !field.value) return;
-    releaseDrag();
-    const { width, height, radius } = size();
-    world.resize(width, height, radius);
-    paint();
-    wake();
-  });
-  resizeObserver.observe(field.value!);
+  if (field.value) observer.observe(field.value);
+  resizeObserver = new ResizeObserver(resize);
+  if (field.value) resizeObserver.observe(field.value);
+  resize();
+  try {
+    const { createSkillRangeMotion } = await import('~/utils/skillRangeMotion');
+    if (!disposed && field.value) {
+      motion = createSkillRangeMotion(
+        field.value,
+        recycle,
+        () => state.value.total - state.value.unlocked.length,
+        import.meta.dev
+          ? (record) =>
+              console.debug(
+                '[skill-flight] ' +
+                  JSON.stringify({
+                    ...record,
+                    skill: skills.find((skill) => skill.id === record.id)?.name,
+                  }),
+              )
+          : undefined,
+      );
+      sync();
+    }
+  } catch {
+    /* Static DOM targets and scoring remain usable if animation cannot load. */
+  }
+});
+watch([isStatic, () => preparation.value.active], () => {
+  if (import.meta.client) sync();
+});
+watch(locale, () => {
+  void nextTick(() => motion?.measure());
 });
 onBeforeUnmount(() => {
   disposed = true;
-  releaseDrag();
-  stop();
+  cancelTap();
   observer?.disconnect();
-  departureObserver?.disconnect();
   resizeObserver?.disconnect();
   media?.removeEventListener('change', preference);
-  document.removeEventListener('visibilitychange', visibility);
-  world = undefined;
-  items.length = 0;
+  document.removeEventListener('visibilitychange', sync);
+  motion?.destroy();
 });
 </script>
 <template>
   <section
     id="experiments"
-    class="section skills-section shell"
-    aria-labelledby="skills-heading"
     data-scene="skills"
-    @pointerdown.capture="interact"
-    @keydown.capture="interact"
+    class="section shell skills-section"
+    aria-labelledby="skills-title"
   >
-    <div class="skills-heading">
+    <header class="section-heading range-heading">
       <div>
         <p class="eyebrow">{{ copy.eyebrow }}</p>
-        <h2 id="skills-heading" v-reveal class="reveal-heading">
-          {{ copy.title }}
-        </h2>
+        <h2 id="skills-title">{{ copy.title }}</h2>
       </div>
       <p>{{ copy.intro }}</p>
-    </div>
-    <div class="playground-scroll-shell" @scene-drag-lock="releaseDrag">
-      <div class="playground-panel">
-        <div class="playground-toolbar">
-          <p>{{ copy.hint }}</p>
-          <div class="playground-actions">
-            <button class="pill-control" @click="reset" :disabled="isStatic">
-              <UiIcon name="reset" />{{ copy.reset }}
-            </button>
-            <button class="pill-control" @click="shuffle" :disabled="isStatic">
-              <UiIcon name="shuffle" />{{ copy.shuffle }}
-            </button>
+    </header>
+    <div class="playground-scroll-shell">
+      <div class="playground-panel range-panel">
+        <div
+          ref="field"
+          class="range-board"
+          data-cursor="aim"
+          :data-score="state.unlocked.length"
+          :data-total="state.total"
+          :data-round="state.round"
+          :data-manual-paused="state.paused"
+          role="group"
+          :aria-label="copy.field"
+        >
+          <div class="range-scenery" aria-hidden="true">
+            <div class="range-horizon"></div>
+            <svg
+              class="range-floor"
+              viewBox="0 0 1200 500"
+              preserveAspectRatio="none"
+            >
+              <path
+                v-for="(x, i) in [
+                  -1800, -1200, -700, -350, 0, 300, 600, 900, 1200, 1550, 1900,
+                  2400, 3000,
+                ]"
+                :key="i"
+                :d="`M600 0 L${x} 500`"
+              />
+              <path
+                v-for="y in [12, 30, 57, 98, 158, 243, 360, 495]"
+                :key="y"
+                :d="`M0 ${y} H1200`"
+              />
+            </svg>
+            <span class="toolbox-word">TOOLBOX</span
+            ><span class="inplay-word">IN PLAY</span>
+          </div>
+          <div class="range-hud">
+            <span>SKILLS &amp; TECHNOLOGIES</span
+            ><output aria-live="polite" aria-atomic="true"
+              >SCORE: {{ state.unlocked.length }} / {{ state.total }}</output
+            >
+          </div>
+          <div
+            v-for="skill in targets"
+            :key="skill.id"
+            class="range-target-track"
+            :data-skill="skill.id"
+          >
             <button
-              class="pill-control motion-control"
-              :aria-pressed="isStatic"
-              :disabled="reduced"
+              class="range-target"
+              :aria-label="copy.hit + ' ' + skill.name"
+              :aria-disabled="state.retiring.includes(skill.id)"
+              @pointerdown="pointerDown($event, skill.id)"
+              @pointermove="pointerMove"
+              @pointerup="pointerUp($event, skill.id)"
+              @pointercancel="cancelTap"
+              @click="shoot(skill.id, $event)"
+              @focus="motion?.focus(skill.id)"
+              @blur="motion?.focus('')"
+            >
+              <SkillIcon :id="skill.id" :symbol="skill.symbol" /><span>{{
+                skill.name
+              }}</span
+              ><i aria-hidden="true">+</i>
+            </button>
+          </div>
+          <p v-if="!state.complete" class="range-field-hint">
+            {{ state.paused ? copy.paused : copy.aim }}
+          </p>
+          <div
+            v-if="state.complete"
+            class="range-completion"
+            data-cursor="link"
+          >
+            <div class="range-badge" aria-hidden="true">
+              <i></i><i></i><i></i><strong>BH.</strong>
+            </div>
+            <p class="eyebrow">ALL SKILLS UNLOCKED</p>
+            <h3>{{ copy.complete }}</h3>
+            <p>{{ copy.nextMission }}</p>
+            <div class="range-finish-actions">
+              <NuxtLink to="/#contact" class="button button-primary"
+                >{{ copy.contact }}<UiIcon name="right" /></NuxtLink
+              ><button class="button" @click="restart">
+                {{ copy.replay }}<UiIcon name="right" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="range-controls">
+          <p>{{ copy.keyboard }}</p>
+          <div>
+            <button
+              :aria-pressed="manualStatic"
               @click="manualStatic = !manualStatic"
             >
-              {{ isStatic ? copy.animate : copy.still }}
+              {{ manualStatic ? copy.animate : copy.still }}</button
+            ><button :aria-pressed="state.paused" @click="pause">
+              {{ state.paused ? copy.resume : copy.pause }}</button
+            ><button @click="restart">{{ copy.restart }}</button
+            ><button
+              :aria-expanded="library"
+              aria-controls="range-library"
+              @click="library = !library"
+            >
+              {{ library ? copy.hideAll : copy.all }}<UiIcon name="right" />
             </button>
           </div>
         </div>
-        <div
-          ref="field"
-          class="skill-field"
-          :class="{ 'physics-ready': physics && !isStatic }"
-          :data-simulation="state"
-          :data-generation="generation"
-          :aria-label="copy.field"
-          role="group"
-        >
-          <span class="field-wordmark" aria-hidden="true"
-            ><span class="toolbox-word">TOOLBOX</span
-            ><span class="inplay-word">IN PLAY.</span></span
-          >
+      </div>
+    </div>
+    <div class="range-collection">
+      <div class="range-unlocked">
+        <h3>
+          {{ copy.unlocked }}
+          <span>{{ state.unlocked.length.toString().padStart(2, '0') }}</span>
+        </h3>
+        <p v-if="!unlocked.length">{{ copy.empty }}</p>
+        <div class="range-chips">
           <button
-            v-for="(skill, index) in skills"
+            v-for="skill in unlocked"
             :key="skill.id"
-            :ref="
-              (el) => {
-                if (el) items[index] = el as HTMLElement;
-              }
-            "
-            class="skill-object"
-            :style="{ '--skill-color': skill.color }"
             :aria-pressed="selected === skill.id"
-            :data-skill="skill.id"
-            @pointerdown="down($event, index)"
-            @pointermove="move"
-            @pointerup="up"
-            @pointercancel="releaseDrag"
-            @lostpointercapture="releaseDrag"
-            @click="choose(index, $event)"
+            @click="selected = skill.id"
           >
-            <SkillIcon :id="skill.id" :symbol="skill.symbol" /><span>{{
-              skill.name
-            }}</span>
+            <SkillIcon :id="skill.id" :symbol="skill.symbol" />{{ skill.name }}
           </button>
         </div>
       </div>
-    </div>
-    <div class="skill-reading">
-      <div class="skill-button-list" role="group" :aria-label="copy.choose">
-        <button
-          v-for="skill in skills"
-          :key="skill.id"
-          :aria-pressed="selected === skill.id"
-          @click="selected = skill.id"
+      <div
+        class="skill-reading range-reading"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <template v-if="activeSkill"
+          ><span class="eyebrow">{{ copy.collected }}</span>
+          <h3>{{ activeSkill.name }}</h3>
+          <p>{{ activeSkill[locale] }}</p></template
         >
-          {{ skill.name }}
-        </button>
+        <p v-else>{{ copy.hint }}</p>
       </div>
-      <div class="skill-description" aria-live="polite" aria-atomic="true">
-        <span class="eyebrow">{{ copy.usage }}</span>
-        <h3>{{ activeSkill.name }}<UiIcon name="right" /></h3>
-        <p>{{ activeSkill[locale] }}</p>
+    </div>
+    <div v-if="library" id="range-library" class="range-library">
+      <h3>{{ copy.library }}</h3>
+      <div>
+        <article v-for="skill in skills" :key="skill.id">
+          <SkillIcon :id="skill.id" :symbol="skill.symbol" />
+          <h4>{{ skill.name }}</h4>
+          <p>{{ skill[locale] }}</p>
+        </article>
       </div>
     </div>
   </section>

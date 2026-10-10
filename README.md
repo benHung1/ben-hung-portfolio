@@ -6,7 +6,8 @@
 
 - 八件作品、分類、案例詳情、正式網站連結及安全返回導覽。
 - GSAP ScrollTrigger 捲動場景、雨雪 Canvas 背景、自訂游標及聯絡人物翻牌。
-- 可拖曳、碰撞、重新排列的技能遊樂場，附鍵盤入口與中英文用途。
+- 朝鏡頭飛來的技能射擊場，提供三種速度、計分、通關彩蛋、鍵盤操作與中英文用途。
+- 合作評價支援公司篩選與人物插畫；正式頁面只顯示已核准資料，完整審閱另設開發頁。
 - 幾何 Loading 與頁面準備進度；支援失敗退場及 reduced-motion。
 - 聯絡區提供 104、Cake 與 LinkedIn 個人檔案入口。
 
@@ -22,6 +23,8 @@ npm run verify
 ```
 
 開發伺服器預設為 http://127.0.0.1:3000。
+
+`npm run dev:review` 啟動獨立審閱模式（3003）；完整評價在 `/dev/testimonials`，首頁仍只顯示已核准內容。審閱路由不納入正式建置。
 
 ## 建置
 
@@ -54,6 +57,8 @@ npm run build
 | `app/data/messages.ts` | 雙語介面、經歷與聯絡內容 |
 | `app/data/projectCatalog.ts` | 作品、明確排序、圖片、上線與登入狀態 |
 | `app/data/playground.ts` | 技能及中英文實務用途 |
+| `app/utils/skillRangeConfig.ts` | 射擊場速度、生成間隔、數量上限及安全邊距 |
+| `content/testimonials.ts` | 評價資料、來源與公開核准狀態；由建置模組篩選 |
 | `app/data/profiles.ts` | 履歷與個人檔案連結 |
 | `app/utils/portfolioScrollScenes.ts` | 首頁捲動場景與聯絡翻牌 |
 | `app/utils/pagePreparation.ts` | 統一 Loading 與進度控制 |

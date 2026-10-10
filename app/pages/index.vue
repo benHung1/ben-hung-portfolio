@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { testimonials } from '#testimonial-content';
 import type { createPortfolioScrollScenes } from '~/utils/portfolioScrollScenes';
 import type { WeatherApi } from '~/utils/weatherCanvas';
 const page = ref<HTMLElement>();
@@ -6,6 +7,7 @@ const weather = ref<WeatherApi>();
 const { locale } = usePortfolio();
 const { manualStatic } = useMotionPreference();
 const preparation = usePagePreparation();
+const showTestimonials = testimonials.length > 0;
 let scene: ReturnType<typeof createPortfolioScrollScenes> | undefined;
 let factory: typeof createPortfolioScrollScenes | undefined;
 let disposed = false;
@@ -55,8 +57,9 @@ useHead({ title: 'Ben Hung — Frontend Engineer' });
     class="portfolio-stage scroll-story"
     tabindex="-1"
   >
-    <WeatherBackdrop
-      ref="weather"
-    /><Hero /><SelectedWork /><AboutSection /><SkillsPlayground /><ContactSection />
+    <WeatherBackdrop ref="weather" />
+    <Hero /><SelectedWork /><AboutSection /><SkillsPlayground />
+    <TestimonialsSection v-if="showTestimonials" />
+    <ContactSection :section-number="showTestimonials ? '05' : '04'" />
   </main>
 </template>

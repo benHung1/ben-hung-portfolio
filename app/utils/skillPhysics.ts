@@ -97,7 +97,9 @@ export class SkillWorld {
         if (b.y < b.r && b.vy < 0) b.vy *= -0.4;
         this.clamp(b);
       }
-      for (let iteration = 0; iteration < 3; iteration++)
+      // One extra relaxation pass prevents crowded 17-skill mobile stacks
+      // from retaining a visible overlap after settling.
+      for (let iteration = 0; iteration < 4; iteration++)
         for (let i = 0; i < this.bodies.length; i++)
           for (let j = i + 1; j < this.bodies.length; j++) {
             const a = this.bodies[i]!,

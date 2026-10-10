@@ -1,5 +1,5 @@
 export type CursorMode =
-  'idle' | 'link' | 'view' | 'external' | 'drag' | 'native';
+  'idle' | 'link' | 'view' | 'external' | 'drag' | 'aim' | 'native';
 
 export function cursorMode(
   target: Element | null,
@@ -13,6 +13,8 @@ export function cursorMode(
     )
   )
     return 'native';
+  if (target.closest('[data-cursor="link"]')) return 'link';
+  if (target.closest('[data-cursor="aim"]')) return 'aim';
   if (target.closest('.physics-ready .skill-object'))
     return target.closest('[data-drag-ready="false"]') ? 'link' : 'drag';
   if (target.closest('[data-cursor="view"]')) return 'view';
@@ -115,9 +117,11 @@ export function createBrandCursor(
       hide();
       return;
     }
-    if (!hasPosition || reduced.matches) {
+    if (!hasPosition || reduced.matches || mode === 'aim') {
       rx = x;
       ry = y;
+      cancelAnimationFrame(frame);
+      frame = 0;
     }
     hasPosition = visible = true;
     dot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
@@ -125,7 +129,8 @@ export function createBrandCursor(
     layer.dataset.mode = mode;
     layer.dataset.visible = 'true';
     root.dataset.brandCursor = 'active';
-    if (!frame && !reduced.matches) frame = requestAnimationFrame(tick);
+    if (!frame && !reduced.matches && mode !== 'aim')
+      frame = requestAnimationFrame(tick);
   }
   function move(event: Event) {
     const e = event as PointerEvent;
