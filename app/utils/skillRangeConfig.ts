@@ -15,6 +15,9 @@ export const skillRangeConfig = {
     fewMultiplier: 0.3,
     fewMax: 0.48,
     emptyMax: 0.22,
+    // Occupancy ceilings shorten quiet gaps without changing any flight speed.
+    refillMax: 0.28,
+    urgentRefillMax: 0.1,
   },
   fadeIn: 0.08,
   fadeOut: 0.128,
@@ -23,6 +26,7 @@ export const skillRangeConfig = {
     mobile: {
       maxWidth: 600,
       capacity: 2,
+      minimumVisible: 1,
       durationMultiplier: 1.25,
       far: [1020, 1470],
       near: 560,
@@ -33,6 +37,7 @@ export const skillRangeConfig = {
     tablet: {
       maxWidth: 1000,
       capacity: 4,
+      minimumVisible: 3,
       durationMultiplier: 1,
       far: [1000, 1600],
       near: 460,
@@ -42,7 +47,8 @@ export const skillRangeConfig = {
     },
     desktop: {
       maxWidth: Infinity,
-      capacity: 5,
+      capacity: 4,
+      minimumVisible: 3,
       durationMultiplier: 1,
       far: [1000, 1800],
       near: 430,
@@ -73,6 +79,18 @@ export function rangeProfile(width: number) {
   return Object.values(skillRangeConfig.devices).find(
     (profile) => width < profile.maxWidth,
   )!;
+}
+/** Retiring targets do not count; the unique-skill queue owns all replacements. */
+export function spawnWaitCeiling(
+  width: number,
+  active: number,
+  remaining: number,
+) {
+  const profile = rangeProfile(width);
+  if (active >= Math.min(profile.capacity, remaining)) return Infinity;
+  return active < Math.min(profile.minimumVisible, remaining)
+    ? skillRangeConfig.spawn.urgentRefillMax
+    : skillRangeConfig.spawn.refillMax;
 }
 export function shuffled<T>(
   items: readonly T[],

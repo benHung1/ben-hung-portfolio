@@ -44,6 +44,7 @@ export const messages = {
       contributions: '我的責任範圍',
       implementation: '實作方向',
       outcomes: '實際成果',
+      related: '延伸案例',
       current: '現在',
       experience: '工作經歷',
       missing: '這個頁面不存在。',
@@ -55,15 +56,15 @@ export const messages = {
       all: '所有作品',
       websites: '使用者端網站',
       applications: '企業管理系統',
-      architecture: '架構與重構',
+      architecture: '架構與共用元件',
     },
     hero: {
       eyebrow: '前端工程師 / 台灣',
       subtitle: ['清楚的介面。', '持續演進的系統。'],
       intro:
-        '我是 Ben，具備使用者端網站與企業管理後台的前端開發經驗。從活動網站、資料互動到管理系統，串聯前台操作與後台管理流程，規劃前端模組、共用元件及資料串接方式。',
+        '我是 Ben，開發使用者端網站與企業管理後台。從專案起建、套件配置到前端架構與組件設計，建立團隊共同開發的基礎。',
       collaboration:
-        '曾帶領前端團隊，參與系統重構與開發規範建立，並持續拓展後端開發能力。',
+        '依功能安排團隊分工，與後端協作資料串接，並持續溝通開發進度。以前端為主要專業，逐步拓展後端能力。',
       explore: '探索作品',
       lead: '團隊帶領經驗',
       caption: '從細節開始，讓想法成形。',
@@ -91,7 +92,7 @@ export const messages = {
       intro: '把介面做好，也把背後的流程想清楚。',
       paragraphs: [
         '我是洪鈺堂，一名前端工程師。從使用者面前的網站，到支撐日常工作的管理系統，我重視操作是否清楚，也在意程式能否隨需求持續演進。',
-        '我的實務涵蓋前端架構、API 串接、系統重構與共用元件，也曾帶領小組、建立開發規範並跨部門協作。希望在良好的分工與技術支援下，持續拓展後端開發能力。',
+        '我的實務涵蓋專案起建、套件配置、前端架構、組件設計與系統重構，也曾依功能安排組員分工。管理後台開發中，與後端討論 API 規格，定期溝通進度。以前端為主要專業，並在良好的分工與技術支援下持續拓展後端能力。',
       ],
     },
     experiment: {
@@ -139,7 +140,7 @@ export const messages = {
         period: '2024.08 — 2026.03',
         role: '前端工程師（主任）',
         description:
-          '入職半年升任主任。工作涵蓋專案架構建置、前端實作，並依專案需要分配組員工作、協作與整合。參與 Nuxt 3 導入、活動模板與共用 Web Components 開發，以及 Vue 3／Naive UI 活動後台重構。',
+          '入職半年升任主任。負責使用者端活動網站的專案起建、套件配置、前端架構與組件設計，依功能安排分工並共同開發。活動後台以 Vue 3／Naive UI 重構，負責架構、套件整合、API 協作及進度彙報；另有 Nuxt 3、活動模板與共用 Web Components 實務。',
       },
       {
         company: '三立電視',
@@ -197,6 +198,7 @@ export const messages = {
       contributions: 'My contribution',
       implementation: 'Implementation',
       outcomes: 'Outcomes',
+      related: 'Related cases',
       current: 'Present',
       experience: 'Experience',
       missing: 'This page does not exist.',
@@ -209,15 +211,15 @@ export const messages = {
       all: 'All work',
       websites: 'User-facing websites',
       applications: 'Business applications',
-      architecture: 'Architecture & refactoring',
+      architecture: 'Architecture & shared components',
     },
     hero: {
       eyebrow: 'FRONTEND ENGINEER / TAIWAN',
       subtitle: ['Interfaces with clarity.', 'Systems built to evolve.'],
       intro:
-        'I’m Ben, a frontend engineer working across public websites and business applications. I connect user experiences with the workflows behind them, shaping frontend modules, shared components, and API integrations.',
+        'I’m Ben, a frontend engineer building user-facing websites and business applications. From project setup and package configuration to architecture and component design, I establish foundations for collaborative development.',
       collaboration:
-        'I’ve led a frontend team, contributed to refactoring and development standards, and continue to build my backend skills.',
+        'I allocate feature work, collaborate with backend engineers on integration, and communicate development progress. Frontend is my focus as I continue to grow my backend skills.',
       explore: 'Explore work',
       lead: 'Team lead experience',
       caption: 'THOUGHTFULLY BUILT.',
@@ -246,7 +248,7 @@ export const messages = {
       intro: 'Make the interface clear. Think through the workflow behind it.',
       paragraphs: [
         'I’m Ben Hung, a frontend engineer. Whether I’m working on a public website or an everyday business tool, I care about clear interactions and code that can grow with changing requirements.',
-        'My experience spans frontend architecture, API integration, refactoring, and shared components. I’ve also led a small team, established development conventions, and collaborated across departments. I’m keen to grow into backend work with a supportive team and clear responsibilities.',
+        'My experience spans project setup, package configuration, frontend architecture, component design, and refactoring, along with allocating feature work. On admin projects, I discuss API specifications with backend engineers and communicate progress regularly. Frontend remains my focus as I grow my backend skills with clear responsibilities and technical support.',
       ],
     },
     experiment: {
@@ -296,7 +298,7 @@ export const messages = {
         period: '2024.08 — 2026.03',
         role: 'Frontend Engineer / Team Lead',
         description:
-          'Promoted to a supervisory role after six months. Built project foundations and frontend interfaces, with task allocation, collaboration, and integration as projects required. Work included adopting Nuxt 3, campaign templates, shared Web Components, and a Vue 3 / Naive UI admin refactor.',
+          'Promoted to a supervisory role after six months. Owned setup, packages, frontend architecture, and component design for user-facing campaigns, allocating features for shared implementation. On the Vue 3 / Naive UI admin refactor, handled architecture, package integration, API collaboration, and progress reporting. Other work included Nuxt 3, campaign templates, and shared Web Components.',
       },
       {
         company: 'Sanlih E-Television',

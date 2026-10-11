@@ -38,7 +38,11 @@ assert.equal(
   testimonialRecords.filter((entry) => entry.companyGroup === 'foxconn').length,
   3,
 );
-assert.ok(testimonialRecords.every((entry) => typeof entry.approvedForPublic === 'boolean'));
+assert.ok(
+  testimonialRecords.every(
+    (entry) => typeof entry.approvedForPublic === 'boolean',
+  ),
+);
 const unapprovedFixture = testimonialRecords.map((entry) => ({
   ...entry,
   approvedForPublic: false,
@@ -96,14 +100,24 @@ assert.ok(
     (entry) => entry.review && !entry.review.approvedForPublic,
   ),
 );
-const publicEntries = prepareTestimonials(testimonialRecords, false, false).entries;
+const publicEntries = prepareTestimonials(
+  testimonialRecords,
+  false,
+  false,
+).entries;
 assert.deepEqual(
   Array.from(publicEntries, (entry) => entry.id),
-  Array.from(testimonialRecords.filter((entry) => entry.approvedForPublic)
-    .sort((a, b) => a.order - b.order), (entry) => entry.id),
+  Array.from(
+    testimonialRecords
+      .filter((entry) => entry.approvedForPublic)
+      .sort((a, b) => a.order - b.order),
+    (entry) => entry.id,
+  ),
   'Public output must include every approved record in its display order',
 );
-assert.ok(publicEntries.every((entry) => !('source' in entry) && !('review' in entry)));
+assert.ok(
+  publicEntries.every((entry) => !('source' in entry) && !('review' in entry)),
+);
 
 // Run the component's actual setup handlers with Vue refs, without mounting a browser.
 // This exercises touch/pen gestures independently of a desktop-only browser driver.
@@ -204,7 +218,7 @@ state.step(1);
 assert.equal(state.active.value, undefined);
 assert.equal(state.pageLabel.value, '00 / 00');
 const { projectRecords } = evaluate(await read('app/data/projectCatalog.ts'));
-assert.equal(projectRecords.length, 8);
+assert.equal(projectRecords.length, 9);
 const voting = projectRecords.find((entry) => entry.slug === 'voting-system');
 assert.ok(voting);
 assert.doesNotMatch(JSON.stringify(voting), /YAML/i);
@@ -218,7 +232,10 @@ assert.match(
 );
 assert.ok(
   projectRecords
-    .filter((entry) => entry.slug !== 'voting-system')
+    .filter(
+      (entry) =>
+        !['voting-system', 'main-site-components'].includes(entry.slug),
+    )
     .every((entry) => /YAML/.test(JSON.stringify(entry.content))),
 );
 // Exercise both reduced-motion paths and owned-resource disposal.
@@ -295,5 +312,5 @@ for (const [systemReduced, manualReduced] of [
   assert.equal(document.documentElement.dataset.testimonialTriggers, '0');
 }
 console.log(
-  'PASS: six exact groups and naming rules; approval gate; stripped public metadata; six-card navigation; 3/1/0 states; touch directions/vertical scroll/mouse/second-pointer handling; Sanlih correction with all eight projects retained.',
+  'PASS: six exact groups and naming rules; approval gate; stripped public metadata; six-card navigation; 3/1/0 states; touch directions/vertical scroll/mouse/second-pointer handling; Sanlih correction preserved in the nine-project catalog.',
 );

@@ -48,7 +48,7 @@ const { t } = usePortfolio();
         <div class="project-status" v-if="project.deployment === 'live'">
           <span class="status-dot"></span>{{ t.ui.liveStatus
           }}<template v-if="project.requiresLogin">
-            · {{ t.ui.login }}</template
+            · {{ project.loginLabel || t.ui.login }}</template
           >
         </div>
         <div class="card-actions">
@@ -61,9 +61,10 @@ const { t } = usePortfolio();
             :href="project.liveUrl"
             target="_blank"
             rel="noopener noreferrer"
-            >{{ t.ui.live }}<UiIcon name="external" /><span class="sr-only">{{
-              t.ui.newTab
-            }}</span></a
+            >{{ project.liveLabel || t.ui.live }}<UiIcon name="external" /><span
+              class="sr-only"
+              >{{ t.ui.newTab }}</span
+            ></a
           >
         </div>
       </div>

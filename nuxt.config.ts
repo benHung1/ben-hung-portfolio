@@ -65,6 +65,12 @@ export default defineNuxtConfig({
   },
   // Locale cookies are rendered per request, never shared in a prerender cache.
   routeRules: {
+    '/work/recruit-communications': {
+      redirect: { to: '/work', statusCode: 301 },
+    },
+    '/work/recruit-communications/': {
+      redirect: { to: '/work', statusCode: 301 },
+    },
     '/**': {
       headers: { 'Cache-Control': 'private, no-cache', Vary: 'Cookie' },
     },

@@ -16,6 +16,11 @@ if (index.value < 0)
 const project = computed(() => projects.value[index.value]!);
 const previous = computed(() => projects.value[index.value - 1]);
 const next = computed(() => projects.value[index.value + 1]);
+const related = computed(() =>
+  projects.value.filter((item) =>
+    project.value.relatedSlugs?.includes(item.slug),
+  ),
+);
 useSeoMeta({
   title: () => project.value.title + ' — Ben Hung',
   description: () => project.value.summary,
@@ -71,7 +76,7 @@ useSeoMeta({
         <span v-if="project.deployment === 'live'" class="project-status"
           ><span class="status-dot"></span>{{ t.ui.liveStatus
           }}<template v-if="project.requiresLogin">
-            · {{ t.ui.login }}</template
+            · {{ project.loginLabel || t.ui.login }}</template
           ></span
         ><a
           v-if="project.liveUrl"
@@ -79,9 +84,10 @@ useSeoMeta({
           :href="project.liveUrl"
           target="_blank"
           rel="noopener noreferrer"
-          >{{ t.ui.live }}<UiIcon name="external" /><span class="sr-only">{{
-            t.ui.newTab
-          }}</span></a
+          >{{ project.liveLabel || t.ui.live }}<UiIcon name="external" /><span
+            class="sr-only"
+            >{{ t.ui.newTab }}</span
+          ></a
         >
       </div>
     </header>
@@ -90,7 +96,9 @@ useSeoMeta({
         <ProjectCover :project="project" eager />
       </div>
     </div>
-    <p v-if="project.cover" class="case-art-caption">{{ t.ui.imageNote }}</p>
+    <p v-if="project.cover" class="case-art-caption">
+      {{ project.coverNote || t.ui.imageNote }}
+    </p>
     <div class="case-content">
       <aside>
         <span class="eyebrow">{{ t.ui.overview }}</span>
@@ -114,6 +122,10 @@ useSeoMeta({
           </ul>
           <p v-if="project.collaboration">{{ project.collaboration }}</p>
         </section>
+        <section v-if="project.integrationDiagram">
+          <h2>{{ project.integrationDiagram.title }}</h2>
+          <SharedComponentsDiagram :diagram="project.integrationDiagram" />
+        </section>
         <section v-if="project.implementation?.length">
           <h2>{{ t.ui.implementation }}</h2>
           <div
@@ -130,6 +142,18 @@ useSeoMeta({
           <ul>
             <li v-for="item in project.outcomes" :key="item">{{ item }}</li>
           </ul>
+        </section>
+        <section v-if="related.length">
+          <h2>{{ t.ui.related }}</h2>
+          <p v-if="project.relatedNote">{{ project.relatedNote }}</p>
+          <NuxtLink
+            v-for="item in related"
+            :key="item.slug"
+            class="underlined-link case-related"
+            :to="'/work/' + item.slug"
+          >
+            {{ item.title }}<UiIcon name="right" />
+          </NuxtLink>
         </section>
       </div>
     </div>

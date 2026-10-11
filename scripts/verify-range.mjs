@@ -604,3 +604,53 @@ timed.destroy();
 console.log(
   'PASS: actual RAF controller expires all three speed classes within one frame of planned time; pause adds wall time only, with no resume jump; dev records distinguish spawn/miss/hit.',
 );
+
+// Run the actual RAF scheduler and fair queue together for a full minute.
+// Fast flights must not leave the desktop empty while replacements wait.
+board.clientWidth = 1370;
+board.clientHeight = 640;
+const denseGame = new SkillRangeGame(ids);
+denseGame.resize(rangeCapacity(board.clientWidth));
+function syncDenseTracks() {
+  const wanted = denseGame.snapshot().targets;
+  const next = wanted.map(
+    (id) => tracks.find((t) => t.dataset.skill === id) ?? element(id),
+  );
+  tracks.splice(0, tracks.length, ...next);
+}
+syncDenseTracks();
+let dense;
+dense = motionModule.exports.createSkillRangeMotion(
+  board,
+  (id) => {
+    denseGame.recycle(id);
+    syncDenseTracks();
+    dense.recycled(id);
+  },
+  () => ids.length,
+);
+dense.sync(true, false);
+let samples = 0,
+  threeOrMore = 0,
+  empty = 0;
+for (let time = 300000; time <= 360000; time += 20) {
+  frame(time);
+  const visible = tracks.filter(
+    (t) => t.dataset.flightPhase === 'active' && Number(t.style.opacity) > 0.5,
+  ).length;
+  if (time > 301000) {
+    samples++;
+    if (visible >= 3) threeOrMore++;
+    if (!visible) empty++;
+    assert.ok(visible <= 4);
+  }
+}
+assert.equal(empty, 0, 'No empty frames after entry');
+assert.ok(
+  threeOrMore / samples > 0.82,
+  'Maintain three or four visible targets for most of play',
+);
+dense.destroy();
+console.log(
+  `PASS: 60s real scheduler + fair queue: ${((threeOrMore / samples) * 100).toFixed(1)}% of frames show 3–4 targets, zero empty frames.`,
+);

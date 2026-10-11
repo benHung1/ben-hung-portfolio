@@ -35,5 +35,10 @@ const failed = ref(false);
         String(position).padStart(2, '0')
       }}</span></template
     >
+    <span
+      v-if="project.cover && !failed && project.coverLabel"
+      class="cover-context"
+      >{{ project.coverLabel }}</span
+    >
   </div>
 </template>

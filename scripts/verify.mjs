@@ -20,6 +20,7 @@ const { projectRecords, localizeProjects } = await moduleFrom(
 );
 const { messages } = await moduleFrom('app/data/messages.ts');
 const expected = [
+  'main-site-components',
   'events-management',
   'curated-jobs',
   'freshman',
@@ -37,7 +38,7 @@ assert.deepEqual(
   localizeProjects('en').map((p) => p.slug),
   expected,
 );
-assert.equal(new Set(projectRecords.map((p) => p.order)).size, 8);
+assert.equal(new Set(projectRecords.map((p) => p.order)).size, expected.length);
 assert.deepEqual(
   localizeProjects('en')
     .filter((p) => p.selected)
@@ -72,9 +73,18 @@ for (const project of projectRecords) {
     );
   }
 }
-assert.equal(projectRecords[0].liveUrl, 'https://events-manage.1111.com.tw/');
-assert.equal(projectRecords[0].deployment, 'live');
-assert.equal(projectRecords[0].requiresLogin, true);
+const admin = projectRecords.find((p) => p.slug === 'events-management');
+assert.equal(admin.liveUrl, 'https://events-manage.1111.com.tw/');
+assert.equal(admin.deployment, 'live');
+assert.equal(admin.requiresLogin, true);
+const main = projectRecords.find((p) => p.slug === 'main-site-components');
+assert.equal(main.liveUrl, 'https://www.1111.com.tw/');
+assert.ok(!projectRecords.some((p) => p.slug === 'recruit-communications'));
+assert.doesNotMatch(JSON.stringify(main), /YAML|WebSocket|Shadow DOM/);
+for (const project of projectRecords) {
+  for (const slug of project.relatedSlugs ?? [])
+    assert.ok(expected.includes(slug));
+}
 console.log(
   'PASS: bilingual schema, exact order, selections, real image signatures, public copy and backend status.',
 );
@@ -169,7 +179,8 @@ if (process.env.PORTFOLIO_URL) {
       );
       assert.ok(!forbidden.test(html), 'No internal copy ' + path);
       assert.ok(
-        !html.includes('chemcareer-2025'),
+        !html.includes('chemcareer-2025') &&
+          !html.includes('recruit-communications'),
         'Removed project absent: ' + path,
       );
       assert.match(response.headers.get('cache-control'), /private/);
@@ -187,9 +198,20 @@ if (process.env.PORTFOLIO_URL) {
   assert.equal(notFound.status, 404);
   const removed = await fetch(base + '/work/chemcareer-2025');
   assert.equal(removed.status, 404);
+  for (const path of [
+    '/work/recruit-communications',
+    '/work/recruit-communications/',
+  ]) {
+    const retired = await fetch(base + path, { redirect: 'manual' });
+    assert.equal(retired.status, 301, 'Retired case uses a permanent redirect');
+    assert.equal(
+      new URL(retired.headers.get('location'), base).pathname,
+      '/work',
+    );
+  }
   const pdf = await fetch(base + '/洪鈺堂.pdf');
   assert.equal(pdf.status, 404);
   console.log(
-    'PASS: 20 production SSR pages, both language cookies, ordered previous/next links, removed project 404 and no public résumé PDF.',
+    `PASS: ${(expected.length + 2) * 2} production SSR pages, both language cookies, ordered previous/next links, retired recruitment case redirects, removed chemical project 404 and no public résumé PDF.`,
   );
 }

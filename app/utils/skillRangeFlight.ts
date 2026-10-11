@@ -142,7 +142,7 @@ export function createSkillFlight(
       ),
     };
     let score = 0;
-    for (const future of [0, 3]) {
+    for (const future of [0, 0.4, 0.9]) {
       const a = rect(candidate, future);
       for (const other of others) {
         if (other.recycling || other.age + future >= other.duration) continue;

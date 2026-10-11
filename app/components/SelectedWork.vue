@@ -110,12 +110,17 @@ const activeIndex = computed(
               target="_blank"
               rel="noopener noreferrer"
               :aria-label="
-                project.title + ' — ' + t.ui.live + ' (' + t.ui.newTab + ')'
+                project.title +
+                ' — ' +
+                (project.liveLabel || t.ui.live) +
+                ' (' +
+                t.ui.newTab +
+                ')'
               "
-              >{{ t.ui.live }}<UiIcon name="external"
+              >{{ project.liveLabel || t.ui.live }}<UiIcon name="external"
             /></a>
             <span v-if="project.requiresLogin" class="index-login">{{
-              t.ui.login
+              project.loginLabel || t.ui.login
             }}</span>
           </div>
         </li>

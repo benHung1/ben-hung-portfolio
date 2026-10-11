@@ -8,6 +8,7 @@ import {
 import {
   skillRangeConfig as config,
   nextSpawnGap,
+  spawnWaitCeiling,
   randomFlightSpeed,
   shuffled,
   type FlightSpeed,
@@ -198,10 +199,16 @@ export function createSkillRangeMotion(
     // Existing targets consume the elapsed frame before newly born cards.
     paint(delta);
     if (waiting.length) {
-      const playable = [...flights.entries()].some(
-        ([id, flight]) => !flight.recycling && !pending.has(id),
+      const playable = [...flights.entries()].filter(
+        ([id, flight]) =>
+          !flight.recycling &&
+          !pending.has(id) &&
+          flight.duration - flight.age > config.fadeOut,
+      ).length;
+      spawnWait = Math.min(
+        spawnWait,
+        spawnWaitCeiling(width, playable, remaining()),
       );
-      if (!playable) spawnWait = Math.min(spawnWait, config.spawn.emptyMax);
       if (spawnWait <= 0) {
         launch(waiting[0]!);
         paint();

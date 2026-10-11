@@ -91,34 +91,51 @@ html[data-page-loading] {
   border: 3px solid var(--intro-ink);
   border-radius: 20%;
   transform: translate(var(--x), var(--y));
-  animation: intro-geometry-cycle 1s cubic-bezier(.45, 0, .25, 1) infinite;
+  animation: intro-geometry-cycle 1s cubic-bezier(0.45, 0, 0.25, 1) infinite;
 }
 .intro-shape:nth-child(2) {
-  --x: 0px; --y: 0px; --turn: 2deg;
+  --x: 0px;
+  --y: 0px;
+  --turn: 2deg;
   background: color-mix(in srgb, var(--intro-ink) 24%, var(--intro-surface));
-  animation-delay: -.09s;
+  animation-delay: -0.09s;
 }
 .intro-shape:nth-child(3) {
-  --x: 24px; --y: 18px; --turn: 22deg;
+  --x: 24px;
+  --y: 18px;
+  --turn: 22deg;
   background: var(--intro-ink);
-  animation-delay: -.18s;
+  animation-delay: -0.18s;
 }
 .intro-word {
   text-align: center;
   font: 12px var(--mono);
-  letter-spacing: .25em;
-  padding-left: .25em;
+  letter-spacing: 0.25em;
+  padding-left: 0.25em;
 }
 @keyframes intro-geometry-cycle {
-  0%, 100% { transform: translate(var(--x), var(--y)) rotate(var(--turn)); }
-  30% { transform: translate(calc(var(--x) * -1), calc(var(--y) * .65)) rotate(calc(var(--turn) + 65deg)) scale(.85); }
-  62% { transform: translate(calc(var(--x) * .25), calc(var(--y) * .25)) rotate(90deg) scale(.92); }
-  80% { transform: translate(calc(var(--x) * .65), calc(var(--y) * .65)) rotate(0deg); }
+  0%,
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(var(--turn));
+  }
+  30% {
+    transform: translate(calc(var(--x) * -1), calc(var(--y) * 0.65))
+      rotate(calc(var(--turn) + 65deg)) scale(0.85);
+  }
+  62% {
+    transform: translate(calc(var(--x) * 0.25), calc(var(--y) * 0.25))
+      rotate(90deg) scale(0.92);
+  }
+  80% {
+    transform: translate(calc(var(--x) * 0.65), calc(var(--y) * 0.65))
+      rotate(0deg);
+  }
 }
 .route-intro.is-leaving .intro-shape {
   animation: none;
-  transform: translate(calc(var(--x) * .28), calc(var(--y) * .28)) rotate(0deg) scale(.92);
-  transition: transform .1s ease-out;
+  transform: translate(calc(var(--x) * 0.28), calc(var(--y) * 0.28))
+    rotate(0deg) scale(0.92);
+  transition: transform 0.1s ease-out;
 }
 html[data-page-loading] .route-intro {
   display: grid;
@@ -129,7 +146,7 @@ html[data-page-loading] .site-content .has-entered {
   animation-play-state: paused;
 }
 .route-intro.is-leaving {
-  animation: route-mask-exit .12s .1s cubic-bezier(0.7, 0, 0.3, 1) both;
+  animation: route-mask-exit 0.12s 0.1s cubic-bezier(0.7, 0, 0.3, 1) both;
 }
 .intro-progress {
   display: flex;
@@ -200,6 +217,37 @@ html[data-page-loading] .site-content .has-entered {
 }
 [data-theme='dark'] .inner-page-art {
   color: color-mix(in srgb, var(--blue) 17%, transparent);
+}
+/* Case copy needs a quieter backdrop than the browsing page. GSAP owns transforms only. */
+.case-page .inner-page-art {
+  color: color-mix(in srgb, var(--blue) 4%, transparent);
+}
+[data-theme='dark'] .case-page .inner-page-art {
+  color: color-mix(in srgb, var(--blue) 6%, transparent);
+}
+.case-page .inner-orbit {
+  border-color: color-mix(in srgb, var(--blue) 10%, transparent);
+}
+.case-page .inner-page-art > b {
+  opacity: 0.12;
+}
+.case-related {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.cover-context {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  max-width: calc(100% - 28px);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 0 1px 6px #0002;
+  pointer-events: none;
 }
 .inner-title-mask {
   display: block;
@@ -317,7 +365,9 @@ html[data-page-loading] .site-content .has-entered {
 
 @media (max-width: 767px) {
   .site-content:has(.portfolio-stage) .site-header.shell,
-  .site-content:has(.portfolio-stage) .site-footer.shell { width: calc(100% - 44px); }
+  .site-content:has(.portfolio-stage) .site-footer.shell {
+    width: calc(100% - 44px);
+  }
   .portfolio-stage > .shell {
     padding-inline: 22px;
   }
