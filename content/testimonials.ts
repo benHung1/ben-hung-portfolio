@@ -77,9 +77,9 @@ export const testimonialRecords: TestimonialRecord[] = [
     companyGroup: 'foxconn',
     relationship: { zh: '駐點合作', en: 'On-site collaboration' },
     quoteZh:
-      'Ben 對公司自有框架的上手速度很快，能迅速理解既有開發方式並投入專案。開始駐點後，他也主動分享自己使用 AI Agent 與 Skills 的經驗，樂於與團隊交流開發方法。',
+      'Ben 能快速掌握公司自有框架，理解既有開發方式並投入專案。駐點期間，他主動分享 AI Agent 與 Skills 的使用經驗，也積極回報開發進度，讓團隊清楚掌握專案狀況，協助開發工作依預定時程推進。',
     quoteEn:
-      'Ben gets up to speed with the company’s in-house framework quickly, understands the existing development approach and starts contributing to projects. After joining the on-site team, he also shared his experience with AI agents and Skills, and was happy to exchange development practices with the team.',
+      'Ben quickly gets up to speed with the company’s in-house framework and existing development practices, enabling him to contribute to projects promptly. During his on-site assignment, he proactively shares his experience with AI agents and Skills and keeps the team informed of development progress, helping everyone maintain a clear view of project status and keep the work on schedule.',
     avatar: { kind: 'illustration', src: '/avatars/ricky.svg' },
     source: {
       kind: 'draft',
