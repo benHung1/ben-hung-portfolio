@@ -113,6 +113,10 @@ useSeoMeta({
           <h2>{{ t.ui.audience }}</h2>
           <p>{{ project.audience }}</p>
         </section>
+        <section v-if="project.challenge">
+          <h2>{{ t.ui.challenge }}</h2>
+          <p>{{ project.challenge }}</p>
+        </section>
         <section>
           <h2>{{ t.ui.contributions }}</h2>
           <ul>
@@ -136,6 +140,14 @@ useSeoMeta({
             <h3>{{ item.title }}</h3>
             <p>{{ item.description }}</p>
           </div>
+        </section>
+        <section v-if="project.stateBoundaries">
+          <h2>{{ project.stateBoundaries.title }}</h2>
+          <CaseStateBoundaries :diagram="project.stateBoundaries" />
+        </section>
+        <section v-if="project.engineeringValue">
+          <h2>{{ t.ui.engineeringValue }}</h2>
+          <p>{{ project.engineeringValue }}</p>
         </section>
         <section v-if="project.outcomes?.length">
           <h2>{{ t.ui.outcomes }}</h2>
