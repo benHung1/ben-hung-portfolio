@@ -306,6 +306,16 @@ html[data-page-loading] .site-content .has-entered {
   min-height: 0;
   aspect-ratio: 16 / 9;
 }
+.case-cover-motion > .project-cover.text-cover {
+  aspect-ratio: auto;
+  min-height: 0;
+  padding: clamp(24px, 3vw, 44px);
+  gap: 18px;
+}
+.case-cover-motion > .text-cover strong {
+  max-width: min(88%, 28ch);
+  font-size: clamp(25px, 2.8vw, 42px);
+}
 .case-story > section {
   position: relative;
 }

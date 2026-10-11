@@ -230,14 +230,9 @@ assert.match(
   voting.content.en.contributions.join(' '),
   /architecture.*interfaces.*API integration/,
 );
-assert.ok(
-  projectRecords
-    .filter(
-      (entry) =>
-        !['voting-system', 'main-site-components'].includes(entry.slug),
-    )
-    .every((entry) => /YAML/.test(JSON.stringify(entry.content))),
-);
+// No case currently has evidence for a specific YAML responsibility.
+// Keep the editorial questions private instead of repeating a generic claim.
+assert.doesNotMatch(JSON.stringify(projectRecords), /YAML/i);
 // Exercise both reduced-motion paths and owned-resource disposal.
 for (const [systemReduced, manualReduced] of [
   [false, false],

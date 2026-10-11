@@ -138,23 +138,26 @@ export function createInnerPageMotion(
             {
               yPercent: 0,
               rotation: 0,
-              duration: 0.65,
-              stagger: 0.085,
+              duration: kind === 'case' ? 0.38 : 0.65,
+              stagger: kind === 'case' ? 0.04 : 0.085,
               ease: 'power3.out',
               clearProps: 'transform',
             },
           )
           .fromTo(
             all('.inner-lead'),
-            { y: 20, opacity: 0.25 },
+            {
+              y: kind === 'case' ? 10 : 20,
+              opacity: kind === 'case' ? 0.7 : 0.25,
+            },
             {
               y: 0,
               opacity: 1,
-              duration: 0.45,
-              stagger: 0.07,
+              duration: kind === 'case' ? 0.3 : 0.45,
+              stagger: kind === 'case' ? 0.04 : 0.07,
               clearProps: 'transform,opacity',
             },
-            0.16,
+            kind === 'case' ? 0 : 0.16,
           );
       }
       if (kind === 'case') {
@@ -182,8 +185,8 @@ export function createInnerPageMotion(
             { clipPath: 'inset(0 0 15% 0 round 28px)' },
             {
               clipPath: 'inset(0 0 0% 0 round 28px)',
-              duration: 0.8,
-              delay: 0.24,
+              duration: 0.42,
+              delay: 0.04,
               clearProps: 'clipPath',
             },
           );
