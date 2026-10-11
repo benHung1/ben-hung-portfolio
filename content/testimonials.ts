@@ -1,6 +1,7 @@
 import type { TestimonialRecord } from '../app/types/testimonials';
 
-// All six edited quotations await approval of name, title and wording.
+// Ben confirmed all six names, titles and bilingual quotations for publication
+// on 2026-10-11. Source notes describe the editorial origin, not a public label.
 // Imported only by the build-time module, never by application components.
 export const testimonialRecords: TestimonialRecord[] = [
   {
@@ -18,11 +19,11 @@ export const testimonialRecords: TestimonialRecord[] = [
       kind: 'adapted',
       url: 'https://portfolio-6xd.pages.dev/',
       note: {
-        zh: '依舊作品集正面內容節錄、潤飾；本版稱呼與文字待本人確認。',
-        en: 'Adapted from positive feedback in the previous portfolio; the name, title and edited wording await the author’s confirmation.',
+        zh: '依舊作品集正面內容節錄、潤飾；Ben 於 2026-10-11 確認姓名、職稱及中英文評語可公開。',
+        en: 'Adapted from positive feedback in the previous portfolio. Ben confirmed the name, title and bilingual wording for publication on 2026-10-11.',
       },
     },
-    approvedForPublic: false,
+    approvedForPublic: true,
     order: 40,
   },
   {
@@ -40,11 +41,11 @@ export const testimonialRecords: TestimonialRecord[] = [
       kind: 'adapted',
       url: 'https://portfolio-6xd.pages.dev/',
       note: {
-        zh: '依舊作品集正面內容節錄、潤飾；本版稱呼與文字待本人確認。',
-        en: 'Adapted from positive feedback in the previous portfolio; the name, title and edited wording await the author’s confirmation.',
+        zh: '依舊作品集正面內容節錄、潤飾；Ben 於 2026-10-11 確認姓名、職稱及中英文評語可公開。',
+        en: 'Adapted from positive feedback in the previous portfolio. Ben confirmed the name, title and bilingual wording for publication on 2026-10-11.',
       },
     },
-    approvedForPublic: false,
+    approvedForPublic: true,
     order: 50,
   },
   {
@@ -62,11 +63,11 @@ export const testimonialRecords: TestimonialRecord[] = [
       kind: 'adapted',
       url: 'https://portfolio-6xd.pages.dev/',
       note: {
-        zh: '舊站僅標示 member，不另指定職稱；本版稱呼與文字待本人確認。',
-        en: 'The previous site lists “member” only, so no additional job title is assigned. The edited wording awaits confirmation.',
+        zh: '舊站僅標示 member，不另指定職稱；Ben 於 2026-10-11 確認姓名、顯示身分及中英文評語可公開。',
+        en: 'The previous site lists “member” only, so no additional job title is assigned. Ben confirmed the name, displayed relationship and bilingual wording for publication on 2026-10-11.',
       },
     },
-    approvedForPublic: false,
+    approvedForPublic: true,
     order: 60,
   },
   {
@@ -83,11 +84,11 @@ export const testimonialRecords: TestimonialRecord[] = [
     source: {
       kind: 'draft',
       note: {
-        zh: '依 Ben 提供方向代擬，並非已取得的逐字推薦；姓名、職稱及全文待本人確認。',
-        en: 'Drafted from Ben’s input, not a verbatim endorsement. Name, title and full wording await the author’s confirmation.',
+        zh: '原文依 Ben 提供方向代擬，非逐字引述；Ben 於 2026-10-11 確認姓名、職稱及中英文評語可公開。',
+        en: 'Originally drafted from Ben’s input rather than a verbatim quotation. Ben confirmed the name, title and bilingual wording for publication on 2026-10-11.',
       },
     },
-    approvedForPublic: false,
+    approvedForPublic: true,
     order: 10,
   },
   {
@@ -104,11 +105,11 @@ export const testimonialRecords: TestimonialRecord[] = [
     source: {
       kind: 'draft',
       note: {
-        zh: '依 Ben 提供方向代擬；保留 Angles 拼法，公開前須由本人確認顯示名稱、職稱及全文。',
-        en: 'Drafted from Ben’s input. The spelling “Angles” is preserved; the display name, title and full wording require confirmation before publication.',
+        zh: '原文依 Ben 提供方向代擬，保留 Angles 拼法；Ben 於 2026-10-11 確認姓名、職稱及中英文評語可公開。',
+        en: 'Originally drafted from Ben’s input, preserving the spelling “Angles”. Ben confirmed the display name, title and bilingual wording for publication on 2026-10-11.',
       },
     },
-    approvedForPublic: false,
+    approvedForPublic: true,
     order: 20,
   },
   {
@@ -125,11 +126,11 @@ export const testimonialRecords: TestimonialRecord[] = [
     source: {
       kind: 'draft',
       note: {
-        zh: '目前僅確認前後端合作方向；此具體敘述、姓名與職稱均須由本人確認。',
-        en: 'Only the general frontend–backend collaboration context is confirmed. The specific wording, name and title require the author’s approval.',
+        zh: '原文依前後端合作方向代擬；Ben 於 2026-10-11 確認姓名、職稱及中英文評語可公開。',
+        en: 'Originally drafted from the frontend–backend collaboration context. Ben confirmed the name, title and bilingual wording for publication on 2026-10-11.',
       },
     },
-    approvedForPublic: false,
+    approvedForPublic: true,
     order: 30,
   },
 ];

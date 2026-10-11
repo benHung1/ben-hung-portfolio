@@ -38,7 +38,11 @@ assert.equal(
   testimonialRecords.filter((entry) => entry.companyGroup === 'foxconn').length,
   3,
 );
-assert.ok(testimonialRecords.every((entry) => !entry.approvedForPublic));
+assert.ok(testimonialRecords.every((entry) => typeof entry.approvedForPublic === 'boolean'));
+const unapprovedFixture = testimonialRecords.map((entry) => ({
+  ...entry,
+  approvedForPublic: false,
+}));
 for (const entry of testimonialRecords) {
   assert.match(entry.quoteEn, /Ben/);
   assert.doesNotMatch(entry.quoteEn, /阿班/);
@@ -57,12 +61,12 @@ assert.equal(
   'Angles',
 );
 assert.equal(
-  prepareTestimonials(testimonialRecords, false, true).entries.length,
+  prepareTestimonials(unapprovedFixture, false, true).entries.length,
   0,
   'Preview flag must not expose drafts in a production build',
 );
 assert.equal(
-  prepareTestimonials(testimonialRecords, true, false).entries.length,
+  prepareTestimonials(unapprovedFixture, true, false).entries.length,
   0,
 );
 const approvedFixture = testimonialRecords.map((entry) => ({
@@ -79,7 +83,7 @@ assert.ok(
     !('approvedForPublic' in released.entries[0]),
 );
 const review = prepareTestimonials(
-  [...testimonialRecords].reverse(),
+  [...unapprovedFixture].reverse(),
   true,
   true,
 );
@@ -92,6 +96,14 @@ assert.ok(
     (entry) => entry.review && !entry.review.approvedForPublic,
   ),
 );
+const publicEntries = prepareTestimonials(testimonialRecords, false, false).entries;
+assert.deepEqual(
+  Array.from(publicEntries, (entry) => entry.id),
+  Array.from(testimonialRecords.filter((entry) => entry.approvedForPublic)
+    .sort((a, b) => a.order - b.order), (entry) => entry.id),
+  'Public output must include every approved record in its display order',
+);
+assert.ok(publicEntries.every((entry) => !('source' in entry) && !('review' in entry)));
 
 // Run the component's actual setup handlers with Vue refs, without mounting a browser.
 // This exercises touch/pen gestures independently of a desktop-only browser driver.
