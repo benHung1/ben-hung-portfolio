@@ -59,13 +59,20 @@
 html {
   scrollbar-gutter: stable;
 }
-html[data-page-loading] {
-  overflow-y: hidden;
-}
 .brand-intro.route-intro {
   --intro-surface: #f6f4ed;
   --intro-ink: #294bff;
-  display: none;
+  display: grid;
+  grid-template-columns: 46px auto;
+  align-items: center;
+  place-content: initial;
+  gap: 2px 12px;
+  inset: auto 20px 20px auto;
+  max-width: calc(100vw - 40px);
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  pointer-events: none;
   animation: none;
   z-index: 1000;
   background: var(--intro-surface);
@@ -78,17 +85,18 @@ html[data-page-loading] {
 .intro-geometry {
   position: relative;
   justify-self: center;
-  width: clamp(160px, 28vw, 210px);
+  grid-row: span 2;
+  width: 46px;
   aspect-ratio: 1;
-  margin-bottom: 28px;
+  margin: 0;
 }
 .intro-shape {
-  --x: -24px;
-  --y: -18px;
+  --x: -8px;
+  --y: -6px;
   --turn: -18deg;
   position: absolute;
   inset: 25%;
-  border: 3px solid var(--intro-ink);
+  border: 2px solid var(--intro-ink);
   border-radius: 20%;
   transform: translate(var(--x), var(--y));
   animation: intro-geometry-cycle 1s cubic-bezier(0.45, 0, 0.25, 1) infinite;
@@ -101,14 +109,14 @@ html[data-page-loading] {
   animation-delay: -0.09s;
 }
 .intro-shape:nth-child(3) {
-  --x: 24px;
-  --y: 18px;
+  --x: 8px;
+  --y: 6px;
   --turn: 22deg;
   background: var(--intro-ink);
   animation-delay: -0.18s;
 }
 .intro-word {
-  text-align: center;
+  text-align: left;
   font: 12px var(--mono);
   letter-spacing: 0.25em;
   padding-left: 0.25em;
@@ -137,41 +145,23 @@ html[data-page-loading] {
     rotate(0deg) scale(0.92);
   transition: transform 0.1s ease-out;
 }
-html[data-page-loading] .route-intro {
-  display: grid;
-}
 html[data-page-loading] .site-content .line-reveal,
 html[data-page-loading] .site-content .title-reveal,
 html[data-page-loading] .site-content .has-entered {
   animation-play-state: paused;
 }
 .route-intro.is-leaving {
-  animation: route-mask-exit 0.12s 0.1s cubic-bezier(0.7, 0, 0.3, 1) both;
-}
-.intro-progress {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 28px;
-  font-family: var(--mono);
-  font-variant-numeric: tabular-nums;
-}
-.intro-progress > span {
-  font-size: clamp(38px, 5vw, 64px);
-  min-width: 3ch;
-}
-.intro-progress > small {
-  font-size: 14px;
-  opacity: 0.75;
+  animation: route-status-exit 0.14s ease-out both;
 }
 .route-intro .intro-caption {
-  margin-top: 12px;
-  letter-spacing: 0.08em;
+  margin: 0;
+  text-align: left;
+  letter-spacing: 0;
 }
-@keyframes route-mask-exit {
+@keyframes route-status-exit {
   to {
-    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+    transform: translateY(4px);
   }
 }
 
@@ -389,14 +379,8 @@ html[data-page-loading] .site-content .has-entered {
   .case-cover-motion > .project-cover {
     min-height: 250px;
   }
-  .intro-progress {
-    margin-top: 24px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
-  html[data-page-loading] .route-intro {
-    display: grid;
-  }
   .route-intro,
   .route-intro *,
   .project-filter-move,

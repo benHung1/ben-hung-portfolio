@@ -426,7 +426,7 @@ main:focus {
     display: none;
   }
   .hero h1 {
-    font-size: clamp(3.5rem, 13.3vw, 6.4rem);
+    font-size: clamp(2.75rem, 13.3vw, 6.4rem);
     margin: 23px 0 30px;
     letter-spacing: -0.08em;
   }
@@ -1705,6 +1705,10 @@ main:focus {
   .work-intro h1 {
     font-size: 3.75rem;
     margin: 28px 0;
+  }
+  html[lang='en'] .work-intro h1 {
+    font-size: clamp(2.5rem, 11vw, 3.75rem);
+    overflow-wrap: anywhere;
   }
   .work-intro-bottom {
     display: block;

@@ -64,7 +64,7 @@ export const messages = {
       eyebrow: '前端工程師 / 台灣',
       subtitle: ['清楚的介面。', '持續演進的系統。'],
       intro:
-        '我是 Ben，開發使用者端網站與企業管理後台。從專案起建、套件配置到前端架構與組件設計，建立團隊共同開發的基礎。',
+        '我是 Ben，以 Vue／Nuxt 開發網站。親自設計跨活動網站的 Web Components 整合與 Pinia 搜尋狀態架構，也負責 Vue 3／Naive UI 管理後台重構。',
       collaboration:
         '依功能安排團隊分工，與後端協作資料串接，並持續溝通開發進度。',
       explore: '探索作品',
@@ -220,7 +220,7 @@ export const messages = {
       eyebrow: 'FRONTEND ENGINEER / TAIWAN',
       subtitle: ['Interfaces with clarity.', 'Systems built to evolve.'],
       intro:
-        'I’m Ben, a frontend engineer building user-facing websites and business applications. From project setup and package configuration to architecture and component design, I establish foundations for collaborative development.',
+        'I build websites with Vue and Nuxt. My work includes shared Web Components across campaign sites, Pinia search-state architecture, and Vue 3 / Naive UI admin refactoring.',
       collaboration:
         'I allocate feature work, collaborate with backend engineers on integration, and communicate development progress.',
       explore: 'Explore work',

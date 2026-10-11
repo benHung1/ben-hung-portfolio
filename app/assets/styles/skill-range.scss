@@ -477,7 +477,7 @@
   .range-hud {
     inset: 20px 16px auto;
     align-items: start;
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.03em;
   }
   .range-hud > span {
@@ -489,7 +489,7 @@
   }
   .range-hud output {
     padding: 9px 10px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .range-target-track {
     width: 174px;
@@ -505,7 +505,8 @@
     gap: 7px;
   }
   .range-controls button {
-    font-size: 11px;
+    font-size: 13px;
+    min-height: 44px;
     padding: 9px 12px;
   }
   .range-collection {

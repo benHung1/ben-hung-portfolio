@@ -141,6 +141,10 @@ useSeoMeta({
             <p>{{ item.description }}</p>
           </div>
         </section>
+        <section v-if="project.decisionFlow">
+          <h2>{{ project.decisionFlow.title }}</h2>
+          <CaseDecisionFlow :flow="project.decisionFlow" />
+        </section>
         <section v-if="project.stateBoundaries">
           <h2>{{ project.stateBoundaries.title }}</h2>
           <CaseStateBoundaries :diagram="project.stateBoundaries" />

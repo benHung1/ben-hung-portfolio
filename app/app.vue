@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const { t } = usePortfolio();
 const { manualStatic } = useMotionPreference();
-const preparation = usePagePreparation();
 useHead(() => ({
   htmlAttrs: {
     lang: t.value.locale,
@@ -19,7 +18,7 @@ useSeoMeta({
   <div>
     <BrandCursor />
     <BrandIntro />
-    <div class="site-content" :inert="preparation.active || undefined">
+    <div class="site-content">
       <a class="skip-link" href="#main-content">{{ t.ui.skip }}</a
       ><NuxtRouteAnnouncer /><SiteHeader /><NuxtPage /><SiteFooter />
     </div>

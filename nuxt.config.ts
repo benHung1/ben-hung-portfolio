@@ -38,7 +38,7 @@ export default defineNuxtConfig({
           key: 'page-preparation-init',
           tagPosition: 'head',
           innerHTML:
-            "(()=>{const h=document.documentElement;h.dataset.pageLoading='preparing';setTimeout(()=>{if(h.dataset.preparationRun)return;delete h.dataset.pageLoading;document.querySelector('.site-content')?.removeAttribute('inert')},5000)})()",
+            "(()=>{const h=document.documentElement;setTimeout(()=>{if(h.dataset.preparationRun)return;delete h.dataset.pageLoading;document.querySelector('.site-content')?.removeAttribute('inert')},5000)})()",
         },
         {
           key: 'theme-init',

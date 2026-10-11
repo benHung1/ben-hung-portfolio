@@ -16,14 +16,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     if (state.value.active) html.dataset.pageLoading = state.value.phase;
     else delete html.dataset.pageLoading;
     html.dataset.preparationRun = String(state.value.run);
-    html.dataset.preparationProgress = String(state.value.progress);
   };
   const control = createPagePreparation(
     state.value,
     {
-      now: () => performance.now(),
-      frame: (callback) => requestAnimationFrame(callback),
-      cancelFrame: (id) => cancelAnimationFrame(id),
       timeout: (callback, delay) => setTimeout(callback, delay),
       clearTimeout: (id) => clearTimeout(id),
     },

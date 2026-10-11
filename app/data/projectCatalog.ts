@@ -11,6 +11,12 @@ export interface IntegrationDiagram {
   caption: string;
 }
 export interface ProjectCopy {
+  decisionFlow?: {
+    title: string;
+    steps: { title: string; detail: string }[];
+    caption: string;
+  };
+
   integrationDiagram?: IntegrationDiagram;
   stateBoundaries?: {
     title: string;
@@ -83,7 +89,7 @@ export const projectRecords: ProjectRecord[] = [
         company: '1111 人力銀行',
         role: 'Web Components 架構設計、實作與跨網站整合',
         summary:
-          '主導主站 AI 小精靈、履歷匯入與篩選清單的 Web Components 封裝及活動網站接入，親自設計並實作共用元件與跨站整合架構。',
+          '親自設計並實作 AI 小精靈、履歷匯入與篩選清單的 Web Components 封裝，將主站功能接入不同活動網站。',
         background:
           '1111 的活動網站面向不同主題與使用情境，需要接入主站既有服務。這項工作將共通功能整理為可跨網站使用的前端元件。',
         contributions: [
@@ -93,14 +99,14 @@ export const projectRecords: ProjectRecord[] = [
           '協助組員釐清 props 傳遞、Web Components 的內容對應與接入方式，排查整合時的程式碼問題。',
         implementation: [
           {
-            title: '分開共用功能與活動頁面邏輯',
+            title: '把 props 與元件內容的對應納入接入設計',
             description:
-              '把 AI 小精靈、履歷匯入、篩選清單等可重用的介面能力封裝在共用元件中，讓活動頁面負責自身流程與元件接入，避免每個活動專案各自維護一份主站功能。',
+              '我的整合工作不只把元件放進頁面，也包含設計外部設定如何傳入、對應到元件內容，以及互動結果如何交回活動頁。協助組員排查時，會從 props 的來源及內容對應確認問題，區分宿主頁的接入工作與元件內的功能。',
           },
           {
-            title: '規劃一致的接入契約',
+            title: '共用功能集中，活動流程留在宿主頁',
             description:
-              '設計外部設定傳入、互動結果回傳與元件掛載流程，讓不同活動網站依同一組責任邊界使用既有功能。整合時釐清活動頁面提供什麼內容，以及元件完成互動後需要把什麼結果交回頁面。',
+              'AI 小精靈、履歷匯入與篩選清單由共用元件提供；各活動頁組織自己的內容與操作流程。這個選擇減少功能複製，但也要求元件的輸入與回傳責任清楚，不能讓活動頁依賴元件內部的畫面組織。',
           },
         ],
         integrationDiagram: {
@@ -120,16 +126,35 @@ export const projectRecords: ProjectRecord[] = [
         relatedNote:
           '專案初始化、架構基底與模板規劃，見「活動模板與共用元件」。',
         challenge:
-          '主站功能需要接入多個活動網站，各專案的元件架構、樣式與生命週期不完全一致。直接複製功能會增加重複維護及整合衝突的風險。',
-        engineeringValue:
-          '以降低活動專案對主站內部實作的耦合為目標，將共用功能集中維護，減少跨專案重複開發與同步修改的需求。',
+          '同一項主站功能要接入不同活動專案。我選擇維護共用 Web Component，讓各活動頁負責接入與自身流程，而不是各複製一份功能。',
+        decisionFlow: {
+          title: '篩選清單的接入責任',
+          steps: [
+            {
+              title: '活動頁 → 設定與內容',
+              detail:
+                '宿主頁提供元件要使用的設定與內容，處理 props 的傳入及對應。',
+            },
+            {
+              title: '共用元件 → 篩選互動',
+              detail:
+                'Web Component 承擔篩選清單的介面與互動，將互動結果交回接入端。',
+            },
+            {
+              title: '活動頁 → 後續流程',
+              detail:
+                '宿主頁接回結果，銜接自己的活動流程；共用元件不接管整個網站。',
+            },
+          ],
+          caption: '篩選清單接入示意；呈現資料往返與分工，不代表特定事件 API。',
+        },
       },
       en: {
-        title: '1111 Main Site × Campaign Sites｜Shared Web Components',
+        title: '1111 Main Site × Campaign Sites — Shared Web Components',
         company: '1111 Job Bank',
         role: 'Web Components architecture, implementation & cross-site integration',
         summary:
-          'Led Web Components packaging and campaign-site integration for the main site’s AI assistant, résumé import, and filter lists, personally designing and implementing the shared-component and cross-site architecture.',
+          'Personally designed and implemented Web Components for the AI assistant, résumé import, and filter lists, integrating main-site functionality into different campaign sites.',
         background:
           '1111 campaign sites serve different topics and audiences while drawing on existing main-site services. This work packaged shared functionality as frontend components for use across those sites.',
         contributions: [
@@ -139,14 +164,14 @@ export const projectRecords: ProjectRecord[] = [
           'Helped teammates troubleshoot integration issues and clarify prop passing and content mapping when using shared Web Components.',
         implementation: [
           {
-            title: 'Separate shared functionality from campaign-page logic',
+            title: 'Make prop-to-content mapping part of integration',
             description:
-              'Encapsulated reusable interfaces for AI assistance, résumé import, and filter lists in shared components. Campaign pages handle their own flows and component integration, avoiding a separate copy of main-site functionality in every project.',
+              'My work covered how external configuration reaches component content and how interaction results return to the campaign page. When helping teammates troubleshoot, I traced prop sources and content mapping to distinguish host-page integration from the component’s own functionality.',
           },
           {
-            title: 'Define a consistent integration contract',
+            title: 'Share the feature; keep the campaign flow in the host',
             description:
-              'Designed configuration inputs, interaction-result outputs, and component mounting flows so campaign sites could use existing features through consistent responsibility boundaries. Integration work clarified what a campaign page provides and what results the component returns after an interaction.',
+              'Shared components provide AI assistance, résumé import, and filtering, while campaign pages organize their own content and flows. This avoids separate copies of features, but requires clear inputs and outputs so host pages do not depend on a component’s internal presentation.',
           },
         ],
         integrationDiagram: {
@@ -167,9 +192,29 @@ export const projectRecords: ProjectRecord[] = [
         relatedNote:
           'For project setup, architectural foundations, and template planning, see “Campaign Templates & Shared Components.”',
         challenge:
-          'Main-site features needed to work across campaign sites with different component structures, styles, and lifecycles. Copying the functionality into each project would increase duplicated maintenance and integration risks.',
-        engineeringValue:
-          'Aim to reduce campaign projects’ coupling to main-site internals by maintaining shared functionality centrally and reducing the need for duplicate development and synchronized changes across projects.',
+          'The same main-site features needed to work across campaign projects. I chose shared Web Components, leaving each host page responsible for integration and its own flow instead of copying the feature into every project.',
+        decisionFlow: {
+          title: 'Filter-list integration responsibilities',
+          steps: [
+            {
+              title: 'Host page → Configuration and content',
+              detail:
+                'The host supplies the component’s configuration and content, handling prop passing and content mapping.',
+            },
+            {
+              title: 'Shared component → Filtering interaction',
+              detail:
+                'The Web Component provides the filter-list interface and interaction, returning the interaction result to its host.',
+            },
+            {
+              title: 'Host page → Campaign flow',
+              detail:
+                'The host uses the result in its own campaign flow; the shared component does not take over the entire site.',
+            },
+          ],
+          caption:
+            'An illustration of filter-list data exchange and responsibilities, not a specific event API.',
+        },
       },
     },
   },
@@ -207,21 +252,19 @@ export const projectRecords: ProjectRecord[] = [
           '重構後的活動管理後台已上線，內部人員與廠商可透過正式入口登入。',
         ],
         challenge:
-          '管理介面需要協調列表、表單、API 回應與操作狀態。頁面展示、共用 UI 與資料串接的責任需要清楚，才能承接不同管理流程。',
+          '重構既有管理介面時，我需要把畫面需求整理成可與後端討論的資料及操作需求，同時決定哪些介面由 Naive UI 提供、哪些流程由頁面承擔。',
         implementation: [
           {
-            title: '管理頁面與共用 UI 的邊界',
+            title: 'Vue 3、Naive UI 與 TypeScript 的分工',
             description:
-              '以 Vue 3 規劃管理功能與頁面元件的拆分，整合 Naive UI 及專案所需套件。依管理頁面的需求組合共用 UI，讓頁面流程與可重用的介面責任分開。',
+              'Vue 3 組織管理頁面與元件，Naive UI 提供管理介面的 UI 基礎，TypeScript 用於前端型別描述。我負責架構與套件整合，將頁面流程接到介面元件上；套件提供 UI，不代替業務流程的設計。',
           },
           {
-            title: '以前端操作需求協調 API',
+            title: '從畫面需求協調 API，而非自行定義後端',
             description:
-              '將畫面需要的資料與操作流程帶入前後端討論，協調 API 規格並完成前端資料串接；開發期間持續回報進度與流程，讓介面工作與後端協作保持銜接。',
+              '我將管理畫面需要呈現的資料與操作需求帶入 API 規格討論，與後端共同確認後，再負責前端串接與畫面實作。伺服器端仍由後端工程師負責；主管透過定期進度與流程彙報掌握開發狀況。',
           },
         ],
-        engineeringValue:
-          '以清楚的功能與元件邊界支撐管理介面開發，讓資料串接與頁面流程的調整有明確的責任範圍。',
       },
       en: {
         title: 'Event Management Console',
@@ -243,21 +286,19 @@ export const projectRecords: ProjectRecord[] = [
           'The refactored event-management console is live, with an official sign-in entry point for internal staff and business partners.',
         ],
         challenge:
-          'Admin interfaces need to coordinate lists, forms, API responses, and interaction state. Presentation, shared UI, and data integration need clear responsibilities to support different management workflows.',
+          'Refactoring the existing console required translating interface needs into data and operation requirements for backend discussions, while deciding what Naive UI should provide and what each page must handle.',
         implementation: [
           {
-            title: 'Define boundaries between admin pages and shared UI',
+            title: 'Distinct roles for Vue 3, Naive UI, and TypeScript',
             description:
-              'Planned management-feature and page-component boundaries in Vue 3, integrating Naive UI and the required packages. Composed shared UI around each admin page’s needs, separating page workflows from reusable interface responsibilities.',
+              'Vue 3 organizes admin pages and components, Naive UI supplies the interface foundation, and TypeScript describes frontend types. I owned the architecture and package integration, connecting page flows to UI components. The library supplies UI building blocks; it does not define the business workflow.',
           },
           {
-            title: 'Coordinate API work around frontend operations',
+            title: 'Coordinate APIs from interface requirements',
             description:
-              'Brought interface data requirements and workflows into frontend/backend discussions, coordinated API specifications, and implemented frontend data integration. Regular progress and process updates kept interface work aligned with backend collaboration.',
+              'I brought the data and operations required by admin screens into API discussions with backend engineers, then implemented the frontend integration and interfaces. They retained server-side responsibility, while regular progress and process updates kept my supervisor informed.',
           },
         ],
-        engineeringValue:
-          'Support admin development with clear feature and component boundaries, giving data integration and page-flow changes a defined scope of responsibility.',
       },
     },
   },
@@ -284,28 +325,19 @@ export const projectRecords: ProjectRecord[] = [
         liveLabel: '前往嚴選職缺',
         role: '前端架構、企業頁元件設計與團隊分工',
         summary:
-          '負責嚴選職缺入口與企業內頁的前端架構，將企業介紹、職缺展示等重複區塊整理為共用元件，與團隊完成不同企業頁的開發。',
+          '負責嚴選職缺入口與企業內頁的前端架構及元件設計，依展示區塊分工，與團隊共同實作。',
         background:
           '嚴選職缺由入口頁匯集企業與工作機會，再由企業內頁呈現公司介紹及職缺。開發範圍同時涵蓋入口與企業頁的組合方式。',
         contributions: [
           '負責入口與企業頁的元件規劃，依展示區塊安排組員分工，並參與實作與整合。',
         ],
-        challenge:
-          '企業頁需要容納不同品牌的內容，又有重複的展示需求。若每頁都各自實作，相同區塊的修改就容易分散到不同頁面。',
         implementation: [
           {
-            title: '以展示責任拆分元件',
+            title: '企業介紹與職缺列表的不同責任',
             description:
-              '將企業介紹與職缺列表分開規劃，把可重複的展示區塊整理成可維護的元件。元件處理自身的展示責任，頁面則負責將不同區塊組合為完整的企業介紹。',
-          },
-          {
-            title: '共用結構，保留企業內容差異',
-            description:
-              '依不同企業的內容需求組合頁面，讓可沿用的展示方式與各企業的內容差異分開處理。團隊以相同的元件邊界分工，整合時檢查入口與企業內頁之間的呈現是否一致。',
+              '以本頁的大苑子企業頁畫面為例：公司介紹承載該企業的品牌內容，職缺列表則呈現工作機會。我的元件規劃把兩種展示責任分開；企業頁組合區塊，共用元件承擔可沿用的展示方式，企業專屬內容留在對應頁面。',
           },
         ],
-        engineeringValue:
-          '讓後續企業頁能沿用一致的開發方式；共通展示需求集中在元件層，企業內容的調整則維持在相應頁面範圍。',
       },
       en: {
         title: 'Curated Opportunities',
@@ -317,28 +349,20 @@ export const projectRecords: ProjectRecord[] = [
         liveLabel: 'Visit Curated Opportunities',
         role: 'Frontend architecture, employer-page components & task allocation',
         summary:
-          'Owned frontend architecture for the Curated Opportunities landing page and employer pages, turning recurring company and job sections into shared components and building employer pages with the team.',
+          'Owned frontend architecture and component design for the Curated Opportunities landing page and employer pages, dividing work by presentation section and building with the team.',
         background:
           'The landing page brings together employers and job opportunities, while individual employer pages present company profiles and openings. My scope covered both the entry point and how employer pages were composed.',
         contributions: [
           'Planned components for the landing page and employer pages, allocated work by presentation section, and contributed to implementation and integration.',
         ],
-        challenge:
-          'Employer pages need to accommodate different brand content while sharing recurring presentation needs. Implementing each page separately would spread changes to the same sections across multiple pages.',
         implementation: [
           {
-            title: 'Separate components by presentation responsibility',
+            title:
+              'Company introductions and job lists serve different purposes',
             description:
-              'Planned company introductions and job lists separately, organizing recurring sections into maintainable components. Each component handles its own presentation responsibility, while the page composes them into a complete employer profile.',
-          },
-          {
-            title: 'Reuse structure while accommodating employer content',
-            description:
-              'Composed pages around each employer’s content needs, separating reusable presentation from company-specific content. The team divided work along the same component boundaries and checked consistency between the landing page and employer pages during integration.',
+              'The Da Yung employer page shown here illustrates the distinction: its introduction carries company-specific brand content, while the job list presents available roles. My component planning separated these responsibilities. Employer pages compose the sections, shared components provide reusable presentation, and company-specific content stays with the relevant page.',
           },
         ],
-        engineeringValue:
-          'Give subsequent employer pages a consistent development approach: shared presentation belongs to components, while company-specific content changes stay within the relevant page.',
       },
     },
   },
@@ -370,22 +394,13 @@ export const projectRecords: ProjectRecord[] = [
         contributions: [
           '規劃重構後的頁面與功能模組邊界，安排組員分工，並共同完成既有介面的重構與整合。',
         ],
-        challenge:
-          '重構既有網站時，使用者熟悉的流程與程式內部結構要分開考量。調整頁面職責與共用邏輯時，仍需維持原本服務的操作脈絡。',
         implementation: [
           {
-            title: '以既有使用流程界定重構範圍',
+            title: '以既有使用流程限制重構範圍',
             description:
-              '先以網站原有的求職資訊與服務流程為基準，整理頁面各自承擔的責任。將使用者的操作流程保留下來，把調整集中在頁面結構與功能組織方式。',
-          },
-          {
-            title: '將可重用功能從頁面中拆出',
-            description:
-              '把可共用的功能模組與頁面組合邏輯分開，讓頁面專注組織內容與流程，共用模組承擔重複互動。團隊依這些責任邊界實作及整合，讓後續維護有較明確的修改範圍。',
+              '重構對象是持續運作的新鮮人求職服務。我的工作保留原有使用流程，重新規劃頁面組合與可重用功能模組，安排組員分工並共同整合。重構重點在程式的組織方式，與另行製作畢業季活動的參與資訊頁不同。',
           },
         ],
-        engineeringValue:
-          '以保留既有流程為前提，建立較清楚的頁面與功能邊界，作為後續維護及服務擴充的基礎。',
       },
       en: {
         title: 'Early Career Hub',
@@ -400,22 +415,13 @@ export const projectRecords: ProjectRecord[] = [
         contributions: [
           'Planned page and feature-module boundaries for the refactor, allocated work, and collaborated on implementation and integration of the existing interfaces.',
         ],
-        challenge:
-          'Refactoring an existing site means treating familiar user journeys and internal code structure separately. Changes to page responsibilities and shared logic still need to preserve the way the service is used.',
         implementation: [
           {
-            title: 'Use existing journeys to define the refactoring scope',
+            title: 'Use the existing user flow to bound the refactor',
             description:
-              'Used the site’s existing career-information and service journeys as the baseline for clarifying page responsibilities. Preserved the user-facing flow while focusing changes on page structure and feature organization.',
-          },
-          {
-            title: 'Separate reusable features from page composition',
-            description:
-              'Separated shared feature modules from page-level composition. Pages organize content and flows; shared modules handle recurring interactions. These boundaries guided team implementation and integration and gave later maintenance a clearer scope.',
+              'The refactor concerned an active early-career service. I preserved its existing user flows, reorganized page composition and reusable feature modules, allocated work, and integrated it with the team. This work focused on code organization, distinct from building the separate graduation campaign’s participation pages.',
           },
         ],
-        engineeringValue:
-          'Establish clearer page and feature boundaries as a foundation for maintenance and service expansion, while retaining existing user journeys.',
       },
     },
   },
@@ -445,18 +451,11 @@ export const projectRecords: ProjectRecord[] = [
         contributions: [
           '規劃參與條件、操作步驟與獎勵說明的前端呈現，並與組員共同實作、整合活動頁面。',
         ],
-        challenge:
-          '參與活動需要先理解會員登入、雙認證、履歷更新與報名的關係。頁面必須說清楚先決條件與下一步，也要讓獎勵資訊容易查閱。',
         implementation: [
           {
-            title: '讓條件與步驟有清楚的順序',
+            title: '先交代前置條件，再銜接報名入口',
             description:
-              '以會員登入、手機／信箱雙認證、更新履歷及報名的參與脈絡規劃頁面，將先決條件放在操作說明中，讓使用者在前往參與入口前能理解需要完成的事項。',
-          },
-          {
-            title: '分開流程說明與獎勵資訊',
-            description:
-              '將參與步驟與獎勵內容視為不同的展示責任，避免把所有規則塞在同一段活動文案中。頁面整合時維持步驟、報名入口與獎勵說明之間清楚的對應。',
+              '頁面依「登入 → 手機與 Email 認證 → 更新履歷 → 報名」呈現參與脈絡；步驟說明承接前置條件與下一步，獎勵資訊另作區塊。我負責這些內容的前端結構、組件規劃與團隊整合，讓報名入口有清楚的上下文。',
           },
         ],
       },
@@ -472,18 +471,11 @@ export const projectRecords: ProjectRecord[] = [
         contributions: [
           'Planned frontend presentation of participation requirements, steps, and reward details, and collaborated on implementing and integrating the campaign pages.',
         ],
-        challenge:
-          'Participants need to understand how sign-in, verification, résumé updates, and registration fit together. The page must explain prerequisites and next steps while keeping reward information easy to consult.',
         implementation: [
           {
-            title: 'Give prerequisites and steps a clear sequence',
+            title: 'Explain prerequisites before the registration entry point',
             description:
-              'Structured the page around sign-in, phone and email verification, résumé updates, and registration. Included prerequisites in the step descriptions so visitors could understand what to complete before following the participation entry point.',
-          },
-          {
-            title: 'Separate participation guidance from reward details',
-            description:
-              'Treated steps and rewards as distinct presentation responsibilities instead of placing every rule in one block of campaign copy. During page integration, kept the relationship between steps, the registration entry point, and reward information clear.',
+              'The page presents participation as sign-in → phone and email verification → résumé update → registration. Step guidance explains prerequisites and what comes next, while rewards occupy a separate section. I owned the frontend structure, component planning, and team integration of this content so the registration entry point had a clear context.',
           },
         ],
       },
@@ -493,7 +485,7 @@ export const projectRecords: ProjectRecord[] = [
     slug: 'campus-recruitment',
     order: 50,
     categories: ['websites'],
-    stack: ['Vue', 'TypeScript'],
+    stack: ['Vue', 'TypeScript', 'Pinia'],
     deployment: 'live',
     requiresLogin: false,
     liveUrl: 'https://www.1111.com.tw/campusr/',
@@ -520,24 +512,19 @@ export const projectRecords: ProjectRecord[] = [
           '多個搜尋入口與產業分類並存，各區塊需要自己的互動狀態，也需要一致的搜尋條件與標籤操作。把 Tab、條件與操作邏輯全部放在單一頁面，會增加跨模組的耦合。',
         implementation: [
           {
-            title: '先依共享範圍決定狀態歸屬',
+            title: '共用的是搜尋條件，不是所有畫面狀態',
             description:
-              '透過 Pinia Store 統一管理需要跨元件共用的搜尋入口與條件；只影響單一模組的互動則留在元件內，避免把所有畫面狀態都集中到全域 Store。',
+              '搜尋入口、分類選擇與條件需要被不同元件讀取，因此由 Pinia 統一管理；只影響單一搜尋模組的互動留在該元件。相比把所有 state 都放進 Store，這個分法讓局部操作不必擴大成跨模組依賴。',
           },
           {
-            title: '分開 Tab 選擇與搜尋條件',
+            title: '標籤移除與清除：狀態和行為分開',
             description:
-              '將入口及分類的選擇狀態，與搜尋條件的管理責任分開規劃。搜尋模組讀取需要的共用狀態，讓切換入口與修改條件有明確的責任範圍，不必各自在頁面重複維護一份。',
+              '不同搜尋模組都需要移除或清除條件標籤。我把重複操作整理進 composable，元件發起操作、共用狀態承載條件，畫面再依條件呈現標籤。這讓每個入口不必各自維護一套清除邏輯。',
           },
           {
-            title: '用 composable 統一標籤操作',
+            title: '由我撰寫實作範例，交付團隊沿用',
             description:
-              '把搜尋標籤的移除與清除等重複互動封裝為 composable，讓不同搜尋模組沿用一致的操作介面。Store 管理共用狀態，composable 整理重複行為，元件負責呈現與使用者操作。',
-          },
-          {
-            title: '以實作範例落實架構',
-            description:
-              '親自撰寫狀態管理範例，將上述分工落實到活動專案的開發方式。組員擴充搜尋入口或操作時，可以沿用既有狀態邊界與共用行為，而不是把新邏輯持續堆進單一頁面。',
+              '我親自設計狀態架構並撰寫操作範例，讓組員依共享範圍選擇 Store 或局部狀態。這裡處理的是同一活動專案內的狀態協作；Web Components 案例則處理不同網站之間的功能接入。',
           },
         ],
         stateBoundaries: {
@@ -559,8 +546,25 @@ export const projectRecords: ProjectRecord[] = [
           caption:
             '責任邊界示意：依共享範圍安排狀態，並將重複行為與畫面呈現分開。',
         },
-        engineeringValue:
-          '讓搜尋入口的擴充與維護落在清楚的模組邊界，降低跨元件修改的連帶影響，也讓團隊能依功能分工。',
+        decisionFlow: {
+          title: '移除搜尋標籤時，誰負責什麼？',
+          steps: [
+            {
+              title: 'Component：使用者操作',
+              detail: '元件呈現目前條件的標籤，接收移除或清除操作。',
+            },
+            {
+              title: 'Composable：共用操作',
+              detail:
+                '由共用行為處理條件變更，避免各入口重複撰寫移除與清除邏輯。',
+            },
+            {
+              title: 'Pinia → Component：狀態反映到畫面',
+              detail: '共用條件更新後，使用該狀態的元件呈現對應標籤。',
+            },
+          ],
+          caption: '搜尋條件與標籤互動示意；對應下方既有的三層責任分工。',
+        },
       },
       en: {
         title: 'Campus Recruitment 2025',
@@ -579,24 +583,19 @@ export const projectRecords: ProjectRecord[] = [
           'Multiple search entry points and industry categories need their own interactions as well as consistent search conditions and tag operations. Concentrating tabs, conditions, and interaction logic in one page would tightly couple the modules.',
         implementation: [
           {
-            title: 'Assign state according to its sharing scope',
+            title: 'Share search conditions, not every piece of UI state',
             description:
-              'Used Pinia stores for search entry points and conditions shared across components. Interactions affecting only one module stay local to that component, rather than putting every piece of UI state into a global store.',
+              'Search entry points, category selection, and conditions are read by multiple components, so Pinia manages them centrally. Interactions affecting only one search module stay local. Compared with placing all state in a store, this keeps local operations from creating cross-module dependencies.',
           },
           {
-            title: 'Separate tab selection from search conditions',
+            title: 'Tag removal and clearing: separate state from behavior',
             description:
-              'Planned selection state for entry points and categories separately from search-condition management. Search modules read the shared state they need, giving entry switching and condition changes clear responsibilities without maintaining duplicate state on each page.',
+              'Different search modules need to remove or clear condition tags. I extracted those recurring operations into a composable: components initiate the action, shared state holds the conditions, and the UI presents tags from those conditions. Each entry point therefore does not need its own clearing logic.',
           },
           {
-            title: 'Use a composable for consistent tag operations',
+            title: 'Implementation examples written for the team',
             description:
-              'Encapsulated recurring search-tag removal and clearing behavior in a composable so different search modules use a consistent interface. Stores hold shared state, composables organize reusable behavior, and components handle presentation and user interaction.',
-          },
-          {
-            title: 'Make the architecture concrete through examples',
-            description:
-              'Wrote state-management implementation examples to put these boundaries into practice in campaign development. Team members extending entry points or interactions could follow the established state boundaries and shared behavior instead of accumulating logic in one page.',
+              'I personally designed the state architecture and wrote usage examples so teammates could choose shared or local state by scope. This case concerns state coordination within one campaign project; the Web Components case concerns feature integration between different websites.',
           },
         ],
         stateBoundaries: {
@@ -621,8 +620,28 @@ export const projectRecords: ProjectRecord[] = [
           caption:
             'Responsibility diagram: assign state by sharing scope, and separate reusable behavior from presentation.',
         },
-        engineeringValue:
-          'Keep search expansion and maintenance within clear module boundaries, limiting the knock-on effects of cross-component changes and supporting feature-based teamwork.',
+        decisionFlow: {
+          title: 'What happens when a search tag is removed?',
+          steps: [
+            {
+              title: 'Component: user action',
+              detail:
+                'The component displays tags for the current conditions and receives a remove or clear action.',
+            },
+            {
+              title: 'Composable: shared operation',
+              detail:
+                'Reusable behavior handles the condition change instead of duplicating removal and clearing logic in every entry point.',
+            },
+            {
+              title: 'Pinia → Component: state reflected in the UI',
+              detail:
+                'Once shared conditions change, components using that state display the corresponding tags.',
+            },
+          ],
+          caption:
+            'An illustration of condition and tag interaction, paired with the responsibility diagram below.',
+        },
       },
     },
   },
@@ -647,18 +666,11 @@ export const projectRecords: ProjectRecord[] = [
         coverNote: '現行 2026 送一萬活動官方視覺；本案例為 2025 專案。',
         role: '獎勵活動資訊架構與前端介面開發',
         summary:
-          '負責 2025 求職獎勵活動的前端架構與組件規劃，與團隊呈現獎勵內容、參與方式及活動介面。',
+          '與團隊製作 2025 求職獎勵活動網站，負責前端架構、組件規劃及功能分工。',
         background:
           '1111 的求職獎勵活動，面向想了解獎勵內容與參與方式的求職者。本人開發範圍為 2025 年活動網站。',
         contributions: [
-          '規劃獎勵內容與參與說明的前端區塊，並與團隊完成活動介面的實作及整合。',
-        ],
-        implementation: [
-          {
-            title: '以獎勵與參與方式組織頁面',
-            description:
-              '這個活動的資訊重點是求職獎勵與參與方式。我將獎勵內容和參與說明作為頁面組件的規劃依據，讓使用者可以先了解活動提供什麼，再查閱如何參與。',
-          },
+          '依獎勵內容與參與說明規劃頁面及組件，安排組員分工，並共同完成介面實作與整合。',
         ],
       },
       en: {
@@ -668,18 +680,11 @@ export const projectRecords: ProjectRecord[] = [
           'Current official visual for the 2026 rewards campaign; this case covers the 2025 project.',
         role: 'Rewards-campaign information architecture & frontend interfaces',
         summary:
-          'Owned frontend architecture and component planning for the 2025 job-search rewards campaign, working with the team on reward information, participation guidance, and campaign interfaces.',
+          'Built the 2025 job-search rewards campaign with the team, owning frontend architecture, component planning, and feature allocation.',
         background:
           'A 1111 campaign for job seekers exploring job-search rewards and how to participate. My development work covered the 2025 campaign site.',
         contributions: [
-          'Planned frontend sections for rewards and participation guidance, and collaborated on implementing and integrating the campaign interfaces.',
-        ],
-        implementation: [
-          {
-            title: 'Organize the page around rewards and participation',
-            description:
-              'The information focus of this campaign is job-search rewards and how to take part. I used reward content and participation guidance as the basis for page-component planning, allowing visitors to understand the offer before consulting how to participate.',
-          },
+          'Planned pages and components around rewards and participation guidance, allocated team responsibilities, and collaborated on interface implementation and integration.',
         ],
       },
     },
@@ -698,7 +703,7 @@ export const projectRecords: ProjectRecord[] = [
         company: '1111 人力銀行',
         role: '前端架構設計、模板與共用元件開發',
         summary:
-          '將活動網站共通的專案結構、初始化方式與組件規劃整理為可重用模板，保留各活動的客製化空間，建立團隊可沿用的工程基礎。',
+          '獨立設計 Nuxt 3 活動模板，將專案起建、套件配置與組件規劃整理為團隊可沿用的開發起點。',
         background:
           '活動網站有不同的介面與功能，但都需要專案起點。本案將專案結構、模板與模組基底整理成團隊可以沿用的開發基礎。',
         contributions: [
@@ -711,30 +716,28 @@ export const projectRecords: ProjectRecord[] = [
           '活動網站的視覺與流程不同，但開案時反覆需要專案結構、基本版型、共用互動與設定。若每次各自搭建，開案與交接方式就容易分散。',
         implementation: [
           {
-            title: '把專案起點整理成團隊規範',
+            title: '起建：先把共通設定準備好',
             description:
-              '整理活動網站共通的前端結構、基本版型與設定，讓新專案能從一致的初始化方式開始。目錄與功能邊界用來交代程式碼各自承擔的責任，讓接手者有共同的理解基礎。',
+              '建立活動專案並安裝、配置所需套件，整理團隊沿用的專案結構及基本版型。模板承接這些開案工作，活動需求再從這個起點往下開發。',
           },
           {
-            title: '區分模板基底與活動客製化',
+            title: '客製化：讓活動內容留在活動範圍',
             description:
-              '將跨活動可沿用的結構與共用組件留在模板基底；不同活動的內容、視覺與流程保留在各自的功能範圍，讓共用基礎不必承擔每一個活動的特殊需求。',
+              '以活動資訊與參與流程為例：模板提供可沿用的結構及組件基底，各活動自己的文字、視覺與步驟由該案實作。相比把所有特殊需求放進共用基底，這個分界保留了活動調整的空間。',
           },
           {
-            title: '區分專案共用與跨站功能接入',
+            title: '分工：以架構與組件規劃拆解工作',
             description:
-              '模板處理活動專案自身如何組織與起建；主站 AI 小精靈、履歷匯入與篩選清單，則由另一套 Web Components 接入工作提供。兩者分別處理專案基礎與跨站功能重用。',
+              '我先完成架構及組件規劃，再依功能安排組員工作。模板回答「活動專案如何起建」；需要主站的 AI 小精靈、履歷匯入或篩選清單時，則是另一套 Web Components 的接入工作。',
           },
         ],
-        engineeringValue:
-          '將單案實作經驗沉澱成可沿用的工程基礎，讓團隊在一致的結構上開發活動需求，兼顧共用規範與客製彈性。',
       },
       en: {
         title: 'Campaign Templates & Shared Components',
         company: '1111 Job Bank',
         role: 'Frontend architecture, templates & shared components',
         summary:
-          'Organized common campaign structure, setup, and component planning into reusable templates, giving the team an engineering foundation while preserving room for campaign-specific work.',
+          'Independently designed Nuxt 3 campaign templates, turning project setup, package configuration, and component planning into a reusable starting point for the team.',
         background:
           'Campaign sites need different interfaces and features, but each needs a starting point. This work organized project structure, templates, and module foundations into a base the team could reuse.',
         contributions: [
@@ -744,29 +747,26 @@ export const projectRecords: ProjectRecord[] = [
           'The team used these templates in collaborative projects as the starting point for feature development.',
         ],
         relatedNote:
-          'See “1111 Main Site × Campaign Sites｜Shared Web Components” for the integration of main-site features across campaign sites.',
+          'See “1111 Main Site × Campaign Sites — Shared Web Components” for the integration of main-site features across campaign sites.',
         challenge:
           'Campaigns differ in design and flow, yet repeatedly need project structure, base layouts, common interactions, and configuration. Rebuilding these separately would fragment setup and handover practices.',
         implementation: [
           {
-            title: 'Turn project setup into a shared development convention',
+            title: 'Setup: prepare the common foundation',
             description:
-              'Organized common frontend structure, base layouts, and configuration so new campaigns could start consistently. Directory and feature boundaries explain code responsibilities and give people taking over the work a shared point of reference.',
+              'Created campaign projects, installed and configured required packages, and organized shared project structure and base layouts. The template captures this setup work so campaign-specific development can start from that foundation.',
           },
           {
-            title:
-              'Separate the template foundation from campaign customization',
+            title: 'Customization: keep campaign content within its own scope',
             description:
-              'Kept reusable structure and components in the template foundation while leaving campaign-specific content, design, and flows within their own feature scope. The shared base does not need to absorb every campaign’s special requirements.',
+              'For campaign information and participation flows, the template supplies reusable structure and component foundations, while each project implements its own copy, design, and steps. Compared with placing every special requirement in the shared base, this boundary preserves room for campaign changes.',
           },
           {
-            title: 'Distinguish project reuse from cross-site integration',
+            title: 'Teamwork: allocate features from the architecture',
             description:
-              'Templates address how a campaign project is organized and initialized. Main-site AI assistance, résumé import, and filter lists are provided through the separate Web Components integration work. The two efforts address project foundations and cross-site feature reuse respectively.',
+              'I planned the architecture and components before allocating feature work to teammates. Templates answer how to start a campaign project. Integrating the main site’s AI assistant, résumé import, or filter lists belongs to the separate Web Components work.',
           },
         ],
-        engineeringValue:
-          'Turn experience from individual campaigns into a reusable engineering foundation, enabling teams to build on a consistent structure while retaining campaign-specific flexibility.',
       },
     },
     relatedSlugs: ['main-site-components'],
@@ -785,13 +785,12 @@ export const projectRecords: ProjectRecord[] = [
         company: '三立電視',
         role: '前端架構設計與開發',
         summary: '與後端工程師合作，從零建立投票系統的使用者端與管理端介面。',
-        background:
-          '在三立電視與一位後端工程師合作建立投票系統，供使用者投票與管理人員操作。雙方共同討論需求與流程，伺服器端由後端工程師負責。',
+        background: '系統分為使用者投票與管理端，兩種角色有各自的操作介面。',
         contributions: [
-          '從零設計投票系統的前端架構。',
-          '實作使用者端與管理端介面。',
-          '與後端工程師協作，完成前後端資料串接。',
+          '從零設計前端架構，實作使用者投票介面與管理端介面，並負責前端資料串接。',
         ],
+        collaboration:
+          '我與一位後端工程師共同討論需求、API 與操作流程；我負責兩端前端介面及資料串接，對方負責伺服器端。',
       },
       en: {
         title: 'Voting System: Public & Admin Interfaces',
@@ -800,12 +799,12 @@ export const projectRecords: ProjectRecord[] = [
         summary:
           'Partnered with a backend engineer to build the public and admin interfaces of a voting system from the ground up.',
         background:
-          'At Sanlih E-Television, I worked with one backend engineer on a system for voters and administrators. We discussed requirements and workflows together; my colleague handled the server side.',
+          'The system has separate interfaces for public voting and administrative operations.',
         contributions: [
-          'Designed the system’s frontend architecture from scratch.',
-          'Implemented the public voting and admin interfaces.',
-          'Collaborated with the backend engineer on API integration.',
+          'Designed the frontend architecture from scratch, implemented the public voting and admin interfaces, and handled frontend API integration.',
         ],
+        collaboration:
+          'One backend engineer and I discussed requirements, APIs, and workflows together. I handled both frontend interfaces and data integration; my colleague owned the server side.',
       },
     },
   },

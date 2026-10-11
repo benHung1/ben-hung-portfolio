@@ -1,9 +1,9 @@
 import type { PreparationState } from '~/utils/pagePreparation';
 export const usePagePreparation = () =>
   useState<PreparationState>('page-preparation', () => ({
-    active: true,
-    progress: 0,
-    phase: 'preparing',
+    active: false,
+    visible: false,
+    phase: 'idle',
     pathname: '',
     run: 0,
   }));

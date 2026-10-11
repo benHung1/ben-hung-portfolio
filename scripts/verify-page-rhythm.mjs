@@ -15,7 +15,7 @@ const moduleFrom = async (p) =>
         }).outputText,
       ).toString('base64')
   );
-const { createPagePreparation } = await moduleFrom(
+const { createPagePreparation, preparationTiming } = await moduleFrom(
   'app/utils/pagePreparation.ts',
 );
 function harness(reduce = false) {
@@ -27,7 +27,7 @@ function harness(reduce = false) {
     finished = [];
   const state = {
     active: false,
-    progress: 0,
+    visible: false,
     phase: 'idle',
     pathname: '',
     run: 0,
@@ -69,66 +69,106 @@ function harness(reduce = false) {
 {
   const h = harness();
   h.control.start('/work', true);
-  h.advance(2000);
-  assert.equal(h.state.active, true);
-  assert.ok(h.state.progress < 100, 'unready target never reaches 100');
+  h.advance(preparationTiming.showAfter - 10);
+  assert.equal(h.state.visible, false, 'no indicator during a fast navigation');
+  h.advance(10);
+  assert.equal(
+    h.state.visible,
+    true,
+    'real pending navigation shows status after the threshold',
+  );
   h.control.ready('/wrong');
-  h.advance(200);
-  assert.ok(h.state.progress < 100);
+  assert.equal(
+    h.state.active,
+    true,
+    'stale readiness cannot release another target',
+  );
   h.control.ready('/work');
-  h.advance(400);
-  assert.equal(h.state.active, false);
-  assert.equal(h.state.progress, 100);
-  assert.equal(h.frames.size + h.timers.size, 0);
+  assert.equal(
+    h.state.active,
+    false,
+    'ready content is released without an artificial minimum',
+  );
+  assert.equal(h.state.phase, 'leaving');
+  h.advance(preparationTiming.exit);
+  assert.equal(h.state.visible, false);
+  assert.equal(h.timers.size, 0);
   h.control.start('/work/a');
   h.advance(200);
   h.control.start('/work/b');
   h.control.ready('/work/a');
-  h.advance(1000);
   assert.equal(h.state.active, true);
-  assert.ok(h.state.progress < 100);
+  h.advance(50);
+  assert.equal(
+    h.state.visible,
+    false,
+    'replacement clears the prior reveal timer',
+  );
   h.control.ready('/work/b');
-  h.advance(400);
   assert.equal(h.state.active, false);
+  assert.equal(h.state.visible, false);
   assert.equal(h.state.run, 3);
   h.control.start('/timeout');
-  h.advance(4600);
+  h.advance(preparationTiming.watchdog + 10);
   assert.equal(h.state.active, false);
+  assert.equal(h.state.visible, false);
   assert.equal(h.finished.at(-1), 'timeout');
-  h.control.start('/cancel');
-  h.control.cancel('navigation-cancelled');
-  h.advance(1000);
-  assert.equal(h.state.active, false);
-  assert.equal(h.frames.size + h.timers.size, 0);
-  h.control.start('/error');
-  h.control.cancel('navigation-error');
-  assert.equal(h.state.active, false);
+  for (const reason of [
+    'navigation-cancelled',
+    'navigation-error',
+    'page-error',
+  ]) {
+    h.control.start('/failure');
+    h.advance(300);
+    h.control.cancel(reason);
+    h.advance(1000);
+    assert.equal(h.state.active, false);
+    assert.equal(h.state.visible, false);
+    assert.equal(h.frames.size + h.timers.size, 0);
+  }
   h.control.start('/skip');
   h.control.skip();
   h.advance(500);
-  assert.equal(h.state.active, true);
-  assert.ok(h.state.progress < 100);
+  assert.equal(h.state.visible, false);
+  assert.equal(
+    h.state.active,
+    true,
+    'hiding feedback does not fake page readiness',
+  );
   h.control.ready('/skip');
-  h.advance(120);
   assert.equal(h.state.active, false);
+  h.control.start('/destroy');
+  h.advance(300);
+  h.control.destroy();
+  assert.equal(h.state.active, false);
+  assert.equal(h.state.visible, false);
+  assert.equal(h.timers.size, 0);
 }
 for (const initial of [false, true]) {
   const h = harness();
   h.control.start('/work', initial);
   h.control.ready('/work');
-  h.advance(1200);
-  const end = h.snapshots.find((s) => !s.active).time;
-  assert.ok(end >= (initial ? 950 : 750) && end <= (initial ? 1100 : 1000));
-  assert.ok(
-    h.snapshots.some((s) => s.phase === 'leaving' && s.progress === 100),
+  assert.equal(h.state.active, false, 'zero added delay for ready pages');
+  assert.equal(h.state.visible, false, 'no flash for cached pages');
+  assert.equal(
+    h.snapshots.some((s) => s.visible),
+    false,
   );
+  assert.equal(h.timers.size, 0);
 }
 {
   const h = harness(true);
   h.control.start('/');
+  h.advance(300);
+  assert.equal(h.state.visible, true);
   h.control.ready('/');
-  h.advance(150);
   assert.equal(h.state.active, false);
+  assert.equal(
+    h.state.visible,
+    false,
+    'reduced-motion completion is immediate',
+  );
+  assert.equal(h.timers.size, 0);
 }
 const { NavigationJournal } = await moduleFrom(
   'app/utils/navigationJournal.ts',
@@ -213,10 +253,14 @@ vm.runInNewContext(
     setTimeout: (f) => (watchdog = f),
   },
 );
-assert.equal(dataset.pageLoading, 'preparing');
+assert.equal(
+  dataset.pageLoading,
+  undefined,
+  'SSR and failed hydration never start a page lock',
+);
 watchdog();
 assert.equal(dataset.pageLoading, undefined);
 assert.ok(unlocked);
 console.log(
-  'PASS: Loading ready gate, duration, 100-before-exit, rapid replacement, stale target, cancellation/error/timeout, reduced motion and fail-open boot; safe source journal; four randomized separated skill generations at five widths.',
+  'PASS: Loading threshold, instant-ready navigation, non-blocking completion, rapid replacement, stale target, cancellation/error/timeout, reduced motion and fail-open boot; safe source journal; four randomized separated skill generations at five widths.',
 );
