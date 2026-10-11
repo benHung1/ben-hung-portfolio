@@ -24,7 +24,7 @@ export interface ProjectCopy {
   outcomes?: string[];
   liveLabel?: string;
   loginLabel?: string;
-  coverLabel?: string;
+  coverAlt?: string;
   coverNote?: string;
   relatedNote?: string;
 }
@@ -112,15 +112,14 @@ export const projectRecords: ProjectRecord[] = [
           components: ['AI 小精靈', '履歷匯入', '篩選清單'],
           targetsLabel: '多個活動網站',
           targets: ['活動網站 A', '活動網站 B', '活動網站 C'],
-          caption:
-            '架構示意：A／B／C 為活動網站的示意名稱，不代表特定網站或元件的實際接入組合。',
+          caption: '共用架構示意；活動網站 A／B／C 為示意名稱。',
         },
         liveLabel: '前往 1111 主站',
-        coverLabel: '公開履歷匯入介面',
+        coverAlt: '1111 履歷匯入介面的檔案上傳視窗',
         coverNote:
-          '目前主站的公開履歷匯入介面，作為其中一項功能的識別畫面，未包含個人資料。主站首頁為產品入口，並非所有共用元件的直接展示頁；本案例呈現前端元件化與跨網站整合，不代表整個主站或 AI 解析服務由我建置。',
+          '履歷匯入介面，與篩選選單、AI 小精靈同為跨活動網站共用的 Web Components。',
         relatedNote:
-          '本案例集中說明主站功能的 Web Components 化與跨活動網站串接；專案初始化、架構基底與模板規劃，另見「活動模板與共用元件」。',
+          '專案初始化、架構基底與模板規劃，見「活動模板與共用元件」。',
       },
       en: {
         title: '1111 Main Site × Campaign Sites｜Shared Web Components',
@@ -164,14 +163,14 @@ export const projectRecords: ProjectRecord[] = [
           targetsLabel: 'Multiple campaign sites',
           targets: ['Campaign site A', 'Campaign site B', 'Campaign site C'],
           caption:
-            'Architecture illustration: A, B, and C are placeholder site names, not specific websites or confirmed component-to-site mappings.',
+            'Shared architecture illustration; campaign sites A, B, and C are illustrative names.',
         },
         liveLabel: 'Visit 1111 main site',
-        coverLabel: 'Public résumé-import interface',
+        coverAlt: 'File upload dialog in the 1111 resume import interface',
         coverNote:
-          'The current public résumé-import interface identifies one of the features and contains no personal data. The main-site homepage is a product entry point, not a direct demonstration of every shared component. This case covers frontend component development and cross-site integration, not the entire main site or AI parsing services.',
+          'Resume import interface, one of the Web Components shared across campaign sites alongside filter menus and the AI assistant.',
         relatedNote:
-          'This case covers turning main-site features into Web Components and integrating them across campaigns. Project setup, architectural foundations, and template planning are covered in “Campaign Templates & Shared Components.”',
+          'For project setup, architectural foundations, and template planning, see “Campaign Templates & Shared Components.”',
       },
     },
   },
@@ -193,6 +192,7 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '活動新後台',
         company: '1111 人力銀行',
+        coverNote: '活動管理後台登入頁，供內部人員與廠商使用。',
         role: '前端架構設計、後台開發與 API 協作',
         summary:
           '以 Vue 3 與 Naive UI 參與活動管理後台重構，負責前端架構與套件整合，並與後端共同討論 API 規格。開發期間定期向主管彙報進度與流程，協助團隊掌握執行狀況。',
@@ -211,7 +211,7 @@ export const projectRecords: ProjectRecord[] = [
           {
             title: '前端架構',
             description:
-              '以 Vue 3 與 Naive UI 為已確認的技術基礎，負責重構工作的前端架構設計與管理介面實作。',
+              '以 Vue 3 與 Naive UI 為技術基礎，負責重構工作的前端架構設計與管理介面實作。',
           },
           {
             title: '套件整合',
@@ -237,6 +237,8 @@ export const projectRecords: ProjectRecord[] = [
       en: {
         title: 'Event Management Console',
         company: '1111 Job Bank',
+        coverNote:
+          'Event-management console sign-in page for internal staff and business partners.',
         role: 'Frontend architecture, admin development & API collaboration',
         summary:
           'Worked on a Vue 3 and Naive UI refactor of the event-management console, owning frontend architecture and package integration. I discussed API specifications with backend engineers and regularly reported development progress and processes to my supervisor.',
@@ -298,6 +300,7 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '嚴選職缺',
         company: '1111 人力銀行',
+        coverNote: '大苑子企業頁的官方形象圖。',
         role: '專案起建、前端架構與團隊分工',
         summary:
           '為企業介紹與職缺資訊規劃前端架構與組件，負責專案起建、套件配置及功能分工，與團隊共同完成嚴選職缺網站。',
@@ -330,6 +333,7 @@ export const projectRecords: ProjectRecord[] = [
       en: {
         title: 'Curated Opportunities',
         company: '1111 Job Bank',
+        coverNote: 'Official image from the Da Yung’s employer page.',
         role: 'Project setup, frontend architecture & task allocation',
         summary:
           'Established the project, packages, architecture, and components for employer profiles and job information. I allocated feature work and built the site with the team.',
@@ -381,6 +385,7 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '新鮮人專區',
         company: '1111 人力銀行',
+        coverNote: '新鮮人專區目前使用的 2026 畢業祭官方視覺。',
         role: '專案起建、前端架構、重構與分工',
         summary:
           '負責新鮮人專區的專案起建、套件配置、前端架構與組件設計，並依功能分工，與團隊共同推進求職服務網站的開發與重構。',
@@ -413,6 +418,8 @@ export const projectRecords: ProjectRecord[] = [
       en: {
         title: 'Early Career Hub',
         company: '1111 Job Bank',
+        coverNote:
+          'The Early Career Hub’s current official visual for the 2026 graduation campaign.',
         role: 'Project setup, architecture, refactoring & task allocation',
         summary:
           'Owned project setup, package configuration, frontend architecture, and component design for the Early Career Hub. I allocated feature work and collaborated on development and refactoring of its job-search interfaces.',
@@ -462,6 +469,7 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '新鮮人專區－畢業季活動',
         company: '1111 人力銀行',
+        coverNote: '2025 畢業季活動首頁畫面。',
         role: '專案起建、活動架構與團隊分工',
         summary:
           '從專案起建、套件配置到組件設計，規劃畢業季活動的前端基礎；依功能安排組員分工，共同呈現活動資訊與參與流程。',
@@ -491,6 +499,7 @@ export const projectRecords: ProjectRecord[] = [
       en: {
         title: 'Graduation Campaign',
         company: '1111 Job Bank',
+        coverNote: 'Homepage of the 2025 graduation campaign.',
         role: 'Project setup, campaign architecture & task allocation',
         summary:
           'Established the campaign’s frontend foundation, from project and package setup to component design. I assigned feature work and collaborated on presenting campaign information and participation steps.',
@@ -541,6 +550,7 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '2025 校園徵才',
         company: '1111 人力銀行',
+        coverNote: '現行 2026 校園徵才官方視覺；本案例為 2025 專案。',
         role: '專案起建、前端架構與團隊分工',
         summary:
           '為 2025 校園徵才建立專案與套件配置，規劃前端架構及組件，依功能分配工作，與團隊共同完成校徵與就業資訊網站。',
@@ -566,13 +576,13 @@ export const projectRecords: ProjectRecord[] = [
         ],
         collaboration:
           '我負責起建、架構與組件設計，也安排功能分工；網站由團隊共同完成。',
-        outcomes: [
-          '與團隊完成 2025 校園徵才網站的前端開發。現行入口持續提供校徵服務，可能已包含後續版本。',
-        ],
+        outcomes: ['與團隊完成 2025 校園徵才網站的前端開發。'],
       },
       en: {
         title: 'Campus Recruitment 2025',
         company: '1111 Job Bank',
+        coverNote:
+          'Current official visual for campus recruitment 2026; this case covers the 2025 project.',
         role: 'Project setup, frontend architecture & task allocation',
         summary:
           'Set up the 2025 campus recruitment project and its packages, designed frontend architecture and components, and allocated feature work to deliver the site with the team.',
@@ -600,7 +610,7 @@ export const projectRecords: ProjectRecord[] = [
         collaboration:
           'I owned setup, architecture, component design, and feature allocation. The website was built collaboratively.',
         outcomes: [
-          'Completed frontend work on the 2025 campus recruitment website with the team. The current entry point continues to provide recruitment services and may include later versions.',
+          'Completed frontend work on the 2025 campus recruitment website with the team.',
         ],
       },
     },
@@ -623,6 +633,7 @@ export const projectRecords: ProjectRecord[] = [
       zh: {
         title: '2025 送一萬活動',
         company: '1111 人力銀行',
+        coverNote: '現行 2026 送一萬活動官方視覺；本案例為 2025 專案。',
         role: '專案起建、活動架構與團隊分工',
         summary:
           '負責 2025 送一萬活動網站的起建、套件配置、前端架構與組件設計；依功能分工，與團隊共同完成活動及參與資訊的呈現。',
@@ -648,13 +659,13 @@ export const projectRecords: ProjectRecord[] = [
         ],
         collaboration:
           '我負責專案基礎與功能分工，和組員共同實作活動內容及參與資訊介面。',
-        outcomes: [
-          '與團隊交付 2025 求職獎勵活動的前端網站；公開網址顯示的是目前活動版本。',
-        ],
+        outcomes: ['與團隊交付 2025 求職獎勵活動的前端網站。'],
       },
       en: {
         title: 'NT$10,000 Job-Search Campaign 2025',
         company: '1111 Job Bank',
+        coverNote:
+          'Current official visual for the 2026 rewards campaign; this case covers the 2025 project.',
         role: 'Project setup, campaign architecture & task allocation',
         summary:
           'Owned setup, package configuration, frontend architecture, and component design for the 2025 rewards campaign. I assigned feature work and collaborated on presenting campaign and participation information.',
@@ -682,7 +693,7 @@ export const projectRecords: ProjectRecord[] = [
         collaboration:
           'I handled the project foundation and feature allocation, working with team members on the campaign and participation interfaces.',
         outcomes: [
-          'Delivered the frontend of the 2025 rewards campaign with the team. The public URL presents the current campaign version.',
+          'Delivered the frontend of the 2025 rewards campaign with the team.',
         ],
       },
     },
@@ -721,7 +732,7 @@ export const projectRecords: ProjectRecord[] = [
         collaboration:
           '我負責設計與開發可重用的專案基礎；活動網站開發時，再依功能安排分工，與組員共同運用模板及共用元件。',
         relatedNote:
-          '主站 AI 小精靈、履歷匯入與篩選清單的 Web Components 共用整合，是同一組共用化工作中的功能元件部分，詳細內容集中於下方案例；本頁聚焦專案基底與模板規劃。',
+          '主站功能的 Web Components 化屬於同一組共用化工作；元件開發與跨網站整合詳見下方案例。',
       },
       en: {
         title: 'Campaign Templates & Shared Components',
@@ -750,7 +761,7 @@ export const projectRecords: ProjectRecord[] = [
         collaboration:
           'I designed and developed the reusable project foundation. For campaign delivery, I then assigned feature work and collaborated with team members using the templates and shared components.',
         relatedNote:
-          'Shared Web Components for the main site’s AI assistant, résumé import, and filter lists form the feature-component part of the same reuse work. Those details are collected in the case below; this page focuses on project foundations and template planning.',
+          'The main-site Web Components are part of the same reuse work. See the related case for component development and cross-site integration.',
       },
     },
     relatedSlugs: ['main-site-components'],

@@ -17,7 +17,7 @@ const failed = ref(false);
     <img
       v-if="project.cover && !failed"
       :src="project.cover.src"
-      :alt="project.title + ' — ' + t.ui.image"
+      :alt="project.coverAlt || project.title + ' — ' + t.ui.image"
       :loading="eager ? 'eager' : 'lazy'"
       decoding="async"
       width="1440"
@@ -34,11 +34,6 @@ const failed = ref(false);
       ><span class="text-cover-index">{{
         String(position).padStart(2, '0')
       }}</span></template
-    >
-    <span
-      v-if="project.cover && !failed && project.coverLabel"
-      class="cover-context"
-      >{{ project.coverLabel }}</span
     >
   </div>
 </template>

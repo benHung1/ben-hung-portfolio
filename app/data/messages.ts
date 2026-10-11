@@ -50,7 +50,7 @@ export const messages = {
       missing: '這個頁面不存在。',
       error: '頁面暫時無法顯示，請稍後再試。',
       image: '網站畫面',
-      imageNote: '封面取自公開網站，用於作品識別；目前網站可能已持續改版。',
+      imageNote: '圖片來源：專案公開網站。',
     },
     categories: {
       all: '所有作品',
@@ -204,8 +204,7 @@ export const messages = {
       missing: 'This page does not exist.',
       error: 'This page is temporarily unavailable. Please try again.',
       image: 'Website image',
-      imageNote:
-        'Images from the public website identify the project. The live site may have evolved since my involvement.',
+      imageNote: 'Image source: the project’s public website.',
     },
     categories: {
       all: 'All work',

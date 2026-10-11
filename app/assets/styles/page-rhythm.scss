@@ -235,20 +235,6 @@ html[data-page-loading] .site-content .has-entered {
   max-width: 100%;
   overflow-wrap: anywhere;
 }
-.cover-context {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  max-width: calc(100% - 28px);
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--ink);
-  background: var(--paper);
-  box-shadow: 0 1px 6px #0002;
-  pointer-events: none;
-}
 .inner-title-mask {
   display: block;
   overflow: clip;
