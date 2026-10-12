@@ -44,8 +44,7 @@ export function createSkillRangeMotion(
     running = false,
     reduced = false,
     disposed = false;
-  let focused = '',
-    width = board.clientWidth,
+  let width = board.clientWidth,
     height = board.clientHeight;
   let tracks: HTMLElement[] = [],
     initial = true,
@@ -54,7 +53,7 @@ export function createSkillRangeMotion(
   let spawnWait = 0;
   const remaining = () => remainingCount?.() ?? tracks.length;
   // Dev-only observer is injected by the component. No UI or production logs.
-  // actualSeconds excludes pause/offscreen/focus time; wallSeconds includes it.
+  // actualSeconds excludes pause/offscreen time; wallSeconds includes it.
   function record(id: string, event: SkillFlightRecord['event']) {
     if (!onFlightRecord) return;
     const flight = flights.get(id);
@@ -125,23 +124,15 @@ export function createSkillRangeMotion(
       const id = track.dataset.skill!;
       const flight = flights.get(id);
       const size = sizes.get(track)!;
-      const button = track.querySelector<HTMLElement>('.range-target');
       if (flight && running && !reduced) record(id, 'spawn');
       if (!flight && !reduced) {
         track.style.visibility = 'hidden';
         track.style.pointerEvents = 'none';
         track.dataset.flightPhase = 'waiting';
-        if (button) button.tabIndex = -1;
         return;
       }
-      // Focus/press/hit freezes flight time as well as position: no jump on blur.
-      if (
-        flight &&
-        !reduced &&
-        focused !== id &&
-        !pending.has(id) &&
-        !flight.recycling
-      )
+      // A hit freezes flight time while the target exits.
+      if (flight && !reduced && !pending.has(id) && !flight.recycling)
         flight.age += delta;
       const pose = reduced
         ? {
@@ -163,14 +154,12 @@ export function createSkillRangeMotion(
       track.style.pointerEvents = pose.opacity > 0.1 ? 'auto' : 'none';
       track.dataset.flightPhase = 'active';
       track.dataset.flightSpeed = flight?.speed ?? 'static';
-      if (button) button.tabIndex = pose.opacity > 0.1 ? 0 : -1;
       depthOrder.push({ track, scale: pose.scale });
       if (
         !reduced &&
         flight &&
         pose.expired &&
         !flight.recycling &&
-        focused !== id &&
         !pending.has(id)
       ) {
         flight.recycling = true;
@@ -408,25 +397,12 @@ export function createSkillRangeMotion(
       flights.delete(id);
       measure();
     },
-    focus(id: string) {
-      focused = id;
-      if (id && !flights.has(id)) launch(id);
-      const flight = flights.get(id);
-      if (flight && !flight.recycling) {
-        flight.age = Math.max(
-          config.fadeIn,
-          Math.min(flight.duration - config.fadeOut - 0.1, flight.age),
-        );
-        paint();
-      }
-    },
     reset() {
       cancel();
       flights.clear();
       waiting = [];
       spawnWait = 0;
       initial = true;
-      focused = '';
       entered = false;
       measure();
       enter();
@@ -445,9 +421,6 @@ export function createSkillRangeMotion(
         track.style.removeProperty('pointer-events');
         delete track.dataset.flightPhase;
         delete track.dataset.flightSpeed;
-        track
-          .querySelector<HTMLElement>('.range-target')
-          ?.removeAttribute('tabindex');
       });
       delete board.dataset.rangeAnimation;
       flights.clear();

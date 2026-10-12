@@ -105,6 +105,43 @@ defineProps<{ id: string; symbol: string }>();
       <circle cx="21" cy="8" r="3" fill="var(--paper)" />
       <circle cx="34" cy="24" r="3" fill="var(--paper)" />
     </g>
+    <g
+      v-else-if="id === 'docker'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linejoin="round"
+    >
+      <path d="M3 22h26c3 0 6-2 7-5l2 3c-1 9-8 15-18 15C10 35 4 30 3 22Z" />
+      <path d="M7 21v-6h6v6m2 0v-6h6v6m2 0v-6h6v6M15 13V7h6v6m2 0V7h6v6" />
+      <circle cx="10" cy="27" r="1" fill="currentColor" />
+    </g>
+    <g
+      v-else-if="id === 'cicd'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path
+        d="M34 14A15 15 0 0 0 8 9l-3 4m0-8v8h8M6 26a15 15 0 0 0 26 5l3-4m0 8v-8h-8"
+      />
+      <path d="m17 14 9 6-9 6Z" />
+    </g>
+    <g
+      v-else-if="id === 'k8s'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+    >
+      <circle cx="20" cy="20" r="12" />
+      <circle cx="20" cy="20" r="3" />
+      <path
+        d="M20 17V3m2.4 15.1 10.9-8.7m-10.4 11.3 13.7 3.1m-15.3-.1 6.1 12.6M18.7 22.7l-6.1 12.6m4.5-14.6L3.4 23.8m14.2-5.7L6.7 9.4"
+      />
+    </g>
     <template v-else>
       <rect x="2" y="2" width="36" height="36" rx="5" fill="currentColor" />
       <text

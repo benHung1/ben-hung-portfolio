@@ -8,7 +8,6 @@ export const playgroundCopy = {
     resume: '繼續',
     restart: '重新開始',
     all: '查看全部技能',
-    hideAll: '收起完整技能',
     unlocked: '已解鎖技能',
     empty: '工具箱等待解鎖。也可以直接查看全部技能。',
     hit: '命中',
@@ -18,9 +17,9 @@ export const playgroundCopy = {
     nextMission: '下一個任務：一起打造好產品。',
     contact: '聊聊合作',
     replay: '再玩一次',
-    keyboard: 'Tab 選取標靶，Enter 或空白鍵命中。聚焦時標靶會停止移動。',
     collected: '已解鎖',
     library: '完整工具箱',
+    libraryIntro: '從介面開發到工具與交付，這些是我使用的技術。',
 
     intro: '點擊移動中的技能，集滿我的工具箱。',
     hint: '點擊標靶，解鎖技能與實務應用。',
@@ -44,7 +43,6 @@ export const playgroundCopy = {
     resume: 'Resume',
     restart: 'Restart',
     all: 'View all skills',
-    hideAll: 'Close skill library',
     unlocked: 'Unlocked skills',
     empty:
       'Your toolbox is ready to unlock. Or explore every skill straight away.',
@@ -55,10 +53,10 @@ export const playgroundCopy = {
     nextMission: 'Next mission: build a great product together.',
     contact: 'Let’s collaborate',
     replay: 'Play again',
-    keyboard:
-      'Tab to a target, then press Enter or Space. Focused targets stop moving.',
     collected: 'Unlocked',
     library: 'The full toolbox',
+    libraryIntro:
+      'The technologies I use, from interfaces to tooling and delivery.',
 
     intro: 'Hit the moving skills and collect my toolbox.',
     hint: 'Hit a target to unlock a skill and see how I use it.',
@@ -210,5 +208,29 @@ export const skills = [
     symbol: 'S',
     zh: '追蹤前端執行錯誤，透過錯誤資訊協助定位與排查問題。',
     en: 'Tracking frontend runtime errors and using error details to investigate issues.',
+  },
+  {
+    id: 'docker',
+    name: 'Docker',
+    color: '#2787bd',
+    symbol: 'D',
+    zh: '將應用與執行環境容器化，維持開發與部署環境的一致性。',
+    en: 'Packaging applications and their runtime in containers for consistent development and deployment environments.',
+  },
+  {
+    id: 'cicd',
+    name: 'CI/CD',
+    color: '#6488c8',
+    symbol: 'CI',
+    zh: '以自動化流程串接程式整合、建置與部署。',
+    en: 'Connecting code integration, builds, and deployment through automated workflows.',
+  },
+  {
+    id: 'k8s',
+    name: 'Kubernetes',
+    color: '#326ce5',
+    symbol: 'K8s',
+    zh: '透過容器編排管理應用的部署、執行與擴縮。',
+    en: 'Using container orchestration to manage application deployment, operation, and scaling.',
   },
 ] as const;

@@ -43,7 +43,7 @@ export function createWeatherCanvas(
     kind: number;
   }[] = [];
   const maskSelector =
-    '.hero-topline,.hero-title-scroll,.hero-copy,.capabilities,.section-top,.section-heading,.project-index-row,.about-copy,.experience-timeline,.skills-heading,.playground-panel,.skill-reading,.testimonials-heading,.testimonial-review-banner,.testimonial-filters,.testimonial-spread,.testimonial-bottom,.testimonial-review-detail,.contact-copy > *,.person-card-position';
+    '.hero-topline,.hero-title-scroll,.hero-copy,.capabilities,.section-top,.section-heading,.project-index-row,.about-copy,.experience-timeline,.skills-heading,.playground-panel,.skill-reading,.range-library,.testimonials-heading,.testimonial-review-banner,.testimonial-filters,.testimonial-spread,.testimonial-bottom,.testimonial-review-detail,.contact-copy > *,.person-card-position';
   function refreshMasks() {
     masks = [
       ...host.querySelectorAll<HTMLElement>(maskSelector),

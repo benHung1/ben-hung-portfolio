@@ -10,6 +10,7 @@ export function createPortfolioScrollScenes(
   gsap.registerPlugin(ScrollTrigger);
   const media = gsap.matchMedia();
   let timelines: gsap.core.Timeline[] = [];
+  let toolboxTweens: gsap.core.Tween[] = [];
   let disposed = false;
   let refreshTimer: ReturnType<typeof setTimeout> | undefined;
   let resize: ResizeObserver | undefined;
@@ -52,6 +53,7 @@ export function createPortfolioScrollScenes(
             options.weather?.setProgress(timeline.progress());
         }
       });
+      toolboxTweens.forEach((tween) => tween.scrollTrigger?.refresh());
       publishOwnedCount();
       options.weather?.refresh();
     }, 180);
@@ -75,6 +77,7 @@ export function createPortfolioScrollScenes(
     media.revert();
     publishOwnedCount();
     timelines = [];
+    toolboxTweens = [];
     dragReady(true);
     host.dataset.scrollMotion = 'static';
     host.dataset.scrollTriggerCount = '0';
@@ -93,6 +96,7 @@ export function createPortfolioScrollScenes(
       },
       (context) => {
         timelines = [];
+        toolboxTweens = [];
         const { mobile } = context.conditions!;
         const reduced = Boolean(
           context.conditions!.reduced || options.manualStatic,
@@ -279,7 +283,7 @@ export function createPortfolioScrollScenes(
         dragReady(false);
         skillTimeline = scene(
           'skills',
-          q('.skills-section'),
+          shell,
           'clamp(top 60%)',
           'clamp(bottom 85%)',
           () => dragReady(skillTimeline.progress() >= 0.57),
@@ -307,6 +311,35 @@ export function createPortfolioScrollScenes(
             { x: small ? -52 : -160 },
             0,
           );
+
+        // Hide only after GSAP initializes successfully. Revert restores readable HTML.
+        // Reveal the complete section on entry, not individual items after they are visible.
+        const library = q('.range-library');
+        if (library.dataset.toolboxRevealed !== 'true') {
+          toolboxTweens.push(
+            gsap.fromTo(
+              library,
+              { autoAlpha: 0, y: small ? 16 : 28 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.65,
+                ease: 'power2.out',
+                immediateRender: true,
+                clearProps: 'opacity,visibility,transform',
+                scrollTrigger: {
+                  id: 'toolbox-section',
+                  trigger: library,
+                  start: 'top 85%',
+                  once: true,
+                },
+                onComplete: () => {
+                  library.dataset.toolboxRevealed = 'true';
+                },
+              },
+            ),
+          );
+        }
 
         scene(
           'contact',
@@ -350,6 +383,7 @@ export function createPortfolioScrollScenes(
         return () => {
           dragReady(true);
           timelines = [];
+          toolboxTweens = [];
         };
       },
       host,

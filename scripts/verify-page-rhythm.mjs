@@ -190,13 +190,14 @@ assert.equal(
   '/work?category=campaign',
 );
 const { SkillWorld } = await moduleFrom('app/utils/skillPhysics.ts');
-const { skills } = await moduleFrom('app/data/playground.ts');
+// Historical circle-physics regression. The live shooting range uses its full catalog in verify-range.
+const legacyCircleCount = 17;
 for (const width of [240, 306, 704, 1354, 1809]) {
   const w = new SkillWorld(
       width,
       width < 280 ? 860 : width < 400 ? 620 : 560,
       width < 400 ? 40 : 52,
-      skills.length,
+      legacyCircleCount,
     ),
     layouts = [];
   for (let generation = 0; generation < 4; generation++) {

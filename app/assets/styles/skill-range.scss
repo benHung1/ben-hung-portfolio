@@ -213,16 +213,10 @@
 }
 .range-controls {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 20px;
   padding: 22px 28px;
-}
-.range-controls > p {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.8;
-  max-width: 350px;
 }
 .range-controls > div {
   display: flex;
@@ -230,6 +224,7 @@
   flex-wrap: wrap;
 }
 .range-controls button,
+.range-controls .range-library-link,
 .range-chips button {
   display: inline-flex;
   align-items: center;
@@ -245,6 +240,7 @@
     color 0.18s;
 }
 .range-controls button:is(:hover, [aria-pressed='true']),
+.range-controls .range-library-link:hover,
 .range-chips button:is(:hover, [aria-pressed='true']) {
   background: var(--blue);
   border-color: var(--blue);
@@ -297,14 +293,29 @@
   margin: 10px 0;
 }
 .range-library {
-  margin-top: 36px;
+  scroll-margin-top: 100px;
+  margin-top: 56px;
   padding: 28px;
   border-top: 1px solid var(--line);
 }
-.range-library > h3 {
+.range-library-heading h3 {
   font-weight: 500;
   font-size: 24px;
   margin-bottom: 24px;
+}
+.range-library-heading {
+  margin-bottom: 36px;
+  max-width: 700px;
+}
+.range-library-heading h3 span {
+  margin-left: 16px;
+  font: 13px var(--mono);
+  color: var(--blue);
+}
+.range-library-heading > p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.85;
 }
 .range-library > div {
   display: grid;
@@ -328,7 +339,7 @@
 }
 .range-library p {
   grid-column: 2;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.85;
   color: var(--muted);
 }
@@ -504,7 +515,8 @@
   .range-controls > div {
     gap: 7px;
   }
-  .range-controls button {
+  .range-controls button,
+  .range-controls .range-library-link {
     font-size: 13px;
     min-height: 44px;
     padding: 9px 12px;

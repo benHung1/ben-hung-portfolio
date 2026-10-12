@@ -16,7 +16,8 @@ const moduleFrom = async (p) =>
       ).toString('base64')
   );
 const { SkillWorld } = await moduleFrom('app/utils/skillPhysics.ts');
-const playground = await moduleFrom('app/data/playground.ts');
+// Keep the original circle-physics fixture independent of the current shooting-range catalog.
+const legacyCircleCount = 17;
 const originalRandom = Math.random;
 for (const [width, height, radius] of [
   [240, 860, 40],
@@ -29,7 +30,7 @@ for (const [width, height, radius] of [
   let seed = 3;
   Math.random = () =>
     ((seed = (Math.imul(1664525, seed) + 1013904223) | 0) >>> 0) / 4294967296;
-  const world = new SkillWorld(width, height, radius, playground.skills.length);
+  const world = new SkillWorld(width, height, radius, legacyCircleCount);
   const inBounds = () =>
     world.bodies.forEach((b) => {
       assert.ok(Number.isFinite(b.x + b.y + b.vx + b.vy));
@@ -162,7 +163,7 @@ for (const reduced of [false, true]) {
   const hooks = context.testHooks;
   hooks.field.value = { clientWidth: 306, clientHeight: 620 };
   hooks.items.push(
-    ...Array.from({ length: playground.skills.length }, () => ({
+    ...Array.from({ length: legacyCircleCount }, () => ({
       offsetWidth: 80,
       style: { setProperty() {}, removeProperty() {} },
     })),

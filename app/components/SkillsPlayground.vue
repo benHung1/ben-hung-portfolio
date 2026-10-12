@@ -14,7 +14,6 @@ const field = ref<HTMLElement>();
 const game = new SkillRangeGame(skills.map((skill) => skill.id));
 const state = shallowRef(game.snapshot());
 const selected = ref<string>();
-const library = ref(false);
 const systemReduced = ref(false);
 const isStatic = computed(() => systemReduced.value || manualStatic.value);
 const targets = computed(() =>
@@ -87,8 +86,8 @@ function pointerMove(event: PointerEvent) {
     cancelTap();
 }
 async function shoot(id: string, event: MouseEvent) {
-  const keyboard = event.detail === 0;
-  if (!keyboard && allowedTap !== id) return;
+  // A shot requires the matching, validated mouse/touch gesture.
+  if (event.detail === 0 || allowedTap !== id) return;
   allowedTap = '';
   if (!game.hit(id)) return;
   selected.value = id;
@@ -101,18 +100,6 @@ async function shoot(id: string, event: MouseEvent) {
     await nextTick();
     if (disposed || round !== game.round) return;
     motion?.measure();
-    if (keyboard) {
-      const next = field.value?.querySelector<HTMLButtonElement>(
-        '.range-target:not([aria-disabled="true"])',
-      );
-      const nextId = next?.closest<HTMLElement>('.range-target-track')?.dataset
-        .skill;
-      if (nextId) motion?.focus(nextId);
-      (
-        next ??
-        field.value?.querySelector<HTMLAnchorElement>('.range-completion a')
-      )?.focus({ preventScroll: true });
-    }
   };
   if (motion) motion.hit(id, retire);
   else void retire();
@@ -283,6 +270,8 @@ onBeforeUnmount(() => {
           >
             <button
               class="range-target"
+              type="button"
+              tabindex="-1"
               :aria-label="copy.hit + ' ' + skill.name"
               :aria-disabled="state.retiring.includes(skill.id)"
               @pointerdown="pointerDown($event, skill.id)"
@@ -290,8 +279,6 @@ onBeforeUnmount(() => {
               @pointerup="pointerUp($event, skill.id)"
               @pointercancel="cancelTap"
               @click="shoot(skill.id, $event)"
-              @focus="motion?.focus(skill.id)"
-              @blur="motion?.focus('')"
             >
               <SkillIcon :id="skill.id" :symbol="skill.symbol" /><span>{{
                 skill.name
@@ -323,7 +310,6 @@ onBeforeUnmount(() => {
           </div>
         </div>
         <div class="range-controls">
-          <p>{{ copy.keyboard }}</p>
           <div>
             <button
               :aria-pressed="manualStatic"
@@ -333,13 +319,9 @@ onBeforeUnmount(() => {
             ><button :aria-pressed="state.paused" @click="pause">
               {{ state.paused ? copy.resume : copy.pause }}</button
             ><button @click="restart">{{ copy.restart }}</button
-            ><button
-              :aria-expanded="library"
-              aria-controls="range-library"
-              @click="library = !library"
-            >
-              {{ library ? copy.hideAll : copy.all }}<UiIcon name="right" />
-            </button>
+            ><NuxtLink to="/#range-library" class="range-library-link">
+              {{ copy.all }}<UiIcon name="right" />
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -375,8 +357,18 @@ onBeforeUnmount(() => {
         <p v-else>{{ copy.hint }}</p>
       </div>
     </div>
-    <div v-if="library" id="range-library" class="range-library">
-      <h3>{{ copy.library }}</h3>
+    <section
+      id="range-library"
+      class="range-library"
+      aria-labelledby="range-library-title"
+      tabindex="-1"
+    >
+      <header class="range-library-heading">
+        <h3 id="range-library-title">
+          {{ copy.library }}<span>{{ skills.length }}</span>
+        </h3>
+        <p>{{ copy.libraryIntro }}</p>
+      </header>
       <div>
         <article v-for="skill in skills" :key="skill.id">
           <SkillIcon :id="skill.id" :symbol="skill.symbol" />
@@ -384,6 +376,6 @@ onBeforeUnmount(() => {
           <p>{{ skill[locale] }}</p>
         </article>
       </div>
-    </div>
+    </section>
   </section>
 </template>

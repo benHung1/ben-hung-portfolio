@@ -62,14 +62,15 @@ export const messages = {
     },
     hero: {
       eyebrow: '前端工程師 / 台灣',
-      subtitle: ['清楚的介面。', '持續演進的系統。'],
+      subtitle: ['嗨，', '很高興你來這裡。'],
       intro:
-        '我是 Ben，以 Vue／Nuxt 開發網站。親自設計跨活動網站的 Web Components 整合與 Pinia 搜尋狀態架構，也負責 Vue 3／Naive UI 管理後台重構。',
+        '我是 Ben，一名前端工程師，喜歡把複雜的需求，整理成清楚、好用的介面。',
       collaboration:
-        '依功能安排團隊分工，與後端協作資料串接，並持續溝通開發進度。',
+        '主要使用 Vue／Nuxt，從專案起建、架構設計到共用元件開發，也和團隊一起解決實作問題，讓想法一步步成為能使用的產品。',
       explore: '探索作品',
-      lead: '團隊帶領經驗',
-      caption: '從細節開始，讓想法成形。',
+      lead: '團隊協作與帶領',
+      clockCity: '台北',
+      clockLabel: '台北當地日期與時間',
       recompose: '切換幾何排列',
       hint: '點按，換個角度',
       modes: ['層疊', '展開', '重組'],
@@ -218,14 +219,15 @@ export const messages = {
     },
     hero: {
       eyebrow: 'FRONTEND ENGINEER / TAIWAN',
-      subtitle: ['Interfaces with clarity.', 'Systems built to evolve.'],
+      subtitle: ['Hey there.', 'Glad you stopped by.'],
       intro:
-        'I build websites with Vue and Nuxt. My work includes shared Web Components across campaign sites, Pinia search-state architecture, and Vue 3 / Naive UI admin refactoring.',
+        'I’m Ben, a frontend engineer who enjoys turning complex requirements into clear, usable interfaces.',
       collaboration:
-        'I allocate feature work, collaborate with backend engineers on integration, and communicate development progress.',
+        'I work mainly with Vue and Nuxt, from project setup and architecture to shared components. I also help teammates work through implementation challenges and bring ideas to life.',
       explore: 'Explore work',
-      lead: 'Team lead experience',
-      caption: 'THOUGHTFULLY BUILT.',
+      lead: 'Teamwork & technical leadership',
+      clockCity: 'TAIPEI',
+      clockLabel: 'Local date and time in Taipei',
       recompose: 'Change geometric arrangement',
       hint: 'Tap for a new perspective',
       modes: ['Stacked', 'Expanded', 'Recomposed'],

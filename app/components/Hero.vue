@@ -11,7 +11,7 @@ const arrangement = ref(0);
     </div>
     <div class="hero-topline">
       <p class="eyebrow">{{ t.hero.eyebrow }}</p>
-      <span class="eyebrow hero-index">PORTFOLIO — 2026</span>
+      <HeroClock />
     </div>
     <div class="hero-title-scroll">
       <h1 id="hero-heading" class="title-reveal">BEN HUNG<span>.</span></h1>
@@ -70,8 +70,10 @@ const arrangement = ref(0);
       </div>
     </div>
     <div class="capabilities">
-      <span>Vue 2 / 3</span><span>Nuxt 3 / 4</span><span>{{ t.hero.lead }}</span
-      ><span class="capabilities-caption">{{ t.hero.caption }}</span>
+      <span>JavaScript / TypeScript</span>
+      <span>Vue 2 / 3 · Nuxt 3 / 4</span>
+      <span>Bootstrap / Tailwind CSS</span>
+      <span>{{ t.hero.lead }}</span>
     </div>
   </section>
 </template>

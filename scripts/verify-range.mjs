@@ -34,7 +34,12 @@ const flightModule = load(await read('app/utils/skillRangeFlight.ts'), {
 });
 const { createSkillFlight, projectSkillFlight } = flightModule;
 const ids = skills.map((s) => s.id);
-assert.equal(new Set(ids).size, 17);
+assert.equal(new Set(ids).size, ids.length);
+assert.equal(ids.length, 20);
+for (const id of ['docker', 'cicd', 'k8s']) {
+  const skill = skills.find((s) => s.id === id);
+  assert.ok(skill?.zh && skill?.en, id + ' is available in both languages');
+}
 for (const width of [350, 728, 1370]) {
   const cap = rangeCapacity(width),
     game = new SkillRangeGame(ids);
@@ -166,7 +171,7 @@ for (const width of [350, 728, 1370]) {
     assert.equal(game.recycle(id, game.round), false);
     game.retire(id, game.round);
   }
-  assert.equal(game.snapshot().unlocked.length, 17);
+  assert.equal(game.snapshot().unlocked.length, ids.length);
   const solo = new SkillRangeGame(['last']);
   for (let i = 0; i < 10; i++)
     assert.equal(solo.recycle('last', solo.round), true);
@@ -222,7 +227,9 @@ for (const axis of [0, 1]) {
   assert.ok(Math.min(...positions.map((p) => p[axis])) < 0.1);
   assert.ok(Math.max(...positions.map((p) => p[axis])) > 0.9);
 }
-const gaps = Array.from({ length: 200 }, () => nextSpawnGap(17, random));
+const gaps = Array.from({ length: 200 }, () =>
+  nextSpawnGap(ids.length, random),
+);
 assert.ok(gaps.some((g) => g < 0.33) && gaps.some((g) => g > 1.8));
 assert.ok(new Set(gaps).size > 190);
 assert.ok(
@@ -244,7 +251,7 @@ while (!resizing.snapshot().complete) {
   resizing.hit(id);
   resizing.retire(id, resizing.round);
 }
-assert.equal(resizing.snapshot().unlocked.length, 17);
+assert.equal(resizing.snapshot().unlocked.length, ids.length);
 assert.equal(resizing.hit('nonexistent'), false);
 const start = { x: 20, y: 100, scroll: 0, time: 0 };
 assert.equal(
@@ -261,7 +268,7 @@ assert.equal(
 );
 assert.equal(validRangeTap(start, { ...start, time: 900 }), false);
 console.log(
-  'PASS: 17-skill collection at mobile/tablet/desktop capacities; duplicate/retiring hit rejection; once-per-round completion; resize retains collection; old-round callbacks ignored; bounded readable targets; touch movement/scroll/long-press rejection.',
+  'PASS: 20-skill collection at mobile/tablet/desktop capacities; duplicate/retiring hit rejection; once-per-round completion; resize retains collection; old-round callbacks ignored; bounded readable targets; touch movement/scroll/long-press rejection.',
 );
 // Execute the actual Vue setup handlers: touch scrolling cannot fire a shot.
 const vue = await import('vue');
@@ -338,7 +345,28 @@ await handler.shoot('vue', { detail: 1 });
 await handler.shoot('vue', { detail: 1 });
 assert.equal(handler.state.value.unlocked.length, 1);
 await handler.shoot('nuxt', { detail: 0 });
+assert.equal(
+  handler.state.value.unlocked.length,
+  1,
+  'Keyboard activation cannot shoot',
+);
+handler.pointerDown(pointer(20, 20), 'nuxt');
+handler.pointerUp(pointer(22, 22), 'nuxt');
+await handler.shoot('nuxt', { detail: 0 });
+assert.equal(
+  handler.state.value.unlocked.length,
+  1,
+  'Keyboard activation cannot consume a pending tap',
+);
+handler.pointerDown(pointer(20, 20), 'nuxt');
+handler.pointerUp(pointer(22, 22), 'nuxt');
+await handler.shoot('nuxt', { detail: 1 });
 assert.equal(handler.state.value.unlocked.length, 2);
+assert.match(component, /class="range-target"[\s\S]*?tabindex="-1"/);
+assert.ok(
+  !component.includes('copy.keyboard') && !component.includes('@focus="motion'),
+);
+
 handler.pause();
 assert.equal(handler.state.value.paused, true);
 locale.value = 'en';
@@ -353,7 +381,7 @@ await handler.restart();
 assert.equal(handler.state.value.unlocked.length, 0);
 assert.equal(handler.state.value.round, 2);
 console.log(
-  'PASS: actual Vue pointer handlers reject scrolling and cancellation; taps and keyboard collect once; locale/manual-motion changes retain score and pause; restart resets one round.',
+  'PASS: actual Vue pointer handlers reject scrolling and cancellation; validated pointer taps collect once; keyboard shots rejected; locale/manual-motion changes retain score and pause; restart resets one round.',
 );
 // Animation controller uses one RAF and releases its owned GSAP context/resources.
 const frames = new Map(),
@@ -485,10 +513,12 @@ frame(1000);
 const moving = tracks[0].style.transform;
 frame(1100);
 assert.notEqual(tracks[0].style.transform, moving);
-motion.focus('vue');
-const frozen = tracks[0].style.transform;
 frame(1200);
-assert.equal(tracks[0].style.transform, frozen);
+assert.equal(
+  motion.focus,
+  undefined,
+  'Keyboard-focus flight override is removed',
+);
 motion.sync(false, false);
 assert.equal(frames.size, 0);
 assert.ok(motionTimelines.every((t) => t.paused));
@@ -504,7 +534,6 @@ motion.cancel(true);
 assert.equal(retired, 1);
 assert.ok(children.every((n) => n.removed));
 assert.ok(motionTimelines.every((t) => t.killed || t.callback === undefined));
-motion.focus('');
 for (let time = 1300; time < 30000; time += 40) frame(time);
 assert.equal(missed.length, 3, 'Each missed target expires exactly once');
 assert.equal(new Set(missed).size, 3);
@@ -558,7 +587,7 @@ assert.equal(reverts, 1);
 motion.sync(true, false);
 assert.equal(frames.size, 0);
 console.log(
-  'PASS: actual range controller owns one RAF; focus freezes target; offscreen and reduced modes stop RAF; pending hits flush on resize; particles and GSAP context released once on destroy.',
+  'PASS: actual range controller owns one RAF; no focus-based flight changes; offscreen and reduced modes stop RAF; pending hits flush on resize; particles and GSAP context released once on destroy.',
 );
 // Runtime expiry timing, including a ten-second pause: initial cards must
 // finish their own complete duration, not a duration minus pre-seeded age.
@@ -568,7 +597,7 @@ const records = [],
 const timed = motionModule.exports.createSkillRangeMotion(
   board,
   (id) => timedMisses.push(id),
-  () => 17,
+  () => ids.length,
   (entry) => records.push(entry),
 );
 timed.sync(true, false);
