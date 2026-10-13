@@ -125,7 +125,10 @@ useSeoMeta({
           <p>{{ project.challenge }}</p>
         </section>
         <CaseArchitectureOverview
-          v-if="project.architectureOverview"
+          v-if="
+            project.architectureOverview &&
+            project.slug !== 'enterprise-framework'
+          "
           :overview="project.architectureOverview"
         />
         <section>
@@ -144,6 +147,13 @@ useSeoMeta({
             <CaseStateBoundaries :diagram="project.contributionDetails" />
           </div>
         </section>
+        <CaseArchitectureOverview
+          v-if="
+            project.architectureOverview &&
+            project.slug === 'enterprise-framework'
+          "
+          :overview="project.architectureOverview"
+        />
         <section v-if="project.integrationDiagram">
           <h2>{{ project.integrationDiagram.title }}</h2>
           <SharedComponentsDiagram :diagram="project.integrationDiagram" />

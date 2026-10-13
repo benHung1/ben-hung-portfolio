@@ -86,6 +86,7 @@ useSeoMeta({
         :key="project.slug"
         :project="project"
         :index="index"
+        :category="active === 'all' ? undefined : active"
       />
     </TransitionGroup>
     <div class="work-bottom">

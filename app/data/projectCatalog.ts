@@ -102,7 +102,7 @@ export const projectRecords: ProjectRecord[] = [
         company: '重高科技 · 鴻海駐點',
         role: '基礎模組調整、人車指派開發與 API 協作',
         summary:
-          '主要承接日常 Jira 工單，維護路線、時刻表、駕駛員與車輛管理等基礎模組；後期以既有仕業總表為基礎，調整相關模組與 API，補上人員、車輛資料，開發人車指派功能。',
+          '維護路線、時刻表、駕駛員與車輛管理模組，並以既有仕業總表為基礎，開發人車指派介面，與後端協作調整資料欄位、API 串接與操作流程。',
         highlights: [
           '日常 Jira 工單與基礎模組維護。',
           '配合人車指派需求，擴充既有模組與 API 的人員、車輛資料。',
@@ -122,7 +122,7 @@ export const projectRecords: ProjectRecord[] = [
         company: '重高科技股份有限公司 · On assignment at Foxconn',
         role: 'Core module updates, driver–vehicle assignment & API collaboration',
         summary:
-          'Handled day-to-day Jira tickets for route, timetable, driver and vehicle management modules. Later built on existing duty rosters, updating related modules and APIs with driver and vehicle data to support driver–vehicle assignment features.',
+          'Maintained route, timetable, driver and vehicle management modules, and developed driver–vehicle assignment interfaces based on existing duty rosters. Worked with backend engineers on data fields, API integration and frontend workflows.',
         highlights: [
           'Day-to-day Jira tickets and core module maintenance.',
           'Extended existing modules and APIs with driver and vehicle data for driver–vehicle assignment.',
@@ -297,7 +297,7 @@ export const projectRecords: ProjectRecord[] = [
         highlights: [
           'Refactored the map editor while preserving existing data and workflows.',
           'Updated canvas interactions and property panels with incremental updates.',
-          'Built a read-only viewer SDK and integrated graphic exports.',
+          'Built a read-only viewer SDK and integrated GeoJSON and Shapefile exports.',
         ],
         background:
           'The system supports drawing and editing road, junction and accident diagrams. I refactored the existing editor while preserving its data and editing workflows, and extended it with external viewing and file exports.',
@@ -306,7 +306,7 @@ export const projectRecords: ProjectRecord[] = [
           'Canvas and property controls: updated dragging, handles, layer locking and property panels, keeping selection and the canvas in sync after undo and redo.',
           'Incremental updates: limited canvas rebuilds to affected objects, roads and junctions, reusing unchanged graphic data to reduce unnecessary computation.',
           'External viewer SDK: provided read-only map loading, zoom and pan, handling legacy and new JSON formats, bundled image paths and viewer cleanup.',
-          'Graphic exports: integrated GeoJSON and Shapefile download interfaces with coordinate-system and export-scope settings, format warnings and guards against invalid downloads.',
+          'GeoJSON and Shapefile exports: integrated GeoJSON and Shapefile download interfaces with coordinate-system and export-scope settings, format warnings and guards against invalid downloads.',
         ],
         implementation: [
           {
@@ -356,7 +356,7 @@ export const projectRecords: ProjectRecord[] = [
         summary:
           '公司在 Vue 之上，以物件導向方式組織 Service、Controller、Entity 與 UI，讓前端資料結構與後端 Model 的領域邏輯對齊。我沿用這套分層開發業務模組，並擴充分頁取數、排序與頁面資源清理。',
         highlights: [
-          '用 class、介面與繼承，建立一致的業務開發規範。',
+          '沿用公司既有的 class、介面與繼承規範，開發業務模組。',
           '以 Service／Controller／Entity／UI 四層分工，連接後端 Model 與前端操作。',
           '在共用規範與特殊業務需求之間，選擇合適的擴充位置。',
         ],
@@ -460,9 +460,9 @@ export const projectRecords: ProjectRecord[] = [
         summary:
           'The company organizes Service, Controller, Entity and UI layers on top of Vue using object-oriented design, aligning frontend data structures with backend domain models. I applied these conventions to business modules and extended paginated retrieval, sorting and page cleanup.',
         highlights: [
-          'Classes, interfaces and inheritance establish shared development conventions.',
+          'Developed business modules using the company’s existing conventions for classes, interfaces and inheritance.',
           'Four layers—Service, Controller, Entity and UI—connect backend models to user interactions.',
-          'Choose extension points that balance shared conventions with business-specific needs.',
+          'Selected extension points that balance shared conventions with business-specific needs.',
         ],
         background:
           'Management applications repeat many search, form and table patterns. The company uses TypeScript classes, interfaces and inheritance to establish a shared foundation, align domain terminology and data contracts, and compose workflows through page controllers. Vue handles rendering and reactivity; the internal framework defines how business code is organized.',
@@ -699,18 +699,6 @@ export const projectRecords: ProjectRecord[] = [
         ],
         challenge:
           '重構既有管理介面時，我需要把畫面需求整理成可與後端討論的資料及操作需求，同時決定哪些介面由 Naive UI 提供、哪些流程由頁面承擔。',
-        implementation: [
-          {
-            title: 'Vue 3、Naive UI 與 TypeScript 的分工',
-            description:
-              'Vue 3 組織管理頁面與元件，Naive UI 提供管理介面的 UI 基礎，TypeScript 用於前端型別描述。我負責架構與套件整合，將頁面流程接到介面元件上；套件提供 UI，不代替業務流程的設計。',
-          },
-          {
-            title: '從畫面需求協調 API，而非自行定義後端',
-            description:
-              '我將管理畫面需要呈現的資料與操作需求帶入 API 規格討論，與後端共同確認後，再負責前端串接與畫面實作。伺服器端仍由後端工程師負責；主管透過定期進度與流程彙報掌握開發狀況。',
-          },
-        ],
       },
       en: {
         title: 'Event Management Console',
@@ -733,18 +721,6 @@ export const projectRecords: ProjectRecord[] = [
         ],
         challenge:
           'Refactoring the existing console required translating interface needs into data and operation requirements for backend discussions, while deciding what Naive UI should provide and what each page must handle.',
-        implementation: [
-          {
-            title: 'Distinct roles for Vue 3, Naive UI, and TypeScript',
-            description:
-              'Vue 3 organizes admin pages and components, Naive UI supplies the interface foundation, and TypeScript describes frontend types. I owned the architecture and package integration, connecting page flows to UI components. The library supplies UI building blocks; it does not define the business workflow.',
-          },
-          {
-            title: 'Coordinate APIs from interface requirements',
-            description:
-              'I brought the data and operations required by admin screens into API discussions with backend engineers, then implemented the frontend integration and interfaces. They retained server-side responsibility, while regular progress and process updates kept my supervisor informed.',
-          },
-        ],
       },
     },
   },
@@ -842,9 +818,9 @@ export const projectRecords: ProjectRecord[] = [
         ],
         implementation: [
           {
-            title: '以既有使用流程限制重構範圍',
+            title: '與畢業季活動的區分',
             description:
-              '重構對象是持續運作的新鮮人求職服務。我的工作保留原有使用流程，重新規劃頁面組合與可重用功能模組，安排組員分工並共同整合。重構重點在程式的組織方式，與另行製作畢業季活動的參與資訊頁不同。',
+              '重構重點在程式的組織方式，與另行製作畢業季活動的參與資訊頁不同。',
           },
         ],
       },
@@ -863,9 +839,9 @@ export const projectRecords: ProjectRecord[] = [
         ],
         implementation: [
           {
-            title: 'Use the existing user flow to bound the refactor',
+            title: 'Distinct from the graduation campaign',
             description:
-              'The refactor concerned an active early-career service. I preserved its existing user flows, reorganized page composition and reusable feature modules, allocated work, and integrated it with the team. This work focused on code organization, distinct from building the separate graduation campaign’s participation pages.',
+              'This work focused on code organization, distinct from building the separate graduation campaign’s participation pages.',
           },
         ],
       },

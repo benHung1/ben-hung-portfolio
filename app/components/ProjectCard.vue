@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { Project } from '~/data/projectCatalog';
+import type { Category, Project } from '~/data/projectCatalog';
 const props = defineProps<{
   project: Project;
+  category?: Category;
   index?: number;
   featured?: boolean;
 }>();
@@ -32,7 +33,7 @@ const { t } = usePortfolio();
       }}</span>
       <div class="project-card-copy">
         <div class="project-category">
-          <span>{{ t.categories[project.categories[0]!] }}</span
+          <span>{{ t.categories[category ?? project.categories[0]!] }}</span
           ><span>{{ project.company }}</span>
         </div>
         <h3>
