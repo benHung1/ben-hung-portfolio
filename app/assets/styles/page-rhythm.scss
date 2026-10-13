@@ -221,9 +221,23 @@ html[data-page-loading] .site-content .has-entered {
 .case-page .inner-page-art > b {
   opacity: 0.12;
 }
+.case-related-links {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  margin-top: 20px;
+}
 .case-related {
   max-width: 100%;
+  gap: 14px;
+  padding-block: 8px;
   overflow-wrap: anywhere;
+}
+.case-related > span {
+  min-width: 0;
+}
+.case-related > .ui-icon {
+  flex-shrink: 0;
 }
 .inner-title-mask {
   display: block;
@@ -264,15 +278,20 @@ html[data-page-loading] .site-content .has-entered {
 .case-return-controls {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 20px 32px;
-  padding-top: 40px;
+  gap: 24px 56px;
+  padding-block: 40px 36px;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 .case-return-controls .underlined-link {
   min-height: 44px;
+  padding: 0;
+  font: inherit;
+  white-space: nowrap;
 }
 .case-return-controls button {
-  font: inherit;
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -322,13 +341,19 @@ html[data-page-loading] .site-content .has-entered {
   max-width: 68ch;
 }
 .next-case {
+  position: relative;
+  padding: 16px 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-small);
   transition:
     background-color 0.2s,
+    color 0.2s,
     border-color 0.2s;
 }
 .next-case:hover,
 .next-case:focus-visible {
-  background: color-mix(in srgb, var(--blue) 8%, transparent);
+  background: var(--hover);
+  color: var(--blue);
   border-color: var(--blue);
 }
 .contact-conditions .hiring-note {
@@ -369,9 +394,12 @@ html[data-page-loading] .site-content .has-entered {
     right: -210px;
   }
   .case-return-controls {
-    gap: 16px;
-    padding-top: 22px;
+    gap: 20px 32px;
+    padding-block: 24px 28px;
     font-size: 13px;
+  }
+  .next-case {
+    padding: 14px 16px;
   }
   .case-cover-window {
     border-radius: 20px;

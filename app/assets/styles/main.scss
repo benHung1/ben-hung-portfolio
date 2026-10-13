@@ -885,7 +885,23 @@ main:focus {
   font-size: 1.9rem;
   margin-top: 33px;
 }
-.about-signature span {
+.about-signature-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+}
+.about-signature-name {
+  white-space: nowrap;
+}
+.about-signature-tagline {
+  flex: 1 1 220px;
+  min-width: 0;
+  font: normal 0.9375rem / 1.8 var(--font);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.about-signature-meta {
   display: block;
   font-style: normal;
   font-family: var(--mono);
@@ -1273,9 +1289,6 @@ main:focus {
   max-width: 730px;
 }
 .case-metadata {
-  display: grid;
-  grid-template-columns: 1fr 1.1fr 1.2fr 1fr;
-  gap: 28px;
   border-block: 1px solid var(--line);
   padding: 25px 0;
   margin: 38px 0;
@@ -1290,6 +1303,7 @@ main:focus {
   font-size: 0.875rem;
   line-height: 1.8;
   margin-top: 9px;
+  overflow-wrap: anywhere;
 }
 .case-page > .project-cover {
   min-height: 430px;
@@ -1328,12 +1342,11 @@ main:focus {
   gap: 90px;
   margin: 72px 0 80px;
 }
-.case-content > aside > p {
-  font-size: 1.7rem;
-  line-height: 1.2;
-  letter-spacing: -0.04em;
-  max-width: 220px;
-  margin-top: 20px;
+.case-art-rail {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+  min-width: 0;
 }
 .case-story > section + section {
   margin-top: 44px;
@@ -1754,8 +1767,6 @@ main:focus {
     font-size: 1rem;
   }
   .case-metadata {
-    grid-template-columns: 1fr 1fr;
-    gap: 23px 17px;
     padding: 24px 0;
     margin: 29px 0;
   }
@@ -1801,10 +1812,8 @@ main:focus {
     gap: 35px;
     margin: 40px 0 52px;
   }
-  .case-content > aside > p {
-    font-size: 1.65rem;
-    max-width: none;
-    margin-top: 12px;
+  .case-art-rail {
+    display: none;
   }
   .case-story h2 {
     font-size: 1.25rem;

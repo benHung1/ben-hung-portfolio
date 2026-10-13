@@ -11,6 +11,23 @@ export interface IntegrationDiagram {
   caption: string;
 }
 export interface ProjectCopy {
+  architectureOverview?: {
+    layers: NonNullable<ProjectCopy['stateBoundaries']>;
+    comparison: {
+      title: string;
+      intro: string;
+      columns: [string, string, string];
+      rows: { aspect: string; company: string; typical: string }[];
+    };
+    tradeoffs: {
+      title: string;
+      benefitsTitle: string;
+      benefits: string[];
+      costsTitle: string;
+      costs: string[];
+      judgment: string;
+    };
+  };
   decisionFlow?: {
     title: string;
     steps: { title: string; detail: string }[];
@@ -21,8 +38,9 @@ export interface ProjectCopy {
   stateBoundaries?: {
     title: string;
     groups: { title: string; description: string }[];
-    caption: string;
+    caption?: string;
   };
+  contributionDetails?: NonNullable<ProjectCopy['stateBoundaries']>;
   title: string;
   company: string;
   role: string;
@@ -31,6 +49,7 @@ export interface ProjectCopy {
   challenge?: string;
   engineeringValue?: string;
   audience?: string;
+  highlights?: string[];
   contributions: string[];
   collaboration?: string;
   implementation?: { title: string; description: string }[];
@@ -69,6 +88,482 @@ export const categoryIds: Category[] = [
 // One explicit editorial order for lists, selections, filters and adjacent cases.
 export const projectRecords: ProjectRecord[] = [
   {
+    slug: 'evbus-operations',
+    order: -30,
+    categories: ['applications'],
+    period: '2026',
+    stack: ['Vue 3', 'TypeScript', 'PrimeVue', 'SignalR'],
+    deployment: 'unknown',
+    requiresLogin: true,
+    relatedSlugs: ['enterprise-framework'],
+    content: {
+      zh: {
+        title: '電動巴士營運管理系統',
+        company: '重高科技 · 鴻海駐點',
+        role: '基礎模組調整、人車指派開發與 API 協作',
+        summary:
+          '主要承接日常 Jira 工單，維護路線、時刻表、駕駛員與車輛管理等基礎模組；後期以既有仕業總表為基礎，調整相關模組與 API，補上人員、車輛資料，開發人車指派功能。',
+        highlights: [
+          '日常 Jira 工單與基礎模組維護。',
+          '配合人車指派需求，擴充既有模組與 API 的人員、車輛資料。',
+          '開發人車指派畫面與操作功能。',
+        ],
+        background:
+          '專案已有完成串接的仕業總表。後續為支援人車指派，我在公司的 Vue 自有框架上調整相關基礎模組與 API，補上所需的人員、車輛資料，再銜接人車指派操作。',
+        contributions: [
+          '日常維護：依 Jira 工單調整路線、時刻表、駕駛員、車輛管理及跨場站支援等模組，處理表單、檢核、分頁與排序問題。',
+          '人車指派：沿用既有仕業總表，配合人員與車輛資料調整基礎模組，開發人車指派畫面與操作功能，處理載入狀態、人車指派結果顯示與異常提示。',
+          'API 協作：與後端討論人員、車輛相關欄位、請求參數及結果格式，配合人車指派需求調整 API 資料對應與前端流程。',
+        ],
+        relatedNote: '這些模組如何沿用公司的分層架構，見自有框架案例。',
+      },
+      en: {
+        title: 'Electric Bus Operations Platform',
+        company: '重高科技股份有限公司 · On assignment at Foxconn',
+        role: 'Core module updates, driver–vehicle assignment & API collaboration',
+        summary:
+          'Handled day-to-day Jira tickets for route, timetable, driver and vehicle management modules. Later built on existing duty rosters, updating related modules and APIs with driver and vehicle data to support driver–vehicle assignment features.',
+        highlights: [
+          'Day-to-day Jira tickets and core module maintenance.',
+          'Extended existing modules and APIs with driver and vehicle data for driver–vehicle assignment.',
+          'Developed driver–vehicle assignment interfaces and interactions.',
+        ],
+        background:
+          "Duty roster integration was already in place. To support driver–vehicle assignment, I worked within the company's Vue-based framework to update related modules and APIs, add the required driver and vehicle data, and connect the driver–vehicle assignment workflow.",
+        contributions: [
+          'Daily maintenance: resolved Jira tickets across route, timetable, driver, vehicle and cross-depot support modules, covering forms, validation, pagination and sorting.',
+          'Driver–vehicle assignment: built on existing duty rosters, updated core modules to support driver and vehicle data, and developed driver–vehicle assignment interfaces with loading states, result views and error feedback.',
+          'API collaboration: discussed driver and vehicle fields, request parameters and result formats with backend engineers, then adjusted API data mapping and frontend workflows for driver–vehicle assignment requirements.',
+        ],
+        relatedNote:
+          "See the framework case for how these modules use the company's layered architecture.",
+      },
+    },
+  },
+  {
+    slug: 'voice-service-console',
+    order: -20,
+    categories: ['applications'],
+    period: '2026',
+    stack: [
+      'Vue 3',
+      'TypeScript',
+      'REST API / SSE',
+      'Three.js',
+      'Tailwind CSS',
+    ],
+    deployment: 'unknown',
+    requiresLogin: true,
+    relatedSlugs: ['enterprise-framework'],
+    content: {
+      zh: {
+        title: '智能客服語音管理平台',
+        company: '重高科技 · 鴻海駐點',
+        role: '專案初期前端開發、功能畫面與 API／SSE 串接',
+        summary:
+          '參與從 0 開始的客服平台開發，負責進線列表、通話內頁、Digital Twin 與案件管理，並共同開發即時數據及數據總覽，完成畫面、REST API 與 SSE 事件串接。',
+        highlights: [
+          '從專案初期參與畫面與功能開發。',
+          '整合數據看板、Digital Twin 與案件管理。',
+          '重點處理進線列表的 API 查詢與 SSE 通話狀態。',
+        ],
+        background:
+          '平台供客服與主管查看營運數據、處理進線與追蹤案件。我在公司既有的 Vue 自有框架上開發業務畫面，與後端協作確認資料欄位、API 回應及事件格式。',
+        contributions: [
+          '即時數據：共同開發服務線看板，串接進線量、等候情況與話務員狀態 API，透過定期刷新更新畫面。',
+          '數據總覽：共同開發服務線與日期篩選、績效、滿意度及服務品質圖表，將統計 API 資料轉為可閱讀的指標與趨勢。',
+          'Digital Twin：建置 3D 客服場景、專區與話務員資訊面板，整合服務線及績效資料，依點選項目載入詳細資訊。',
+          '案件管理：開發案件列表、詳情與狀態操作，串接查詢及更新 API，並將通話資料帶入案件建立表單。',
+          '進線列表與通話內頁：實作查詢與詳情畫面，串接錄音、逐字稿、摘要、AI 建議及品質覆核，整合非即時資料與 SSE 通話中狀態。',
+        ],
+        contributionDetails: {
+          title: '進線列表與內頁：非即時與通話中',
+          groups: [
+            {
+              title: '非即時狀態｜API 查詢',
+              description:
+                '透過 API 查詢既有進線紀錄，支援搜尋、篩選、排序與分頁。進入內頁後檢視錄音、逐字稿、摘要與品質評估，依角色進行覆核或建立案件。',
+            },
+            {
+              title: '通話中狀態｜SSE 更新',
+              description:
+                '列表接收接聽、掛斷事件後刷新；內頁依通話 ID 更新狀態、逐字稿與 AI 建議，將 API 載入的逐字稿與後續串流接續顯示，避免其他通話干擾目前畫面。',
+            },
+          ],
+        },
+        relatedNote: '頁面分層與生命週期的擴充方式，見公司自有框架案例。',
+      },
+      en: {
+        title: 'Intelligent Voice Customer Service Platform',
+        company: '重高科技股份有限公司 · On assignment at Foxconn',
+        role: 'Frontend development from project inception, UI & API/SSE integration',
+        summary:
+          'Joined a new customer service platform from the start, building call lists and detail views, Digital Twin and case management. Co-developed live metrics and analytics dashboards with the team, connecting interfaces to REST APIs and SSE events.',
+        highlights: [
+          'Developed interfaces and features from project inception.',
+          'Integrated dashboards, Digital Twin and case management.',
+          'Focused on API-based call queries and live SSE call states.',
+        ],
+        background:
+          "The platform helps agents and supervisors monitor operations, handle calls and track cases. I built business interfaces on the company's existing Vue-based framework and worked with backend engineers on data fields, API responses and event formats.",
+        contributions: [
+          'Live metrics: co-developed service-line dashboards, integrating call volume, queue and agent-status APIs with periodic refreshes.',
+          'Analytics: co-developed service-line and date filters plus performance, satisfaction and service-quality charts, mapping statistics APIs to readable metrics and trends.',
+          'Digital Twin: built a 3D customer service scene with zone and agent information panels, integrating service-line and performance data and loading details on selection.',
+          'Case management: developed lists, details and status actions, connected query and update APIs, and carried call data into case creation forms.',
+          'Call lists and detail views: built query and detail interfaces with recordings, transcripts, summaries, AI suggestions and quality reviews, combining existing records with live SSE call states.',
+        ],
+        contributionDetails: {
+          title: 'Call lists and details: existing records vs. live calls',
+          groups: [
+            {
+              title: 'Non-live state | API queries',
+              description:
+                'Query existing call records with search, filters, sorting and pagination. Detail views provide recordings, transcripts, summaries and quality assessments, with role-based review actions and case creation.',
+            },
+            {
+              title: 'Live call state | SSE updates',
+              description:
+                'Answer and hangup events refresh the list. Detail views match events by call ID to update status, transcripts and AI suggestions, merging API-loaded transcripts with incoming entries while filtering out other calls.',
+            },
+          ],
+        },
+        relatedNote:
+          'See the internal framework case for page layering and lifecycle extensions.',
+      },
+    },
+  },
+  {
+    slug: 'map-editor-platform',
+    order: -10,
+    categories: ['applications'],
+    period: '2026',
+    stack: ['Vue 3', 'TypeScript', 'Konva', 'Vitest', 'GeoJSON / Shapefile'],
+    deployment: 'unknown',
+    requiresLogin: true,
+    relatedSlugs: ['enterprise-framework'],
+    content: {
+      zh: {
+        title: '圖資編輯平台與外部檢視 SDK',
+        company: '重高科技 · 鴻海駐點',
+        role: '圖資編輯器重構、畫布互動與 SDK／匯出整合',
+        summary:
+          '參與既有圖資系統重構，維護畫布編輯、屬性面板與復原／重做，加入局部更新；並開發外部唯讀檢視 SDK，整合 GeoJSON／Shapefile 匯出及錯誤提示。',
+        highlights: [
+          '重構圖資編輯器，保留既有資料與操作。',
+          '調整畫布互動與屬性面板，加入局部更新。',
+          '開發唯讀檢視 SDK，整合圖形格式匯出。',
+        ],
+        background:
+          '系統用於繪製與編輯道路、路口及事故圖資。我在既有專案上重構編輯器，保留原有資料與編輯流程，並擴充外部網站檢視與檔案匯出功能。',
+        contributions: [
+          '編輯器重構：拆分資料、幾何計算、場景與渲染模組，搭配回歸測試確認舊資料及編輯行為的相容性。',
+          '畫布與屬性操作：調整拖曳、控制點、圖層鎖定及屬性面板，處理復原／重做後的選取與畫面同步。',
+          '局部更新：依物件、道路與路口的變更範圍更新畫布，重用未變動的圖形資料，減少不必要的重新計算。',
+          '外部檢視 SDK：提供唯讀圖資載入、縮放與平移，處理新舊 JSON 格式、打包圖片路徑及檢視器資源清理。',
+          '圖形匯出：整合 GeoJSON 與 Shapefile 下載介面，串接座標系統與匯出範圍設定，顯示格式警告並阻止無效資料下載。',
+        ],
+        implementation: [
+          {
+            title: '從原生頁面到 Vue 工作區',
+            description:
+              '原系統以 HTML、CSS 與 JavaScript 開發；初步移植 Vue 後，工作區的畫面、狀態與操作邏輯主要集中在 workspace.vue。後續重構將它收斂為版面與模組組裝入口。',
+          },
+          {
+            title: '依功能拆開畫面與互動',
+            description:
+              '先盤點各功能使用的狀態、函式與樣式，再將標線、文字、事故物件等拆成獨立 feature，包含屬性面板、狀態、資料轉換與拖曳控制；共用邏輯則整理到 composables 與互動模組。',
+          },
+          {
+            title: '分離資料、計算與繪圖核心',
+            description:
+              '將核心拆成資料模型、幾何、場景、Konva／SVG 渲染及匯出模組。透過 Command／Patch 統一資料修改與復原／重做，讓繪圖、匯出與外部唯讀 SDK 能沿用共用核心。',
+          },
+          {
+            title: '保留舊行為，逐步遷移',
+            description:
+              '先抽離純函式與資料表，保留既有呼叫方式，再逐項調整模組責任。每次遷移搭配舊資料、操作與畫面回歸檢查，後續再加入局部更新與共用屬性元件。',
+          },
+        ],
+        relatedNote:
+          '圖資編輯器採專用核心；與電巴、智能客服所用業務框架的差異，見公司自有框架案例。',
+      },
+      en: {
+        title: 'Map Editing Platform & External Viewer SDK',
+        company: '重高科技股份有限公司 · On assignment at Foxconn',
+        role: 'Map editor refactoring, canvas interactions & SDK/export integration',
+        summary:
+          'Contributed to refactoring an existing map editor, maintaining canvas interactions, property panels and undo/redo while adding incremental updates. Built an external read-only viewer SDK and integrated GeoJSON/Shapefile exports with error feedback.',
+        highlights: [
+          'Refactored the map editor while preserving existing data and workflows.',
+          'Updated canvas interactions and property panels with incremental updates.',
+          'Built a read-only viewer SDK and integrated graphic exports.',
+        ],
+        background:
+          'The system supports drawing and editing road, junction and accident diagrams. I refactored the existing editor while preserving its data and editing workflows, and extended it with external viewing and file exports.',
+        contributions: [
+          'Editor refactoring: separated data, geometry, scene and rendering modules, using regression tests to check compatibility with legacy data and editing behavior.',
+          'Canvas and property controls: updated dragging, handles, layer locking and property panels, keeping selection and the canvas in sync after undo and redo.',
+          'Incremental updates: limited canvas rebuilds to affected objects, roads and junctions, reusing unchanged graphic data to reduce unnecessary computation.',
+          'External viewer SDK: provided read-only map loading, zoom and pan, handling legacy and new JSON formats, bundled image paths and viewer cleanup.',
+          'Graphic exports: integrated GeoJSON and Shapefile download interfaces with coordinate-system and export-scope settings, format warnings and guards against invalid downloads.',
+        ],
+        implementation: [
+          {
+            title: 'From plain HTML, CSS and JavaScript to a Vue workspace',
+            description:
+              'The original system used HTML, CSS and JavaScript. After the initial Vue migration, most workspace UI, state and interaction logic was concentrated in workspace.vue. Further refactoring made it primarily a layout and module composition entry point.',
+          },
+          {
+            title: 'Separate UI and interactions by feature',
+            description:
+              'Mapped the state, functions and styles used by each feature, then grouped markings, text and accident objects into feature modules with their own property panels, state, data conversion and drag controls. Shared behavior moved into composables and interaction modules.',
+          },
+          {
+            title: 'Separate data, computation and rendering',
+            description:
+              'Split the core into data models, geometry, scenes, Konva/SVG rendering and exports. Commands and patches unified document changes with undo/redo, allowing rendering, exports and the external read-only SDK to reuse the same core.',
+          },
+          {
+            title: 'Migrate gradually while preserving existing behavior',
+            description:
+              'First extracted pure functions and data tables while preserving existing call sites, then refined module responsibilities. Each migration used legacy-data, interaction and visual regression checks, followed by incremental updates and shared property controls.',
+          },
+        ],
+        relatedNote:
+          'The map editor uses a dedicated core. See the internal framework case for how it differs from the business framework used by the bus and voice platforms.',
+      },
+    },
+  },
+  {
+    slug: 'enterprise-framework',
+    order: -40,
+    categories: ['architecture'],
+    period: '2026',
+    stack: ['Vue 3', 'TypeScript', 'OOP', 'Service / Controller / Entity / UI'],
+    deployment: 'unknown',
+    requiresLogin: false,
+    relatedSlugs: [
+      'evbus-operations',
+      'voice-service-console',
+      'map-editor-platform',
+    ],
+    content: {
+      zh: {
+        title: '公司自有框架｜物件導向分層與擴充',
+        company: '重高科技 · 鴻海駐點',
+        role: '既有框架應用、共用層擴充與維護',
+        summary:
+          '公司在 Vue 之上，以物件導向方式組織 Service、Controller、Entity 與 UI，讓前端資料結構與後端 Model 的領域邏輯對齊。我沿用這套分層開發業務模組，並擴充分頁取數、排序與頁面資源清理。',
+        highlights: [
+          '用 class、介面與繼承，建立一致的業務開發規範。',
+          '以 Service／Controller／Entity／UI 四層分工，連接後端 Model 與前端操作。',
+          '在共用規範與特殊業務需求之間，選擇合適的擴充位置。',
+        ],
+        background:
+          '企業管理介面有大量重複的查詢、表單與表格。公司以 TypeScript class、介面與繼承建立共用基礎，讓前後端沿用相近的領域命名與資料契約，再由頁面控制器組合操作流程。Vue 仍負責畫面與響應式更新；自有框架則規範業務程式如何組織。',
+        architectureOverview: {
+          layers: {
+            title: '四層各自負責什麼',
+            groups: [
+              {
+                title: 'Service｜資料操作',
+                description:
+                  '封裝 API 呼叫、查詢條件與新增／更新流程，整理分頁、排序等參數，讓控制器透過一致的操作介面取得結果。',
+              },
+              {
+                title: 'Controller｜流程與狀態',
+                description:
+                  '組裝頁面欄位與操作，接收 UI 事件、呼叫 Service，並管理頁面狀態與資源生命週期，將結果交回 UI 呈現。',
+              },
+              {
+                title: 'Entity｜模型與轉換',
+                description:
+                  '對應後端 Model 的欄位與關聯，承接 API 資料，搭配轉換方法把表單值整理成送出資料，並提供部分欄位顯示資訊。',
+              },
+              {
+                title: 'UI｜呈現與互動',
+                description:
+                  '由 Vue 與共用元件呈現表單、表格及對話框，接收使用者輸入與操作，交由 Controller 處理，並依頁面狀態更新畫面。',
+              },
+            ],
+          },
+          comparison: {
+            title: '與一般 Vue／Nuxt 專案的差異',
+            intro:
+              'Vue 提供元件與響應式能力，Nuxt 在 Vue 之上整合路由、SSR 等應用能力；這套自有框架則在 Vue 之上增加公司的業務分層與頁面規範。',
+            columns: ['比較面向', '公司自有框架', '一般 Vue／Nuxt 專案'],
+            rows: [
+              {
+                aspect: '開發起點',
+                company:
+                  '繼承基底 Controller、Service 與 Entity，再設定欄位與操作。',
+                typical:
+                  '以元件、composables 與 API 模組組合功能，業務分層由團隊決定。',
+              },
+              {
+                aspect: '資料對應',
+                company:
+                  '以 Entity 對應後端 Model，配合共用轉換處理表單與 API 資料。',
+                typical:
+                  '可用型別、一般物件與 mapper；是否採 Entity class 由專案決定。',
+              },
+              {
+                aspect: '共用方式',
+                company:
+                  '基底類別、固定介面與欄位設定，統一相似管理頁的開發方式。',
+                typical:
+                  '常透過元件與函式組合重用邏輯，也能加入同樣的 OOP 分層。',
+              },
+              {
+                aspect: '客製方式',
+                company:
+                  '優先沿用框架擴充點；特殊互動可能需要跨 Controller、轉接層與元件修改。',
+                typical:
+                  '可直接設計元件與狀態流程；跨頁一致性需要另訂團隊規範。',
+              },
+            ],
+          },
+          tradeoffs: {
+            title: '優點、代價與我的判斷',
+            benefitsTitle: '帶來的好處',
+            benefits: [
+              '相似管理頁可沿用欄位與操作規範，減少重複組裝。',
+              '前後端領域命名與資料結構較一致，方便討論欄位和 API 契約。',
+              '共用能力修正在基底，同一專案的多個業務模組可以沿用。',
+            ],
+            costsTitle: '需要承擔的代價',
+            costs: [
+              '除了 Vue，還要理解類別繼承、控制器與轉接流程，初期上手和除錯成本較高。',
+              'Entity、表單與後端契約存在耦合，欄位變更可能牽動多層，仍需明確處理空值與格式。',
+              '特殊互動需要額外擴充；各案維護不同版本時，共用修正也需要分別確認。',
+            ],
+            judgment:
+              '我的判斷：它適合資料模型穩定、管理頁重複度高的產品。對即時工作台等特殊介面，我會保留業務狀態與互動的彈性，只把多個模組確實需要的能力放進共用層。',
+          },
+        },
+        contributions: [
+          '沿用既有分層，完成電巴營運與語音客服模組的業務接入。',
+          '擴充共用 Service 的逐頁取數，讓需要完整集合的查詢能重用。',
+          '接通表格事件、轉接層、Controller 與 API 的伺服器排序，採可選設定保留原有行為。',
+          '接入頁面清理生命週期，讓即時通話 Controller 能在離頁時解除訂閱、清除計時器。',
+        ],
+        collaboration:
+          '原有框架由公司團隊建立並共同維護；我負責業務應用、具體擴充與修正。電巴與語音客服在各自程式庫維護同源基礎。',
+        relatedNote:
+          '電巴與語音客服展示這套基礎的實際應用；圖資平台另採專用核心，可對照不同業務的架構需求。',
+      },
+      en: {
+        title: 'Company Framework: OOP Layers & Extensions',
+        company: '重高科技股份有限公司 · On assignment at Foxconn',
+        role: 'Existing framework integration, shared-layer extensions & maintenance',
+        summary:
+          'The company organizes Service, Controller, Entity and UI layers on top of Vue using object-oriented design, aligning frontend data structures with backend domain models. I applied these conventions to business modules and extended paginated retrieval, sorting and page cleanup.',
+        highlights: [
+          'Classes, interfaces and inheritance establish shared development conventions.',
+          'Four layers—Service, Controller, Entity and UI—connect backend models to user interactions.',
+          'Choose extension points that balance shared conventions with business-specific needs.',
+        ],
+        background:
+          'Management applications repeat many search, form and table patterns. The company uses TypeScript classes, interfaces and inheritance to establish a shared foundation, align domain terminology and data contracts, and compose workflows through page controllers. Vue handles rendering and reactivity; the internal framework defines how business code is organized.',
+        architectureOverview: {
+          layers: {
+            title: 'What each of the four layers does',
+            groups: [
+              {
+                title: 'Service · Data operations',
+                description:
+                  'Encapsulates API calls, queries and create/update workflows. Prepares pagination and sorting parameters so controllers can request data through consistent operation interfaces.',
+              },
+              {
+                title: 'Controller · Workflow & state',
+                description:
+                  'Configures page fields and actions, handles UI events, and calls services. Manages page state and resource lifecycles, then passes results back to the UI.',
+              },
+              {
+                title: 'Entity · Models & mapping',
+                description:
+                  'Represents backend fields and relationships, receives API data, and works with conversion methods to map form values into request data. Also supplies some field display metadata.',
+              },
+              {
+                title: 'UI · Rendering & interaction',
+                description:
+                  'Vue and shared components render forms, tables and dialogs, pass user input and actions to controllers, and update the view from page state.',
+              },
+            ],
+          },
+          comparison: {
+            title: 'How this differs from a typical Vue / Nuxt project',
+            intro:
+              'Vue provides components and reactivity; Nuxt integrates application features such as routing and SSR on top of Vue. This internal framework adds company-specific business layers and page conventions to Vue.',
+            columns: [
+              'Aspect',
+              'Company framework',
+              'Typical Vue / Nuxt project',
+            ],
+            rows: [
+              {
+                aspect: 'Starting point',
+                company:
+                  'Extend base controllers, services and entities, then configure fields and actions.',
+                typical:
+                  'Compose components, composables and API modules; the team defines the business layers.',
+              },
+              {
+                aspect: 'Data mapping',
+                company:
+                  'Entities align with backend models, with shared conversion for forms and API data.',
+                typical:
+                  'Types, plain objects and mappers are possible; entity classes are a project choice.',
+              },
+              {
+                aspect: 'Reuse',
+                company:
+                  'Base classes, fixed interfaces and field configuration standardize similar management pages.',
+                typical:
+                  'Components and functions commonly compose reusable logic; OOP layers can be added too.',
+              },
+              {
+                aspect: 'Customization',
+                company:
+                  'Use framework extension points; unusual interactions may cross controllers, adapters and components.',
+                typical:
+                  'Design components and state flows directly; cross-page consistency needs team conventions.',
+              },
+            ],
+          },
+          tradeoffs: {
+            title: 'Benefits, costs & my assessment',
+            benefitsTitle: 'What it helps with',
+            benefits: [
+              'Similar management pages reuse field and action conventions, reducing repeated assembly.',
+              'Aligned domain terminology and data structures make field and API-contract discussions easier.',
+              'Shared fixes can serve several business modules within the same project.',
+            ],
+            costsTitle: 'What it costs',
+            costs: [
+              'Developers must learn inheritance, controllers and adapters alongside Vue, increasing onboarding and debugging effort.',
+              'Coupling between entities, forms and backend contracts can spread field changes across layers; nulls and formats still need explicit handling.',
+              'Special interactions need extensions, and diverging project versions require separate checks when applying shared fixes.',
+            ],
+            judgment:
+              'My assessment: this approach fits stable data models and repetitive management screens. For specialized interfaces such as live workspaces, I keep business state and interactions flexible and promote only genuinely shared needs into the common layer.',
+          },
+        },
+        contributions: [
+          'Integrated bus operations and voice-service modules through the existing layers.',
+          'Extended shared services with sequential pagination for queries that require complete collections.',
+          'Connected table events, adapters, controllers and API sorting, making the behavior opt-in to preserve existing tables.',
+          'Integrated page cleanup so live-call controllers can unsubscribe and clear timers when leaving a page.',
+        ],
+        collaboration:
+          'The company team created and jointly maintains the original framework. My contribution is business integration, targeted extensions and fixes. Bus operations and voice services maintain related foundations in separate repositories.',
+        relatedNote:
+          'Bus operations and voice services show the framework in use. The mapping platform uses a dedicated core, offering a comparison of different architectural needs.',
+      },
+    },
+  },
+  {
     slug: 'main-site-components',
     order: 1,
     categories: ['architecture', 'websites'],
@@ -93,10 +588,9 @@ export const projectRecords: ProjectRecord[] = [
         background:
           '1111 的活動網站面向不同主題與使用情境，需要接入主站既有服務。這項工作將共通功能整理為可跨網站使用的前端元件。',
         contributions: [
-          '親自設計並實作主站功能的 Web Components 封裝與活動網站接入方式，處理跨專案整合問題。',
+          '親自設計並實作主站功能的 Web Components 封裝，供不同活動網站共用；各活動頁負責接入與自身流程，減少重複實作。',
+          '協助組員釐清 props 傳遞、元件內容對應與接入方式，排查跨專案整合問題。',
         ],
-        collaboration:
-          '協助組員釐清 props 傳遞、Web Components 的內容對應與接入方式，排查整合時的程式碼問題。',
         implementation: [
           {
             title: '把 props 與元件內容的對應納入接入設計',
@@ -125,29 +619,6 @@ export const projectRecords: ProjectRecord[] = [
           '履歷匯入介面，與篩選選單、AI 小精靈同為跨活動網站共用的 Web Components。',
         relatedNote:
           '專案初始化、架構基底與模板規劃，見「活動模板與共用元件」。',
-        challenge:
-          '同一項主站功能要接入不同活動專案。我選擇維護共用 Web Component，讓各活動頁負責接入與自身流程，而不是各複製一份功能。',
-        decisionFlow: {
-          title: '篩選清單的接入責任',
-          steps: [
-            {
-              title: '活動頁 → 設定與內容',
-              detail:
-                '宿主頁提供元件要使用的設定與內容，處理 props 的傳入及對應。',
-            },
-            {
-              title: '共用元件 → 篩選互動',
-              detail:
-                'Web Component 承擔篩選清單的介面與互動，將互動結果交回接入端。',
-            },
-            {
-              title: '活動頁 → 後續流程',
-              detail:
-                '宿主頁接回結果，銜接自己的活動流程；共用元件不接管整個網站。',
-            },
-          ],
-          caption: '篩選清單接入示意；呈現資料往返與分工，不代表特定事件 API。',
-        },
       },
       en: {
         title: '1111 Main Site × Campaign Sites — Shared Web Components',
@@ -158,10 +629,9 @@ export const projectRecords: ProjectRecord[] = [
         background:
           '1111 campaign sites serve different topics and audiences while drawing on existing main-site services. This work packaged shared functionality as frontend components for use across those sites.',
         contributions: [
-          'Personally designed and implemented Web Components packaging and the campaign-site integration approach, resolving cross-project integration issues.',
+          'Personally designed and implemented shared Web Components for main-site features, reducing duplicated implementation while each campaign page handles integration and its own flow.',
+          'Helped teammates clarify prop passing, content mapping and component integration, and troubleshoot cross-project issues.',
         ],
-        collaboration:
-          'Helped teammates troubleshoot integration issues and clarify prop passing and content mapping when using shared Web Components.',
         implementation: [
           {
             title: 'Make prop-to-content mapping part of integration',
@@ -191,30 +661,6 @@ export const projectRecords: ProjectRecord[] = [
           'Resume import interface, one of the Web Components shared across campaign sites alongside filter menus and the AI assistant.',
         relatedNote:
           'For project setup, architectural foundations, and template planning, see “Campaign Templates & Shared Components.”',
-        challenge:
-          'The same main-site features needed to work across campaign projects. I chose shared Web Components, leaving each host page responsible for integration and its own flow instead of copying the feature into every project.',
-        decisionFlow: {
-          title: 'Filter-list integration responsibilities',
-          steps: [
-            {
-              title: 'Host page → Configuration and content',
-              detail:
-                'The host supplies the component’s configuration and content, handling prop passing and content mapping.',
-            },
-            {
-              title: 'Shared component → Filtering interaction',
-              detail:
-                'The Web Component provides the filter-list interface and interaction, returning the interaction result to its host.',
-            },
-            {
-              title: 'Host page → Campaign flow',
-              detail:
-                'The host uses the result in its own campaign flow; the shared component does not take over the entire site.',
-            },
-          ],
-          caption:
-            'An illustration of filter-list data exchange and responsibilities, not a specific event API.',
-        },
       },
     },
   },
@@ -506,65 +952,25 @@ export const projectRecords: ProjectRecord[] = [
         background:
           '面向校園求職族群的線上徵才網站，提供企業徵才與就業資訊。本案例為 2025 年專案，正式入口持續更新年度內容。',
         contributions: [
-          '親自設計並撰寫狀態管理架構與實作範例，依狀態共享範圍安排模組責任，作為團隊功能分工與整合的依據。',
+          '規劃多個搜尋入口與產業分類的狀態架構，區分共用搜尋條件、標籤操作與各模組的局部互動，降低跨模組耦合。',
+          '親自實作狀態管理與操作範例，作為團隊功能分工與整合的依據。',
         ],
-        challenge:
-          '多個搜尋入口與產業分類並存，各區塊需要自己的互動狀態，也需要一致的搜尋條件與標籤操作。把 Tab、條件與操作邏輯全部放在單一頁面，會增加跨模組的耦合。',
         implementation: [
           {
-            title: '共用的是搜尋條件，不是所有畫面狀態',
+            title: '搜尋狀態管理',
             description:
-              '搜尋入口、分類選擇與條件需要被不同元件讀取，因此由 Pinia 統一管理；只影響單一搜尋模組的互動留在該元件。相比把所有 state 都放進 Store，這個分法讓局部操作不必擴大成跨模組依賴。',
+              '以 Pinia 管理跨元件搜尋條件，元件各自保留局部互動狀態。',
           },
           {
-            title: '標籤移除與清除：狀態和行為分開',
+            title: '共用標籤操作',
             description:
-              '不同搜尋模組都需要移除或清除條件標籤。我把重複操作整理進 composable，元件發起操作、共用狀態承載條件，畫面再依條件呈現標籤。這讓每個入口不必各自維護一套清除邏輯。',
+              '將搜尋標籤的移除、清除整理為 composable，供各搜尋入口共用。',
           },
           {
-            title: '由我撰寫實作範例，交付團隊沿用',
-            description:
-              '我親自設計狀態架構並撰寫操作範例，讓組員依共享範圍選擇 Store 或局部狀態。這裡處理的是同一活動專案內的狀態協作；Web Components 案例則處理不同網站之間的功能接入。',
+            title: '團隊實作範例',
+            description: '撰寫狀態管理與操作範例，供團隊沿用並整合搜尋模組。',
           },
         ],
-        stateBoundaries: {
-          title: '搜尋模組的狀態與行為分工',
-          groups: [
-            {
-              title: 'Pinia Store｜共用狀態',
-              description: '跨元件共享的搜尋入口、分類選擇與搜尋條件。',
-            },
-            {
-              title: 'Component｜局部互動',
-              description: '各搜尋模組的呈現，以及只影響該模組的互動狀態。',
-            },
-            {
-              title: 'Composable｜重複行為',
-              description: '搜尋標籤的移除、清除等共用操作。',
-            },
-          ],
-          caption:
-            '責任邊界示意：依共享範圍安排狀態，並將重複行為與畫面呈現分開。',
-        },
-        decisionFlow: {
-          title: '移除搜尋標籤時，誰負責什麼？',
-          steps: [
-            {
-              title: 'Component：使用者操作',
-              detail: '元件呈現目前條件的標籤，接收移除或清除操作。',
-            },
-            {
-              title: 'Composable：共用操作',
-              detail:
-                '由共用行為處理條件變更，避免各入口重複撰寫移除與清除邏輯。',
-            },
-            {
-              title: 'Pinia → Component：狀態反映到畫面',
-              detail: '共用條件更新後，使用該狀態的元件呈現對應標籤。',
-            },
-          ],
-          caption: '搜尋條件與標籤互動示意；對應下方既有的三層責任分工。',
-        },
       },
       en: {
         title: 'Campus Recruitment 2025',
@@ -577,71 +983,26 @@ export const projectRecords: ProjectRecord[] = [
         background:
           'An online destination for employer recruitment and job information aimed at students and graduates. This case covers the 2025 project; the public entry point continues to receive annual updates.',
         contributions: [
-          'Personally designed and implemented the state architecture and examples, defining responsibilities by sharing scope to guide feature allocation and team integration.',
+          'Designed state architecture for multiple search entry points and industry categories, separating shared search conditions, tag operations and local interactions to reduce coupling between modules.',
+          'Personally implemented state-management and interaction examples to guide feature allocation and team integration.',
         ],
-        challenge:
-          'Multiple search entry points and industry categories need their own interactions as well as consistent search conditions and tag operations. Concentrating tabs, conditions, and interaction logic in one page would tightly couple the modules.',
         implementation: [
           {
-            title: 'Share search conditions, not every piece of UI state',
+            title: 'Search state management',
             description:
-              'Search entry points, category selection, and conditions are read by multiple components, so Pinia manages them centrally. Interactions affecting only one search module stay local. Compared with placing all state in a store, this keeps local operations from creating cross-module dependencies.',
+              'Used Pinia for shared search conditions and kept local interaction state within each component.',
           },
           {
-            title: 'Tag removal and clearing: separate state from behavior',
+            title: 'Shared tag operations',
             description:
-              'Different search modules need to remove or clear condition tags. I extracted those recurring operations into a composable: components initiate the action, shared state holds the conditions, and the UI presents tags from those conditions. Each entry point therefore does not need its own clearing logic.',
+              'Extracted tag removal and clearing into a composable shared across search entry points.',
           },
           {
-            title: 'Implementation examples written for the team',
+            title: 'Team implementation examples',
             description:
-              'I personally designed the state architecture and wrote usage examples so teammates could choose shared or local state by scope. This case concerns state coordination within one campaign project; the Web Components case concerns feature integration between different websites.',
+              'Wrote state-management and interaction examples for the team to reuse when integrating search modules.',
           },
         ],
-        stateBoundaries: {
-          title: 'Search-module state and behavior boundaries',
-          groups: [
-            {
-              title: 'Pinia store · Shared state',
-              description:
-                'Search entry points, category selection, and conditions shared across components.',
-            },
-            {
-              title: 'Component · Local interaction',
-              description:
-                'Each search module’s presentation and interaction state that affects only that module.',
-            },
-            {
-              title: 'Composable · Reusable behavior',
-              description:
-                'Shared operations such as removing and clearing search tags.',
-            },
-          ],
-          caption:
-            'Responsibility diagram: assign state by sharing scope, and separate reusable behavior from presentation.',
-        },
-        decisionFlow: {
-          title: 'What happens when a search tag is removed?',
-          steps: [
-            {
-              title: 'Component: user action',
-              detail:
-                'The component displays tags for the current conditions and receives a remove or clear action.',
-            },
-            {
-              title: 'Composable: shared operation',
-              detail:
-                'Reusable behavior handles the condition change instead of duplicating removal and clearing logic in every entry point.',
-            },
-            {
-              title: 'Pinia → Component: state reflected in the UI',
-              detail:
-                'Once shared conditions change, components using that state display the corresponding tags.',
-            },
-          ],
-          caption:
-            'An illustration of condition and tag interaction, paired with the responsibility diagram below.',
-        },
       },
     },
   },

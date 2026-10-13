@@ -20,6 +20,10 @@ const { projectRecords, localizeProjects } = await moduleFrom(
 );
 const { messages } = await moduleFrom('app/data/messages.ts');
 const expected = [
+  'enterprise-framework',
+  'evbus-operations',
+  'voice-service-console',
+  'map-editor-platform',
   'main-site-components',
   'events-management',
   'curated-jobs',

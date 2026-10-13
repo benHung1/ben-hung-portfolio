@@ -54,14 +54,22 @@ useSeoMeta({
         <span class="inner-title-line">{{ project.title }}</span>
       </h1>
       <p class="case-deck inner-lead">{{ project.summary }}</p>
-      <div class="case-metadata inner-lead">
+      <ul
+        v-if="project.highlights?.length"
+        class="case-highlights case-header-grid"
+        :aria-label="t.ui.contributions"
+      >
+        <li v-for="(item, highlightIndex) in project.highlights" :key="item">
+          <span aria-hidden="true">{{
+            String(highlightIndex + 1).padStart(2, '0')
+          }}</span>
+          <p>{{ item }}</p>
+        </li>
+      </ul>
+      <div class="case-metadata case-header-grid inner-lead">
         <div>
           <span>{{ t.ui.company }}</span>
           <p>{{ project.company }}</p>
-        </div>
-        <div v-if="project.period">
-          <span>{{ t.ui.period }}</span>
-          <p>{{ project.period }}</p>
         </div>
         <div>
           <span>{{ t.ui.role }}</span>
@@ -100,9 +108,8 @@ useSeoMeta({
       {{ project.coverNote || t.ui.imageNote }}
     </p>
     <div class="case-content">
-      <aside>
-        <span class="eyebrow">{{ t.ui.overview }}</span>
-        <p>{{ project.title }}</p>
+      <aside class="case-art-rail" aria-hidden="true">
+        <CaseMotionArt :project-slug="project.slug" />
       </aside>
       <div class="case-story">
         <section>
@@ -117,6 +124,10 @@ useSeoMeta({
           <h2>{{ t.ui.challenge }}</h2>
           <p>{{ project.challenge }}</p>
         </section>
+        <CaseArchitectureOverview
+          v-if="project.architectureOverview"
+          :overview="project.architectureOverview"
+        />
         <section>
           <h2>{{ t.ui.contributions }}</h2>
           <ul>
@@ -125,6 +136,13 @@ useSeoMeta({
             </li>
           </ul>
           <p v-if="project.collaboration">{{ project.collaboration }}</p>
+          <div
+            v-if="project.contributionDetails"
+            class="case-contribution-details"
+          >
+            <h3>{{ project.contributionDetails.title }}</h3>
+            <CaseStateBoundaries :diagram="project.contributionDetails" />
+          </div>
         </section>
         <section v-if="project.integrationDiagram">
           <h2>{{ project.integrationDiagram.title }}</h2>
@@ -162,14 +180,17 @@ useSeoMeta({
         <section v-if="related.length">
           <h2>{{ t.ui.related }}</h2>
           <p v-if="project.relatedNote">{{ project.relatedNote }}</p>
-          <NuxtLink
-            v-for="item in related"
-            :key="item.slug"
-            class="underlined-link case-related"
-            :to="'/work/' + item.slug"
-          >
-            {{ item.title }}<UiIcon name="right" />
-          </NuxtLink>
+          <div class="case-related-links">
+            <NuxtLink
+              v-for="item in related"
+              :key="item.slug"
+              class="underlined-link case-related"
+              :to="'/work/' + item.slug"
+            >
+              <span>{{ item.title }}</span
+              ><UiIcon name="right" />
+            </NuxtLink>
+          </div>
         </section>
       </div>
     </div>
@@ -178,11 +199,14 @@ useSeoMeta({
         v-if="previous"
         class="next-case previous-case"
         :to="'/work/' + previous.slug"
-        ><span class="eyebrow"><UiIcon name="left" />{{ t.ui.previous }}</span
+        ><span class="eyebrow case-nav-label"
+          ><UiIcon name="left" /><span>{{ t.ui.previous }}</span></span
         ><strong>{{ previous.title }}</strong></NuxtLink
       ><span v-else></span
       ><NuxtLink v-if="next" class="next-case" :to="'/work/' + next.slug"
-        ><span class="eyebrow">{{ t.ui.next }}<UiIcon name="right" /></span
+        ><span class="eyebrow case-nav-label"
+          ><span>{{ t.ui.next }}</span
+          ><UiIcon name="right" /></span
         ><strong>{{ next.title }}</strong></NuxtLink
       ><NuxtLink v-else class="underlined-link" to="/work"
         >{{ t.ui.all }}<UiIcon name="right"
@@ -190,3 +214,67 @@ useSeoMeta({
     </nav>
   </main>
 </template>
+
+<style scoped lang="scss">
+.case-contribution-details {
+  margin-top: 32px;
+
+  > h3 {
+    margin: 0 0 20px;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+}
+
+.case-header-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+
+  > * {
+    min-width: 0;
+  }
+}
+
+.case-highlights {
+  list-style: none;
+  padding: 24px 0 0;
+  margin: 28px 0 0;
+  border-top: 1px solid var(--line);
+
+  span {
+    color: var(--blue);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+  }
+
+  p {
+    margin: 10px 0 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 767px) {
+  .case-header-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .case-highlights {
+    li {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: 12px;
+      align-items: baseline;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+</style>

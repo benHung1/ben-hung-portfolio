@@ -218,7 +218,7 @@ state.step(1);
 assert.equal(state.active.value, undefined);
 assert.equal(state.pageLabel.value, '00 / 00');
 const { projectRecords } = evaluate(await read('app/data/projectCatalog.ts'));
-assert.equal(projectRecords.length, 9);
+assert.equal(projectRecords.length, 13);
 const voting = projectRecords.find((entry) => entry.slug === 'voting-system');
 assert.ok(voting);
 assert.doesNotMatch(JSON.stringify(voting), /YAML/i);
@@ -307,5 +307,5 @@ for (const [systemReduced, manualReduced] of [
   assert.equal(document.documentElement.dataset.testimonialTriggers, '0');
 }
 console.log(
-  'PASS: six exact groups and naming rules; approval gate; stripped public metadata; six-card navigation; 3/1/0 states; touch directions/vertical scroll/mouse/second-pointer handling; Sanlih correction preserved in the nine-project catalog.',
+  'PASS: six exact groups and naming rules; approval gate; stripped public metadata; six-card navigation; 3/1/0 states; touch directions/vertical scroll/mouse/second-pointer handling; Sanlih correction preserved in the thirteen-project catalog.',
 );

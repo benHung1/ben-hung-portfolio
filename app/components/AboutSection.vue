@@ -38,7 +38,15 @@ const { t } = usePortfolio();
         {{ p }}
       </p>
       <div class="about-signature">
-        Ben Hung<span>{{ t.name }} / {{ t.hero.eyebrow }}</span>
+        <div class="about-signature-heading">
+          <span class="about-signature-name">Ben Hung</span>
+          <span class="about-signature-tagline"
+            >— {{ t.about.signatureTagline }}</span
+          >
+        </div>
+        <span class="about-signature-meta"
+          >{{ t.name }} / {{ t.hero.eyebrow }}</span
+        >
       </div>
     </div>
     <ExperienceTimeline />

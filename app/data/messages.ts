@@ -93,6 +93,7 @@ export const messages = {
       eyebrow: '02 / 關於與經歷',
       title: ['細心思考，', '踏實打造。'],
       intro: '把介面做好，也把背後的流程想清楚。',
+      signatureTagline: '自費升級 ChatGPT Pro，把好奇心開到滿檔的男人。',
       paragraphs: [
         '我是洪鈺堂，一名前端工程師。從使用者面前的網站，到支撐日常工作的管理系統，我重視操作是否清楚，也在意程式能否隨需求持續演進。',
         '我的實務涵蓋專案起建、套件配置、前端架構、組件設計與系統重構，也曾依功能安排組員分工。管理後台開發中，與後端討論 API 規格，定期溝通進度。',
@@ -134,7 +135,7 @@ export const messages = {
         period: '2026.03 — 現在',
         role: '前端工程師',
         description:
-          '經手智慧城市、電動巴士維護開發、人車指派後台、Voice Pilot 與圖資系統重構等工作，使用公司自研框架參與開發。',
+          '參與電動巴士營運管理、語音客服工作台與圖資平台重構，負責前端操作流程、API 與即時資料整合，並擴充公司既有框架的頁面清理、分頁查詢與表格排序。',
       },
       {
         company: '1111 人力銀行',
@@ -251,6 +252,8 @@ export const messages = {
       eyebrow: '02 / ABOUT & EXPERIENCE',
       title: ['A thoughtful approach.', 'A practical mind.'],
       intro: 'Make the interface clear. Think through the workflow behind it.',
+      signatureTagline:
+        'The guy who pays for ChatGPT Pro and puts his curiosity to work.',
       paragraphs: [
         'I’m Ben Hung, a frontend engineer. Whether I’m working on a public website or an everyday business tool, I care about clear interactions and code that can grow with changing requirements.',
         'My experience spans project setup, package configuration, frontend architecture, component design, and refactoring, along with allocating feature work. On admin projects, I discuss API specifications with backend engineers and communicate progress regularly.',
@@ -294,7 +297,7 @@ export const messages = {
         period: '2026.03 — PRESENT',
         role: 'Frontend Engineer',
         description:
-          'Contributing to smart-city work, electric-bus maintenance and development, vehicle and personnel assignment tools, Voice Pilot, and map-system refactoring using an in-house framework.',
+          'Developing bus operations and voice-service workflows and refactoring a map-editing platform. Integrating APIs and live data, and extending the existing company framework with page cleanup, paginated retrieval and table sorting.',
       },
       {
         company: '1111 Job Bank',

@@ -4,14 +4,20 @@ defineProps<{ diagram: NonNullable<ProjectCopy['stateBoundaries']> }>();
 </script>
 
 <template>
-  <figure class="state-boundaries">
+  <figure
+    class="state-boundaries"
+    :class="{
+      'state-boundaries-two': diagram.groups.length === 2,
+      'state-boundaries-four': diagram.groups.length === 4,
+    }"
+  >
     <dl>
       <div v-for="group in diagram.groups" :key="group.title">
         <dt>{{ group.title }}</dt>
         <dd>{{ group.description }}</dd>
       </div>
     </dl>
-    <figcaption>{{ diagram.caption }}</figcaption>
+    <figcaption v-if="diagram.caption">{{ diagram.caption }}</figcaption>
   </figure>
 </template>
 
@@ -53,6 +59,12 @@ defineProps<{ diagram: NonNullable<ProjectCopy['stateBoundaries']> }>();
 @media (min-width: 1200px) {
   .state-boundaries dl {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .state-boundaries.state-boundaries-two dl,
+  .state-boundaries.state-boundaries-four dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 </style>

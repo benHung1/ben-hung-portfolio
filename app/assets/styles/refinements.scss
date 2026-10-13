@@ -381,6 +381,19 @@ body,
 .previous-case .eyebrow {
   justify-content: flex-start;
 }
+.next-case .case-nav-label {
+  font-family: var(--font);
+  line-height: 20px;
+}
+.case-nav-label > span {
+  display: block;
+  line-height: inherit;
+}
+.case-nav-label > .ui-icon {
+  width: 20px;
+  height: 20px;
+  align-self: center;
+}
 .contact-email {
   display: flex;
   align-items: center;
@@ -531,9 +544,13 @@ html[lang='zh-Hant']
   .case-navigation .next-case {
     max-width: 100%;
   }
-  .case-navigation .next-case + .next-case {
-    border-top: 1px solid var(--line);
-    padding-top: 24px;
+  .case-navigation .next-case + .next-case::before {
+    content: '';
+    position: absolute;
+    inset: -11px 0 auto;
+    height: 1px;
+    background: var(--line);
+    pointer-events: none;
   }
   .contact-email {
     gap: 8px;
