@@ -92,8 +92,8 @@ export const testimonialRecords: TestimonialRecord[] = [
     order: 10,
   },
   {
-    id: 'angles',
-    displayName: 'Angles',
+    id: 'agnes',
+    displayName: 'Agnes',
     role: { zh: 'PM', en: 'PM' },
     companyGroup: 'foxconn',
     relationship: { zh: '駐點合作', en: 'On-site collaboration' },
@@ -101,12 +101,12 @@ export const testimonialRecords: TestimonialRecord[] = [
       '與 Ben 合作時，需求溝通順暢，工單處理與回應也很迅速，讓專案需求能有效推進。',
     quoteEn:
       'Working with Ben, requirements are easy to discuss and tickets receive prompt attention and responses, helping project requirements move forward.',
-    avatar: { kind: 'illustration', src: '/avatars/angles.svg' },
+    avatar: { kind: 'illustration', src: '/avatars/agnes.svg' },
     source: {
       kind: 'draft',
       note: {
-        zh: '原文依 Ben 提供方向代擬，保留 Angles 拼法；Ben 於 2026-10-11 確認姓名、職稱及中英文評語可公開。',
-        en: 'Originally drafted from Ben’s input, preserving the spelling “Angles”. Ben confirmed the display name, title and bilingual wording for publication on 2026-10-11.',
+        zh: '原文依 Ben 提供方向代擬，非逐字引述；Ben 於 2026-10-11 確認職稱及中英文評語可公開，並於 2026-10-13 更正姓名為 Agnes。',
+        en: 'Originally drafted from Ben’s input rather than a verbatim quotation. Ben confirmed the title and bilingual wording for publication on 2026-10-11 and corrected the name to Agnes on 2026-10-13.',
       },
     },
     approvedForPublic: true,

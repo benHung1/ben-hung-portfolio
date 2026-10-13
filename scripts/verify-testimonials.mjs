@@ -61,8 +61,8 @@ assert.equal(
   null,
 );
 assert.equal(
-  testimonialRecords.find((entry) => entry.id === 'angles').displayName,
-  'Angles',
+  testimonialRecords.find((entry) => entry.id === 'agnes').displayName,
+  'Agnes',
 );
 assert.equal(
   prepareTestimonials(unapprovedFixture, false, true).entries.length,
@@ -93,7 +93,7 @@ const review = prepareTestimonials(
 );
 assert.deepEqual(
   Array.from(review.entries, (entry) => entry.id),
-  ['ricky', 'angles', 'maggie', 'yao', 'ryder', 'yichia'],
+  ['ricky', 'agnes', 'maggie', 'yao', 'ryder', 'yichia'],
 );
 assert.ok(
   review.entries.every(
@@ -157,7 +157,7 @@ for (let i = 0; i < 6; i++) {
   seen.push(state.active.value.id);
   state.step(1);
 }
-assert.deepEqual(seen, ['ricky', 'angles', 'maggie', 'yao', 'ryder', 'yichia']);
+assert.deepEqual(seen, ['ricky', 'agnes', 'maggie', 'yao', 'ryder', 'yichia']);
 assert.equal(state.active.value.id, 'ricky');
 state.step(-1);
 assert.equal(state.active.value.id, 'yichia');
@@ -178,7 +178,7 @@ state.pointerDown(touch(220, 100));
 state.pointerUp(touch(80, 110));
 assert.equal(
   state.active.value.id,
-  'angles',
+  'agnes',
   'Horizontal touch swipe advances',
 );
 state.pointerDown(touch(80, 100));
