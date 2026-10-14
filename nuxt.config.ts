@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   },
   sourcemap: { server: false, client: false },
   devtools: { enabled: false },
-  modules: ['./build/testimonials-module'],
+  modules: ['./build/testimonials-module', '@vercel/analytics'],
   vite: {
     optimizeDeps: { include: ['gsap', 'gsap/ScrollTrigger'] },
   },

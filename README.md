@@ -65,6 +65,12 @@ npm run build
 | `app/components/BrandIntro.vue` | 幾何 Loading 視覺 |
 | `public/covers/` | 對應作品的實際封面素材 |
 
+## 流量分析
+
+透過 `@vercel/analytics` Nuxt 模組記錄頁面瀏覽，數據僅在 Vercel 專案的 Analytics 後台查看；網站沒有公開統計面板，也未加入付費自訂事件。需先在 Vercel 啟用 Web Analytics，再部署才會開始收集。
+
+Analytics 2.0.1 的 optional peer 仍宣告 Vue Router 4，因此 `package.json` 僅針對該套件覆寫為專案現有 Router 5。Nuxt 整合使用 `useRouter`／`afterEach`，已通過型別與建置檢查；套件更新支援範圍後可移除此 override。
+
 ## 公開資料邊界
 
 原始履歷 PDF、內部盤點、`.env`、金鑰、快取及建置產物不納入原始碼版本控制。`npm run build` 會執行公開產物檢查，拒絕將私有文件、原始碼對照表或常見憑證內容打包。
