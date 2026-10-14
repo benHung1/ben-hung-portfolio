@@ -4,7 +4,7 @@ export const profiles = [
     name: '104',
     url: 'https://pda.104.com.tw/profile/share/gyTNH4XJNFWGx4w9fowbA1Cx4DrBXr6R',
   },
-  { id: 'cake', name: 'Cake', url: 'https://www.cake.me/ben-hung-5fd0c6' },
+  { id: 'cake', name: 'Cake', url: 'https://www.cake.me/me/ben-hung-5fd0c6' },
   {
     id: 'linkedin',
     name: 'LinkedIn',

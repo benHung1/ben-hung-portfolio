@@ -17,7 +17,7 @@ assert.deepEqual(
   Array.from(data.exports.profiles, (x) => x.url),
   [
     'https://pda.104.com.tw/profile/share/gyTNH4XJNFWGx4w9fowbA1Cx4DrBXr6R',
-    'https://www.cake.me/ben-hung-5fd0c6',
+    'https://www.cake.me/me/ben-hung-5fd0c6',
     'https://www.linkedin.com/in/ben-hung-01b8a121a',
   ],
 );
