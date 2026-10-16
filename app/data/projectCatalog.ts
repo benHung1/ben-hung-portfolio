@@ -88,6 +88,68 @@ export const categoryIds: Category[] = [
 // One explicit editorial order for lists, selections, filters and adjacent cases.
 export const projectRecords: ProjectRecord[] = [
   {
+    slug: 'ai-resume-check',
+    order: 5,
+    categories: ['websites', 'architecture'],
+    stack: ['Web Components'],
+    deployment: 'live',
+    requiresLogin: false,
+    liveUrl: 'https://events.1111.com.tw/ai-resume-check/',
+    relatedSlugs: ['main-site-components'],
+    content: {
+      zh: {
+        title: 'AI 履歷健檢｜前端架構與流程整合',
+        company: '1111 人力銀行',
+        role: '前端架構、主要流程與共用彈窗整合',
+        summary: '負責 AI 履歷健檢的前端架構與主要操作流程，並導入自己開發的 Popup Web Component，由專案傳入所需內容，重用共用彈窗模板。',
+        background: '協助求職者依目標職缺或理想職類進行履歷健檢，取得履歷優化建議。',
+        highlights: [
+          '規劃前端架構與履歷健檢主要流程。',
+          '整合履歷選取、求職目標設定與送出健檢。',
+          '接入自己開發的 Popup Web Component，依專案傳入內容。',
+        ],
+        contributions: [
+          '負責前端架構與主要操作流程，串起履歷選取、求職目標設定與送出健檢。',
+          '整合求職目標的操作入口，支援搜尋職缺、貼上 1111 職缺網址，或選擇理想職類。',
+          '導入自己開發的 Web Component 彈窗模板，由各專案傳入所需內容，整合不同業務情境的彈窗。',
+        ],
+        implementation: [
+          {
+            title: '彈窗模板共用，內容由專案提供',
+            description: '將彈窗的共用結構與互動封裝為 Web Component，各專案負責提供內容與串接業務流程，讓同一套模板能跨專案重用，減少重複開發。',
+          },
+        ],
+        liveLabel: '體驗 AI 履歷健檢',
+        relatedNote: '更多跨網站元件封裝與接入經驗，見「1111 主站 × 活動網站｜Web Components 共用整合」。',
+      },
+      en: {
+        title: 'AI Resume Check: Frontend Architecture & Workflow Integration',
+        company: '1111 Job Bank',
+        role: 'Frontend architecture, core workflows & shared dialog integration',
+        summary: 'Owned the frontend architecture and core resume-check workflow, integrating a Popup Web Component I built so projects can supply their own content while reusing the shared dialog template.',
+        background: 'Helps job seekers review their resumes against a target job or preferred job category and receive suggestions for improvement.',
+        highlights: [
+          'Planned frontend architecture and the core resume-check workflow.',
+          'Connected resume selection, job-target setup and review submission.',
+          'Integrated my reusable Popup Web Component with project-specific content.',
+        ],
+        contributions: [
+          'Owned frontend architecture and the core workflow connecting resume selection, job-target setup and review submission.',
+          'Integrated job-target inputs supporting job search, a pasted 1111 job URL or a preferred job category.',
+          'Integrated a Web Component dialog template I built, with each project supplying content for its own business context.',
+        ],
+        implementation: [
+          {
+            title: 'Share the dialog template; supply content from each project',
+            description: 'Encapsulated shared dialog structure and interactions in a Web Component. Each project supplies its content and connects its own workflow, allowing the template to be reused across projects with less duplicated implementation.',
+          },
+        ],
+        liveLabel: 'Try AI Resume Check',
+        relatedNote: 'For more cross-site component packaging and integration work, see “1111 Main Site × Campaign Sites — Shared Web Components.”',
+      },
+    },
+  },
+  {
     slug: 'evbus-operations',
     order: -30,
     categories: ['applications'],

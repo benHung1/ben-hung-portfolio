@@ -1,4 +1,5 @@
 export type CaseArtTheme =
+  | 'resume'
   | 'bus'
   | 'voice'
   | 'map'
@@ -14,6 +15,7 @@ export type CaseArtTheme =
   | 'ballot';
 
 export const caseArtThemes: Record<string, CaseArtTheme> = {
+  'ai-resume-check': 'resume',
   'evbus-operations': 'bus',
   'voice-service-console': 'voice',
   'map-editor-platform': 'map',

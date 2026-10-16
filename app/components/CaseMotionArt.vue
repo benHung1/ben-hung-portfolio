@@ -41,7 +41,16 @@ onBeforeUnmount(() => {
         <path d="M142 284h36M160 278v12M142 36h36M160 30v12" />
       </g>
 
-      <g v-if="theme === 'bus'" class="art-lines">
+      <g v-if="theme === 'resume'" class="art-lines">
+        <rect class="art-surface" x="65" y="50" width="160" height="220" rx="14" />
+        <circle class="art-tint" cx="105" cy="96" r="17" />
+        <path d="M138 87h58m-58 18h42M90 144h110M90 165h95M90 186h66M90 226h48" />
+        <g class="art-float">
+          <rect class="art-surface" x="163" y="185" width="111" height="66" rx="12" />
+          <path d="m181 218 12 12 23-27M231 208h24m-24 15h17" />
+        </g>
+      </g>
+      <g v-else-if="theme === 'bus'" class="art-lines">
         <path class="art-muted" d="M24 252h272" />
         <path class="art-road" d="M24 264h272" stroke-dasharray="12 16" />
         <g class="art-bus-body">

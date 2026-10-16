@@ -25,6 +25,7 @@ const expected = [
   'voice-service-console',
   'map-editor-platform',
   'main-site-components',
+  'ai-resume-check',
   'events-management',
   'curated-jobs',
   'freshman',
