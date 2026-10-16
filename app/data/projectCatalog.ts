@@ -96,6 +96,12 @@ export const projectRecords: ProjectRecord[] = [
     requiresLogin: false,
     liveUrl: 'https://events.1111.com.tw/ai-resume-check/',
     relatedSlugs: ['main-site-components'],
+    cover: {
+      src: '/covers/ai-resume-check.png',
+      fit: 'contain',
+      position: '50% 50%',
+      background: '#f4f5f5',
+    },
     content: {
       zh: {
         title: 'AI 履歷健檢｜前端架構與流程整合',
@@ -120,6 +126,7 @@ export const projectRecords: ProjectRecord[] = [
           },
         ],
         liveLabel: '體驗 AI 履歷健檢',
+        coverAlt: '1111 AI 履歷健檢網站的履歷選取與求職目標設定畫面',
         relatedNote: '更多跨網站元件封裝與接入經驗，見「1111 主站 × 活動網站｜Web Components 共用整合」。',
       },
       en: {
@@ -145,6 +152,7 @@ export const projectRecords: ProjectRecord[] = [
           },
         ],
         liveLabel: 'Try AI Resume Check',
+        coverAlt: '1111 AI Resume Check website showing resume selection and job-target setup',
         relatedNote: 'For more cross-site component packaging and integration work, see “1111 Main Site × Campaign Sites — Shared Web Components.”',
       },
     },
