@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { WeatherApi } from './weatherCanvas';
 
-/** Owns six scroll scenes and the weather parameter timeline. Pointer/physics layers stay independent. */
+/** Owns page scroll scenes and the weather parameter timeline. Pointer/physics layers stay independent. */
 export function createPortfolioScrollScenes(
   host: HTMLElement,
   options: { weather?: WeatherApi; manualStatic?: boolean } = {},
@@ -10,7 +10,6 @@ export function createPortfolioScrollScenes(
   gsap.registerPlugin(ScrollTrigger);
   const media = gsap.matchMedia();
   let timelines: gsap.core.Timeline[] = [];
-  let toolboxTweens: gsap.core.Tween[] = [];
   let disposed = false;
   let refreshTimer: ReturnType<typeof setTimeout> | undefined;
   let resize: ResizeObserver | undefined;
@@ -19,19 +18,12 @@ export function createPortfolioScrollScenes(
   const all = (selector: string) => [
     ...host.querySelectorAll<HTMLElement>(selector),
   ];
-  const shell = q('.playground-scroll-shell');
   function publishOwnedCount() {
     document.documentElement.dataset.portfolioTriggers = String(
       ScrollTrigger.getAll().filter((trigger) =>
         trigger.vars.id?.startsWith('portfolio-'),
       ).length,
     );
-  }
-  function dragReady(ready: boolean) {
-    const value = String(ready);
-    if (shell.dataset.dragReady === value) return;
-    shell.dataset.dragReady = value;
-    if (!ready) shell.dispatchEvent(new Event('scene-drag-lock'));
   }
   function refresh() {
     if (disposed) return;
@@ -53,7 +45,6 @@ export function createPortfolioScrollScenes(
             options.weather?.setProgress(timeline.progress());
         }
       });
-      toolboxTweens.forEach((tween) => tween.scrollTrigger?.refresh());
       publishOwnedCount();
       options.weather?.refresh();
     }, 180);
@@ -77,8 +68,6 @@ export function createPortfolioScrollScenes(
     media.revert();
     publishOwnedCount();
     timelines = [];
-    toolboxTweens = [];
-    dragReady(true);
     host.dataset.scrollMotion = 'static';
     host.dataset.scrollTriggerCount = '0';
     all('[data-scene]').forEach((el) => {
@@ -96,7 +85,6 @@ export function createPortfolioScrollScenes(
       },
       (context) => {
         timelines = [];
-        toolboxTweens = [];
         const { mobile } = context.conditions!;
         const reduced = Boolean(
           context.conditions!.reduced || options.manualStatic,
@@ -106,7 +94,6 @@ export function createPortfolioScrollScenes(
         host.dataset.scrollMotion = reduced ? 'static' : 'gsap';
         host.dataset.scrollTriggerCount = '0';
         if (reduced) {
-          dragReady(true);
           publishOwnedCount();
           return;
         }
@@ -279,67 +266,7 @@ export function createPortfolioScrollScenes(
           ),
         );
 
-        let skillTimeline: gsap.core.Timeline;
-        dragReady(false);
-        skillTimeline = scene(
-          'skills',
-          shell,
-          'clamp(top 60%)',
-          'clamp(bottom 85%)',
-          () => dragReady(skillTimeline.progress() >= 0.57),
-        );
-        skillTimeline
-          .fromTo(
-            shell,
-            {
-              scale: small ? 0.95 : 0.91,
-              rotation: small ? -1.5 : -3,
-              y: small ? 16 : 36,
-            },
-            { scale: 1, rotation: 0, y: 0, duration: 0.55 },
-            0,
-          )
-          .fromTo(
-            q('.toolbox-word'),
-            { x: small ? -25 : -70 },
-            { x: small ? 48 : 130 },
-            0,
-          )
-          .fromTo(
-            q('.inplay-word'),
-            { x: small ? 30 : 90 },
-            { x: small ? -52 : -160 },
-            0,
-          );
-
-        // Hide only after GSAP initializes successfully. Revert restores readable HTML.
-        // Reveal the complete section on entry, not individual items after they are visible.
-        const library = q('.range-library');
-        if (library.dataset.toolboxRevealed !== 'true') {
-          toolboxTweens.push(
-            gsap.fromTo(
-              library,
-              { autoAlpha: 0, y: small ? 16 : 28 },
-              {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.65,
-                ease: 'power2.out',
-                immediateRender: true,
-                clearProps: 'opacity,visibility,transform',
-                scrollTrigger: {
-                  id: 'toolbox-section',
-                  trigger: library,
-                  start: 'top 85%',
-                  once: true,
-                },
-                onComplete: () => {
-                  library.dataset.toolboxRevealed = 'true';
-                },
-              },
-            ),
-          );
-        }
+        // The skills section stays stationary; shooting effects have their own owner.
 
         scene(
           'contact',
@@ -381,9 +308,7 @@ export function createPortfolioScrollScenes(
         host.dataset.scrollTriggerCount = String(timelines.length);
         refresh();
         return () => {
-          dragReady(true);
           timelines = [];
-          toolboxTweens = [];
         };
       },
       host,
